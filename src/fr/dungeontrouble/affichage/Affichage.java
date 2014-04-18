@@ -12,8 +12,8 @@ import org.jsfml.graphics.View;
 import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 import org.jsfml.window.Mouse;
-import org.jsfml.window.VideoMode;
 import org.jsfml.window.Mouse.Button;
+import org.jsfml.window.VideoMode;
 import org.jsfml.window.event.Event;
 
 /**
@@ -68,6 +68,7 @@ public abstract class Affichage implements Drawable {
 			
 			Affichage affJeu = new AffichageJeu();
 			Affichage affScores = new AffichageScore();
+			//Affichage affBestScores = new AffichageMeilleursScores();
 			
 			System.out.println("Chargement terminé !");
 			
@@ -76,17 +77,16 @@ public abstract class Affichage implements Drawable {
 			window.setKeyRepeatEnabled(false);
 			
 			Vector2i mousePosition = Mouse.getPosition(window);
-			
-			while (window.isOpen()) {
-				
+		
+			while (window.isOpen()) {				
 				for(Event event : window.pollEvents()) {
 					switch(event.type)
 					{
 						case CLOSED:
 							window.close();
 							break;
-							
-						// Test de mouvement de la vue
+						
+						 //Test de mouvement de la vue
 						case MOUSE_MOVED: // Souris bougée
 							if (Mouse.isButtonPressed(Button.MIDDLE)) // Déplacement sur la carte
 							{
@@ -101,12 +101,13 @@ public abstract class Affichage implements Drawable {
 					}
 				}
 				
-				mousePosition = Mouse.getPosition(window); // Sauvegarde de la position de la souris	
+				mousePosition = Mouse.getPosition(window); // Sauvegarde de la position de la souris
 				
 				window.clear();
 				
 				window.draw(affJeu); // Dessin de la map
 				window.draw(affScores); // Dessin des scores
+				//window.draw(affBestScores); // Dessin des meilleurs scores
 
 				window.display();
 			}

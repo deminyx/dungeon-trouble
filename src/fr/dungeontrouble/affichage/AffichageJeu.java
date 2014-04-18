@@ -24,7 +24,8 @@ public class AffichageJeu extends Affichage {
 	public static int NBLIGNES = 100; // Constante : nombre de lignes de la map
 	public static int SIZE = 50; // Constante : taille des cases de la map
 	
-	private int[][] level; // A prendre comme référence je pense, dans la classe Map
+	private int[][] level; // A prendre comme référence je pense, dans la classe Map, ou alors
+	// juste en paramètre à l'initialisation, dans le constructeur
 	
 	private VertexArray levelArray;
 	private Texture terrain;
@@ -106,7 +107,7 @@ public class AffichageJeu extends Affichage {
 	 */
 	public AffichageJeu(){
 		level = loadMap("maps/map.txt");
-		levelArray = loadVertex(level);		
+		levelArray = loadVertex(level);
 		terrain = loadTexture("img/terrain.png");	
 		
 		vue = new View(new FloatRect(0, 0, 11*SIZE, HAUTEUR)); // On définit la taille de la vue
