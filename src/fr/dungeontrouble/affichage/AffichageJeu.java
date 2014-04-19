@@ -2,7 +2,6 @@ package fr.dungeontrouble.affichage;
 
 import java.io.File;
 import java.util.Scanner;
-import java.util.regex.Pattern;
 
 import org.jsfml.graphics.FloatRect;
 import org.jsfml.graphics.PrimitiveType;
@@ -45,9 +44,10 @@ public class AffichageJeu extends Affichage {
 		int[][] lvl = new int[NBLIGNES][NBCOLONNES];
 		
 		try{			
-			// L'expression régulière qui délimite les champs
+			// Initialisation du scanner
 			Scanner scanner = new Scanner(new File(path));
-			scanner.useDelimiter(Pattern.compile("\\s*[\\,\r]\\s*"));
+			// Délimitation des champs : la virgule et le passage à la ligne
+			scanner.useDelimiter(",|"+System.getProperty("line.separator"));
 			
 			// On boucle sur chaque champ detecté
 			int champ, compteur=0;
@@ -64,7 +64,7 @@ public class AffichageJeu extends Affichage {
 			scanner.close();
 		}
 		catch (Exception e){
-			e.printStackTrace(); // On catch l'exception dans le bas d'un problème
+			e.printStackTrace(); // On catch l'exception en cas de problème
 		}
 		
 		return lvl;
@@ -108,7 +108,7 @@ public class AffichageJeu extends Affichage {
 	public AffichageJeu(){
 		level = loadMap("maps/map.txt");
 		levelArray = loadVertex(level);
-		terrain = loadTexture("img/terrain.png");	
+		terrain = loadTexture("img/terrain.png");
 		
 		vue = new View(new FloatRect(0, 0, 11*SIZE, HAUTEUR)); // On définit la taille de la vue
 		vue.setViewport(new FloatRect(0, 0, 11/16.f, 1)); // On définit la zone où elle va s'afficher

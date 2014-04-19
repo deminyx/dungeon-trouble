@@ -1,7 +1,5 @@
 package fr.dungeontrouble.affichage;
 
-import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -26,26 +24,12 @@ import org.jsfml.system.Vector2i;
 public class AffichageScore extends Affichage {
 	private static Vector2i TAILLE = new Vector2i(250,600); // Taille de la vue
 	private Texture background; // Texture contenant le fond des scores (logo, nom des classes)
-	private Sprite sprite; // Sprite utilisant la texture précédente
-	private Font scoresFont; // Police utilisée pour l'affichage des scores
-	private HashMap<String, Text> scoresText; // Text à afficher pour les scores
 	private Texture clef; // Texture pour les clefs que possèdent les joueurs
-	private HashMap<String, Sprite> clefJoueur; // Tableau de sprites des clefs pour chaque joueur
+	private Font scoresFont; // Police utilisée pour l'affichage des scores
 	
-	/**
-	 * Fonction permettant de charger une police et de gérer les exceptions
-	 * @param path Chemin vers le fichier de police
-	 * @return Police sous le format objet Font
-	 */
-	public static Font loadFont(String path){
-		Font font = new Font();
-		try {
-		    font.loadFromFile(Paths.get(path));
-		} catch(IOException ex) {
-		    ex.printStackTrace();
-		}
-		return font;
-	}
+	private Sprite sprite; // Sprite utilisant la texture "background"
+	private HashMap<String, Text> scoresText; // Text à afficher pour les scores	
+	private HashMap<String, Sprite> clefJoueur; // Tableau de sprites des clefs pour chaque joueur
 	
 	// Future fonction de mise à jour des données d'affichage prenant en paramètre des joueurs
 	public void updateData(){

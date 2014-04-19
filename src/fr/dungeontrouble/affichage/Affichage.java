@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 
 import org.jsfml.graphics.Drawable;
+import org.jsfml.graphics.Font;
 import org.jsfml.graphics.RenderStates;
 import org.jsfml.graphics.RenderTarget;
 import org.jsfml.graphics.RenderWindow;
@@ -48,6 +49,21 @@ public abstract class Affichage implements Drawable {
 	}
 	
 	/**
+	 * Fonction permettant de charger une police et de gérer les exceptions
+	 * @param path Chemin vers le fichier de police
+	 * @return Police sous le format objet Font
+	 */
+	public static Font loadFont(String path){
+		Font font = new Font();
+		try {
+		    font.loadFromFile(Paths.get(path));
+		} catch(IOException ex) {
+		    ex.printStackTrace();
+		}
+		return font;
+	}
+	
+	/**
 	 * Méthode pour déplacer la vue de x en abscisse et y en ordonnée
 	 * @param x Déplacement en abscisse
 	 * @param y Déplacement en ordonnée
@@ -68,13 +84,13 @@ public abstract class Affichage implements Drawable {
 			
 			Affichage affJeu = new AffichageJeu();
 			Affichage affScores = new AffichageScore();
-			//Affichage affBestScores = new AffichageMeilleursScores();
+			Affichage affBestScores = new AffichageMeilleursScores();
 			
 			System.out.println("Chargement terminé !");
 			
-			RenderWindow window = new RenderWindow(new VideoMode(Affichage.LARGEUR,Affichage.HAUTEUR), "Dungeon Trouble");
-			window.setVerticalSyncEnabled(true);
-			window.setKeyRepeatEnabled(false);
+			RenderWindow window = new RenderWindow(new VideoMode(Affichage.LARGEUR,Affichage.HAUTEUR), "Dungeon Trouble",RenderWindow.CLOSE | RenderWindow.TITLEBAR);
+			window.setVerticalSyncEnabled(true); // Activation de la synchronisation verticale
+			window.setKeyRepeatEnabled(false); // Désactivation de la répétition des touches
 			
 			Vector2i mousePosition = Mouse.getPosition(window);
 		
@@ -107,7 +123,7 @@ public abstract class Affichage implements Drawable {
 				
 				window.draw(affJeu); // Dessin de la map
 				window.draw(affScores); // Dessin des scores
-				//window.draw(affBestScores); // Dessin des meilleurs scores
+				window.draw(affBestScores); // Dessin des meilleurs scores
 
 				window.display();
 			}
