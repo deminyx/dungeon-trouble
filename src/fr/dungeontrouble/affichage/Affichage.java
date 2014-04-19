@@ -85,6 +85,7 @@ public abstract class Affichage implements Drawable {
 			Affichage affJeu = new AffichageJeu();
 			Affichage affScores = new AffichageScore();
 			Affichage affBestScores = new AffichageMeilleursScores();
+			//Affichage affChoix = new AffichageChoix();
 			
 			System.out.println("Chargement terminé !");
 			
@@ -124,6 +125,7 @@ public abstract class Affichage implements Drawable {
 				window.draw(affJeu); // Dessin de la map
 				window.draw(affScores); // Dessin des scores
 				window.draw(affBestScores); // Dessin des meilleurs scores
+				//window.draw(affChoix);
 
 				window.display();
 			}
