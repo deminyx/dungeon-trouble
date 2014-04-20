@@ -7,4 +7,5 @@ package fr.dungeontrouble.partie.niveau;
  */
 public class Cle extends Objet {
 
+	
 }

@@ -7,7 +7,6 @@ package fr.dungeontrouble.partie.niveau;
  */
 public class Objet {
 
-	protected int posX;
-	protected int posY;
+	
 		
 }

@@ -1,6 +1,6 @@
 package fr.dungeontrouble.partie.niveau;
 
-import java.util.ArrayList;
+//import java.util.HashMap;
 
 /**
  * Classe regroupant toutes informations d'un niveau en cours.
@@ -11,5 +11,5 @@ import java.util.ArrayList;
  */
 
 public class Niveau {
-	ArrayList<Objet> objets;
+	//HashMap<int[2],Objet> objets;
 }
