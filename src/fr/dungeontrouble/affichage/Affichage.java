@@ -18,7 +18,7 @@ import org.jsfml.window.VideoMode;
 import org.jsfml.window.event.Event;
 
 /**
- * Classe principale d'affichage hï¿½ritï¿½e par les diffï¿½rents affichages
+ * Classe principale d'affichage héritée par les différents affichages
  * @author Valentin PORCHET
  *
  */
@@ -34,9 +34,9 @@ public abstract class Affichage implements Drawable {
 	}
 
 	/**
-	 * Fonction permettant de charger une texture, renvoie une exception si problï¿½me
+	 * Fonction permettant de charger une texture, renvoie une exception si probléme
 	 * @param path Chemin vers le fichier contenant la texture
-	 * @return La texture chargï¿½e
+	 * @return La texture chargée
 	 */
 	public static Texture loadTexture(String path){
 		Texture texture = new Texture();
@@ -49,7 +49,7 @@ public abstract class Affichage implements Drawable {
 	}
 	
 	/**
-	 * Fonction permettant de charger une police et de gï¿½rer les exceptions
+	 * Fonction permettant de charger une police et de gérer les exceptions
 	 * @param path Chemin vers le fichier de police
 	 * @return Police sous le format objet Font
 	 */
@@ -64,9 +64,9 @@ public abstract class Affichage implements Drawable {
 	}
 	
 	/**
-	 * Mï¿½thode pour dï¿½placer la vue de x en abscisse et y en ordonnï¿½e
-	 * @param x Dï¿½placement en abscisse
-	 * @param y Dï¿½placement en ordonnï¿½e
+	 * Méthode pour déplacer la vue de x en abscisse et y en ordonnée
+	 * @param x Déplacement en abscisse
+	 * @param y Déplacement en ordonnée
 	 */
 	public void deplacerVue(float x, float y) {
 		vue.move(x,y);		
@@ -87,11 +87,11 @@ public abstract class Affichage implements Drawable {
 			Affichage affBestScores = new AffichageMeilleursScores();
 			//Affichage affChoix = new AffichageChoix();
 			
-			System.out.println("Chargement terminï¿½ !");
+			System.out.println("Chargement terminé !");
 			
 			RenderWindow window = new RenderWindow(new VideoMode(Affichage.LARGEUR,Affichage.HAUTEUR), "Dungeon Trouble",RenderWindow.CLOSE | RenderWindow.TITLEBAR);
 			window.setVerticalSyncEnabled(true); // Activation de la synchronisation verticale
-			window.setKeyRepeatEnabled(false); // Dï¿½sactivation de la rï¿½pï¿½tition des touches
+			window.setKeyRepeatEnabled(false); // Désactivation de la répétition des touches
 			
 			Vector2i mousePosition = Mouse.getPosition(window);
 		
@@ -104,8 +104,8 @@ public abstract class Affichage implements Drawable {
 							break;
 						
 						 //Test de mouvement de la vue
-						case MOUSE_MOVED: // Souris bougï¿½e
-							if (Mouse.isButtonPressed(Button.LEFT)||(Mouse.isButtonPressed(Button.RIGHT))) // Dï¿½placement sur la carte
+						case MOUSE_MOVED: // Souris bougée
+							if (Mouse.isButtonPressed(Button.LEFT)||(Mouse.isButtonPressed(Button.RIGHT))) // Déplacement sur la carte
 							{
 								Vector2f mousePos = window.mapPixelToCoords(mousePosition);
 								Vector2f eventPosition = window.mapPixelToCoords(new Vector2i(event.asMouseEvent().position.x, event.asMouseEvent().position.y));
@@ -124,7 +124,7 @@ public abstract class Affichage implements Drawable {
 				
 				window.draw(affJeu); // Dessin de la map
 				window.draw(affScores); // Dessin des scores
-				//window.draw(affBestScores); // Dessin des meilleurs scores
+				window.draw(affBestScores); // Dessin des meilleurs scores
 				//window.draw(affChoix);
 
 				window.display();
