@@ -15,7 +15,7 @@ import org.jsfml.graphics.Texture;
 import org.jsfml.system.Vector2f;
 
 /**
- * Classe concernant l'affichage des meilleurs score au lancement de la fenêtre
+ * Classe concernant l'affichage des meilleurs score au lancement de la fenï¿½tre
  * @author Valentin PORCHET
  *
  */
@@ -23,44 +23,54 @@ public class AffichageMeilleursScores extends Affichage {
 	private Texture textureBackground;
 	private Sprite background;
 	private Font scoresFont;
-	private LinkedHashMap<String, Integer> scores; // A voir si on laisse ça là
+	private LinkedHashMap<String, Integer> scores; // A voir si on laisse ï¿½a lï¿½
 	private Vector<Text> scoreNames;
 	private Vector<Text> scoreValues;
 	
 	/**
-	 * Méthode de chargement des meilleurs scores à partir d'un fichier
+	 * Mï¿½thode de chargement des meilleurs scores ï¿½ partir d'un fichier
 	 * @param path Chemin vers le fichier contenant les meilleurs scores
 	 * @return HashMap de la forme Joueur -> Score
 	 */
 	private static LinkedHashMap<String, Integer> loadScores(String path){
 		LinkedHashMap<String,Integer> highscores = new LinkedHashMap<String,Integer>();
+		String temp = new String(); // Chaine temporaire qui contiendra chaque ligne
 		
 		try{			
-			// L'expression régulière qui délimite les champs
-			Scanner scanner = new Scanner(new File(path));
-			scanner.useDelimiter(" |"+System.getProperty("line.separator"));
+			/* On utilise deux Scanner : un pour extraire chaque ligne
+			 * et un autre pour les analyser  
+			 */
 			
-			while (scanner.hasNext()){
-				highscores.put(scanner.next(), scanner.nextInt());
+			// Scanner extracteur de lignes
+			Scanner scannerLine = new Scanner(new File(path));
+			
+			// Scanner analyseur de lignes
+			Scanner scannerTemp = new Scanner(temp);
+			
+			while (scannerLine.hasNextLine()){
+				temp = scannerLine.nextLine();	// RÃ©cupÃ©ration de la ligne	
+				scannerTemp = new Scanner(temp); // Assignation au scanner
+				highscores.put(scannerTemp.next(), scannerTemp.nextInt()); // Rajout des scores
 			}
 			
-			// On ferme le scanner
-			scanner.close();
+			// On ferme les Scanner
+			scannerLine.close();
+			scannerTemp.close();
 		}
 		catch (Exception e){
-			e.printStackTrace(); // On catch l'exception en cas de problème
+			e.printStackTrace(); // On catch l'exception en cas de problï¿½me
 		}
 		
 		return highscores;
 	}
 	
 	/**
-	 * Méthode de mise à jour des scores affichés en fonction des scores stockés
+	 * Mï¿½thode de mise ï¿½ jour des scores affichï¿½s en fonction des scores stockï¿½s
 	 */
 	private void updateVisibleScores(){		
 		int compteur = 0;
 		
-		// A l'entrée dans cette méthode, tous les scores sont triés		
+		// A l'entrï¿½e dans cette mï¿½thode, tous les scores sont triï¿½s		
 		for(Entry<String, Integer> entry : scores.entrySet()) {
 			scoreNames.add(new Text(entry.getKey(), scoresFont, 29));
 			scoreValues.add(new Text(entry.getValue().toString(), scoresFont, 29));
@@ -76,7 +86,7 @@ public class AffichageMeilleursScores extends Affichage {
 		scoreNames = new Vector<Text>();
 		scoreValues = new Vector<Text>();
 		scoresFont = loadFont("font/Finalnew.ttf");
-		updateVisibleScores(); // Ajoute les scores chargés dans les listes de Text
+		updateVisibleScores(); // Ajoute les scores chargï¿½s dans les listes de Text
 		
 		textureBackground = loadTexture("img/scores.png");		
 		background = new Sprite(textureBackground);	
