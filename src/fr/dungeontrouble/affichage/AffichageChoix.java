@@ -16,6 +16,7 @@ public class AffichageChoix extends Affichage {
 	
 	@Override
 	public void draw(RenderTarget target, RenderStates states) {
+		target.setView(target.getDefaultView());
 		target.draw(this.sprite, states);
 	}
 }

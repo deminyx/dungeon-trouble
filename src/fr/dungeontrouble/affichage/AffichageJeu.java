@@ -1,12 +1,14 @@
 package fr.dungeontrouble.affichage;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import org.jsfml.graphics.FloatRect;
 import org.jsfml.graphics.PrimitiveType;
 import org.jsfml.graphics.RenderStates;
 import org.jsfml.graphics.RenderTarget;
+import org.jsfml.graphics.Sprite;
 import org.jsfml.graphics.Texture;
 import org.jsfml.graphics.Vertex;
 import org.jsfml.graphics.VertexArray;
@@ -112,6 +114,20 @@ public class AffichageJeu extends Affichage {
 		}
 		
 		return array;
+	}
+	
+	public void updateView(ArrayList<Sprite> persos){
+		float x=0, y=0;
+		
+		for (Sprite p : persos){
+			x += p.getPosition().x;
+			y += p.getPosition().y;
+		}
+		
+		x /= persos.size();
+		y /= persos.size();
+		
+		this.vue.setCenter(x, y);
 	}
 	
 	

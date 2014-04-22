@@ -2,12 +2,15 @@ package fr.dungeontrouble.affichage;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 import org.jsfml.graphics.Drawable;
 import org.jsfml.graphics.Font;
+import org.jsfml.graphics.IntRect;
 import org.jsfml.graphics.RenderStates;
 import org.jsfml.graphics.RenderTarget;
 import org.jsfml.graphics.RenderWindow;
+import org.jsfml.graphics.Sprite;
 import org.jsfml.graphics.Texture;
 import org.jsfml.graphics.View;
 import org.jsfml.system.Vector2f;
@@ -84,17 +87,29 @@ public abstract class Affichage implements Drawable {
 			
 			Affichage affJeu = new AffichageJeu();
 			Affichage affScores = new AffichageScore();
-			Affichage affBestScores = new AffichageMeilleursScores();
-			//Affichage affChoix = new AffichageChoix();
+			//Affichage affBestScores = new AffichageMeilleursScores();
+			Affichage affChoix = new AffichageChoix();
 			
 			System.out.println("Chargement terminé !");
-			
+				
 			RenderWindow window = new RenderWindow(new VideoMode(Affichage.LARGEUR,Affichage.HAUTEUR), "Dungeon Trouble",RenderWindow.CLOSE | RenderWindow.TITLEBAR);
 			window.setVerticalSyncEnabled(true); // Activation de la synchronisation verticale
-			window.setKeyRepeatEnabled(false); // Désactivation de la répétition des touches
-			
-			Vector2i mousePosition = Mouse.getPosition(window);
+			window.setKeyRepeatEnabled(false); // Désactivation de la répétition des touches			
+			Vector2i mousePosition = Mouse.getPosition(window); // A effacer après les tests
 		
+			Texture text = loadTexture("img/spritestest.png");
+			ArrayList<Sprite> persos = new ArrayList<Sprite>(4);
+			persos.add(new Sprite());
+			persos.add(new Sprite());
+			persos.add(new Sprite());
+			persos.add(new Sprite());
+			
+			for (Sprite p : persos){
+				p.setTexture(text);
+				p.setTextureRect(new IntRect(28,0,28,40));
+				p.setPosition(new Vector2f((float)Math.random()*200, (float)Math.random()*200));
+			}
+			
 			while (window.isOpen()) {				
 				for(Event event : window.pollEvents()) {
 					switch(event.type)
@@ -120,12 +135,27 @@ public abstract class Affichage implements Drawable {
 				
 				mousePosition = Mouse.getPosition(window); // Sauvegarde de la position de la souris
 				
+				// Mouvement des mariiiiios
+				for (Sprite p : persos){
+					p.move((int)(Math.random() * 3),(int)(Math.random() * 3));
+				}
+				
+				// Mise à jour de la vue en conséquence
+				((AffichageJeu) affJeu).updateView(persos);
+				
 				window.clear();
 				
 				window.draw(affJeu); // Dessin de la map
+				
+				for (Sprite p : persos){
+					window.draw(p);
+				}
+				
 				window.draw(affScores); // Dessin des scores
-				window.draw(affBestScores); // Dessin des meilleurs scores
-				//window.draw(affChoix);
+				//window.draw(affBestScores); // Dessin des meilleurs scores
+				
+				
+			//	window.draw(affChoix);
 
 				window.display();
 			}
