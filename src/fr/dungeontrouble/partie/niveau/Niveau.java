@@ -1,15 +1,17 @@
 package fr.dungeontrouble.partie.niveau;
 
-//import java.util.HashMap;
+import java.util.HashMap;
+
+import org.jsfml.system.Vector2f;
 
 /**
- * Classe regroupant toutes informations d'un niveau en cours.
- * Est gérée par Partie
+ * Classe regroupant toutes informations d'un niveau en cours. Est gérée par
+ * Partie
  * 
  * @author Maxime BELLIER
- *
+ * 
  */
 
 public class Niveau {
-	//HashMap<int[2],Objet> objets;
+	HashMap<Vector2f, Objet> objets;
 }

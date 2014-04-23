@@ -7,4 +7,6 @@ package fr.dungeontrouble.partie.niveau;
  */
 public class Tresor extends Objet {
 
+	final int nbpoints=100;
+	
 }
