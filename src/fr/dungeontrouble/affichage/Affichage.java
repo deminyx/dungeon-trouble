@@ -20,6 +20,8 @@ import org.jsfml.window.Mouse.Button;
 import org.jsfml.window.VideoMode;
 import org.jsfml.window.event.Event;
 
+import fr.dungeontrouble.partie.niveau.Niveau;
+
 /**
  * Classe principale d'affichage héritée par les différents affichages
  * @author Valentin PORCHET
@@ -34,6 +36,10 @@ public abstract class Affichage implements Drawable {
 	// Fonction temporaire pour les tests
 	public View getVue() {
 		return vue;
+	}
+	
+	public Vector2f getCentreVue(){
+		return vue.getCenter();
 	}
 
 	/**
@@ -85,7 +91,9 @@ public abstract class Affichage implements Drawable {
 
 		public static void main(String[] args) {
 			
-			Affichage affJeu = new AffichageJeu();
+			Niveau niveau = new Niveau("maps/map1.txt");
+			Affichage affJeu = new AffichageJeu(niveau);
+			
 			Affichage affScores = new AffichageScore();
 			//Affichage affBestScores = new AffichageMeilleursScores();
 			Affichage affChoix = new AffichageChoix();
@@ -129,6 +137,10 @@ public abstract class Affichage implements Drawable {
 								affJeu.deplacerVue(movement.x, movement.y);
 							}
 							break;
+						
+						case KEY_PRESSED:
+							persos.get(0).move(-10,0);
+							break;
 						default:break;
 					}
 				}
@@ -154,8 +166,10 @@ public abstract class Affichage implements Drawable {
 				window.draw(affScores); // Dessin des scores
 				//window.draw(affBestScores); // Dessin des meilleurs scores
 				
+				System.out.println(affJeu.getVue().getSize());
 				
-			//	window.draw(affChoix);
+				
+			//window.draw(affChoix);
 
 				window.display();
 			}
