@@ -1,8 +1,6 @@
 package fr.dungeontrouble.affichage;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import org.jsfml.graphics.FloatRect;
 import org.jsfml.graphics.PrimitiveType;

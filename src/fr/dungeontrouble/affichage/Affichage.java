@@ -81,6 +81,9 @@ public abstract class Affichage implements Drawable {
 		vue.move(x,y);		
 	}	
 	
+	/**
+	  * {@inheritDoc}
+	  */
 	@Override
 	public void draw(RenderTarget target, RenderStates states) {
 		
@@ -95,7 +98,7 @@ public abstract class Affichage implements Drawable {
 			Affichage affJeu = new AffichageJeu(niveau);
 			
 			Affichage affScores = new AffichageScore();
-			//Affichage affBestScores = new AffichageMeilleursScores();
+			Affichage affBestScores = new AffichageMeilleursScores();
 			Affichage affChoix = new AffichageChoix();
 			
 			System.out.println("Chargement terminé !");
@@ -164,12 +167,9 @@ public abstract class Affichage implements Drawable {
 				}
 				
 				window.draw(affScores); // Dessin des scores
-				//window.draw(affBestScores); // Dessin des meilleurs scores
+				window.draw(affBestScores); // Dessin des meilleurs scores			
 				
-				System.out.println(affJeu.getVue().getSize());
-				
-				
-			//window.draw(affChoix);
+				window.draw(affChoix);
 
 				window.display();
 			}

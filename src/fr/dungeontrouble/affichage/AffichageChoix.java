@@ -5,6 +5,11 @@ import org.jsfml.graphics.RenderTarget;
 import org.jsfml.graphics.Sprite;
 import org.jsfml.graphics.Texture;
 
+/**
+ * Classe d'affichage de choix d'un personnage en mode 1 joueur
+ * @author Valentin PORCHET
+ *
+ */
 public class AffichageChoix extends Affichage {
 	private Texture background;
 	private Sprite sprite;
