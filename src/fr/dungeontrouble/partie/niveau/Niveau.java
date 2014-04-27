@@ -39,6 +39,7 @@ public class Niveau {
 	 * Fonction permettant de charger une carte depuis un fichier
 	 * @param path Chemin vers le fichier contenant la carte
 	 * @param level Tableau d'entiers dècrivant la carte è charger
+	 * @param objets HashMap contenant l'intégralité des objets
 	 */
 	public static void loadMap(String path, int[][] level, HashMap<Vector2f,Objet> objets) {
 
