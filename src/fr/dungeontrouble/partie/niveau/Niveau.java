@@ -26,6 +26,8 @@ public class Niveau {
 	
 	private HashMap<Vector2f,Objet> objets; // HashMap des objets de la map
 	private int[][] niveau; // Indices correspondant au niveau
+	public enum IDNiveau {map1,map2,map3};
+	private static IDNiveau idNiveau;
 	
 	public HashMap<Vector2f, Objet> getObjets() {
 		return objets;
@@ -35,6 +37,11 @@ public class Niveau {
 		return niveau;
 	}
 	
+
+	public static IDNiveau getIdNiveau() {
+		return idNiveau;
+	}
+
 	/**
 	 * Fonction permettant de charger une carte depuis un fichier
 	 * @param path Chemin vers le fichier contenant la carte
