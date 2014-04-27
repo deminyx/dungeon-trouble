@@ -10,4 +10,9 @@ import fr.dungeontrouble.partie.niveau.Niveau;
 public class Partie {
 
 	Niveau niv;
+	//Entite ....
+	
+	public Partie(int nbJoueurs) {
+	
+	}
 }
