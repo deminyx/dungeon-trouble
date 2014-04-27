@@ -4,13 +4,11 @@ import java.io.File;
 import java.util.LinkedHashMap;
 import java.util.Scanner;
 
-import org.jsfml.system.Clock;
-
 import fr.dungeontrouble.evenement.Evenement;
 
 public class MoteurJeu {
 
-	private int nbJoueurs;
+	private static int nbJoueurs;
 	private LinkedHashMap<String, Integer> meilleursScores;
 
 	/**
@@ -54,6 +52,15 @@ public class MoteurJeu {
 		}
 		
 		return highscores;
+	}
+	
+	
+	public static int getNbJoueurs() {
+		return nbJoueurs;
+	}
+
+	public void setNbJoueurs(int nbJoueurs) {
+		this.nbJoueurs = nbJoueurs;
 	}
 
 	public void analyserEvent(Evenement e) {
