@@ -13,12 +13,18 @@ public class EtatJeu {
 	private Affichage affichage;
 	private Evenement event;
 	
-	 public EtatJeu() {
+	 public EtatJeu(int nbJoueurs) {
 
 		 this.clock=new Clock();
-		 this.partie=new Partie(MoteurJeu.getNbJoueurs());
 		 this.event=null;
 		 this.affichage=null;
+		 if (nbJoueurs==1){
+			 this.partie=new Partie(null, null); // ajout de l'id map + 1 joueurs
+		 }
+		 if (nbJoueurs==4){
+			 this.partie=new Partie(null, null, null, null, null); // ajout de l'id mp + 4 joueurs
+		 }
+
 	}
 	
 	
