@@ -13,7 +13,7 @@ import org.jsfml.system.Vector2f;
  * @author Maxime BELLIER
  * 
  */
-public abstract class Objet implements Drawable{
+public abstract class Objet implements Drawable {
 
 	protected Sprite sprite;
 	protected static Texture texture;
@@ -42,9 +42,9 @@ public abstract class Objet implements Drawable{
 	public static void setTexture(Texture texture) {
 		Objet.texture = texture;
 	}
-	
+
 	@Override
 	public void draw(RenderTarget target, RenderStates states) {
 		target.draw(this.sprite);
-	}	
+	}
 }
