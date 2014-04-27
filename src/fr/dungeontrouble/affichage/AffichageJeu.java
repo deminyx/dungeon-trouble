@@ -73,6 +73,7 @@ public class AffichageJeu extends Affichage {
 	
 	/**
 	 * Constructeur par dèfaut de l'affichage du jeu
+	 * @param niv Le niveau courant
 	 */
 	public AffichageJeu(Niveau niv){
 		this.niveau = niv;

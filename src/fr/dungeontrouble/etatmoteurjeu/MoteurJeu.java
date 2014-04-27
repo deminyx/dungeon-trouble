@@ -11,17 +11,18 @@ public class MoteurJeu {
 	private static int nbJoueurs;
 	private LinkedHashMap<String, Integer> meilleursScores;
 
-	/**
-	 * Méthode de chargement des meilleurs scores à partir d'un fichier
-	 * @param path Chemin vers le fichier contenant les meilleurs scores
-	 * @return HashMap de la forme Joueur -> Score
-	 */
+	
 	
 	public MoteurJeu(int nbJoueurs,String path) {
 		this.nbJoueurs=nbJoueurs;
 		this.meilleursScores=recupererScores("highscores.txt");
 	}
 	
+	/**
+	 * Méthode de chargement des meilleurs scores à partir d'un fichier
+	 * @param path Chemin vers le fichier contenant les meilleurs scores
+	 * @return HashMap de la forme Joueur -> Score
+	 */
 	private static LinkedHashMap<String, Integer> recupererScores(String path){
 		LinkedHashMap<String,Integer> highscores = new LinkedHashMap<String,Integer>();
 		String temp = new String(); // Chaine temporaire qui contiendra chaque ligne
