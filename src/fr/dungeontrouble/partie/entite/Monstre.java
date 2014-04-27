@@ -2,6 +2,12 @@ package fr.dungeontrouble.partie.entite;
 
 public class Monstre extends Entite {
 	
+	//enumeration des differents monstres
+	public enum TypeMonstre{
+		Fantome,
+		Gobelin
+	};
+	
 	protected int pdv;
 	
 	public int getPdv() {
