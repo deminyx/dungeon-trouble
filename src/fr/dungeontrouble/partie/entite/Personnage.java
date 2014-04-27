@@ -10,6 +10,9 @@ public abstract class Personnage extends Entite {
 	protected int nbCles;
 	protected int score;
 	
+	public Personnage() { // A modifier !!!
+		// TODO Auto-generated constructor stub
+	}
 	@Override
 	public void faireAction() {
 		// TODO Auto-generated method stub
