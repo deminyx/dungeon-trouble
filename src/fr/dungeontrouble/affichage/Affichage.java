@@ -108,7 +108,7 @@ public abstract class Affichage implements Drawable {
 			window.setKeyRepeatEnabled(false); // Désactivation de la répétition des touches			
 			Vector2i mousePosition = Mouse.getPosition(window); // A effacer après les tests
 		
-			Texture text = loadTexture("img/spritestest.png");
+			Texture text = loadTexture("img/sprite_mage.png");
 			ArrayList<Sprite> persos = new ArrayList<Sprite>(4);
 			persos.add(new Sprite());
 			persos.add(new Sprite());
@@ -117,7 +117,7 @@ public abstract class Affichage implements Drawable {
 			
 			for (Sprite p : persos){
 				p.setTexture(text);
-				p.setTextureRect(new IntRect(28,0,28,40));
+				p.setTextureRect(new IntRect(0,0,50,50));
 				p.setPosition(new Vector2f((float)Math.random()*200, (float)Math.random()*200));
 			}
 			
@@ -152,6 +152,9 @@ public abstract class Affichage implements Drawable {
 				
 				// Mouvement des mariiiiios
 				for (Sprite p : persos){
+					p.setTextureRect(new IntRect(
+							(int)(1+(Math.random()*2))*50,
+							100,50,50));
 					p.move((int)(Math.random() * 3),(int)(Math.random() * 3));
 				}
 				
