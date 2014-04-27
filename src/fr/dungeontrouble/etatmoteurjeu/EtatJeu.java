@@ -12,4 +12,14 @@ public class EtatJeu {
 	private Partie partie;
 	private Affichage affichage;
 	private Evenement event;
+	
+	 public EtatJeu() {
+
+		 this.clock=new Clock();
+		 this.partie=new Partie(MoteurJeu.getNbJoueurs());
+		 this.event=null;
+		 this.affichage=null;
+	}
+	
+	
 }
