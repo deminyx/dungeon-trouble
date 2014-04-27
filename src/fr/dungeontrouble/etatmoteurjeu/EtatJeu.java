@@ -10,14 +10,12 @@ public class EtatJeu {
 
 	private Clock clock;
 	private Partie partie;
-	private Affichage affichage;
 	private Evenement event;
 	
 	 public EtatJeu(int nbJoueurs) {
 
 		 this.clock=new Clock();
 		 this.event=null;
-		 this.affichage=null;
 		 if (nbJoueurs==1){
 			 this.partie=new Partie(null, null); // ajout de l'id map + 1 joueurs
 		 }
