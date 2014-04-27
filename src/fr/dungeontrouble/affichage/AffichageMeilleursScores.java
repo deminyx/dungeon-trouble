@@ -1,9 +1,7 @@
 package fr.dungeontrouble.affichage;
 
-import java.io.File;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
-import java.util.Scanner;
 import java.util.Vector;
 
 import org.jsfml.graphics.Font;
