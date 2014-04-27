@@ -27,42 +27,6 @@ public class AffichageMeilleursScores extends Affichage {
 	private Vector<Text> scoreNames;
 	private Vector<Text> scoreValues;
 	
-	/**
-	 * Méthode de chargement des meilleurs scores à partir d'un fichier
-	 * @param path Chemin vers le fichier contenant les meilleurs scores
-	 * @return HashMap de la forme Joueur -> Score
-	 */
-	private static LinkedHashMap<String, Integer> loadScores(String path){
-		LinkedHashMap<String,Integer> highscores = new LinkedHashMap<String,Integer>();
-		String temp = new String(); // Chaine temporaire qui contiendra chaque ligne
-		
-		try{			
-			/* On utilise deux Scanner : un pour extraire chaque ligne
-			 * et un autre pour les analyser  
-			 */
-			
-			// Scanner extracteur de lignes
-			Scanner scannerLine = new Scanner(new File(path));
-			
-			// Scanner analyseur de lignes
-			Scanner scannerTemp = new Scanner(temp);
-			
-			while (scannerLine.hasNextLine()){
-				temp = scannerLine.nextLine();	// Récupération de la ligne	
-				scannerTemp = new Scanner(temp); // Assignation au scanner
-				highscores.put(scannerTemp.next(), scannerTemp.nextInt()); // Rajout des scores
-			}
-			
-			// On ferme les Scanner
-			scannerLine.close();
-			scannerTemp.close();
-		}
-		catch (Exception e){
-			e.printStackTrace(); // On catch l'exception en cas de probléme
-		}
-		
-		return highscores;
-	}
 	
 	/**
 	 * Méthode de mise à jour des scores affichés en fonction des scores stockés
@@ -82,7 +46,7 @@ public class AffichageMeilleursScores extends Affichage {
 	}
 	
 	public AffichageMeilleursScores(){		
-		scores = loadScores("highscores.txt");
+		//scores = loadScores("highscores.txt"); A REVOIR DEPUIS MODIF MOTEUR JEU
 		scoreNames = new Vector<Text>();
 		scoreValues = new Vector<Text>();
 		scoresFont = loadFont("font/Finalnew.ttf");
