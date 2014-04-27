@@ -16,7 +16,7 @@ public class TestNiveau {
 		
 		Tresor T=new Tresor();
 		Cle C=new Cle();
-		Porte P=new Porte();
+		//Porte P=new Porte();
 		Generateur GF=new Generateur(TypeGenerateur.fantome);
 		Generateur GG=new Generateur(TypeGenerateur.gobelin);
 

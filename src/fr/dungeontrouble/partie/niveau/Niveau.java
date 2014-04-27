@@ -10,6 +10,7 @@ import org.jsfml.graphics.Texture;
 import org.jsfml.system.Vector2f;
 
 import fr.dungeontrouble.partie.niveau.Generateur.TypeGenerateur;
+import fr.dungeontrouble.partie.niveau.Porte.TypePorte;
 
 /**
  * Classe regroupant toutes informations d'un niveau en cours. Est gérée par
@@ -70,6 +71,7 @@ public class Niveau {
 				temp = scannerLine.nextLine(); // Récupération de la ligne
 				scannerTemp = new Scanner(temp); // Assignation au scanner
 				scannerTemp.useDelimiter(","); // Délimitation : virgules
+				boolean nouvellePorte = true;
 				
 				// Tant qu'il reste des entiers sur la ligne
 				while (scannerTemp.hasNext()) {
@@ -78,14 +80,48 @@ public class Niveau {
 					// Utilisation du champ...
 					
 					// Entiers correspondant à des objets sur la map
-					if ((champ == 12)||(champ == 13)||(champ == 26)||(champ == 27)){
+					if ((champ == 11)||(champ == 12)||(champ == 13)||
+							((champ >= 20)&&(champ <= 24))||(champ >= 26)){
 						Objet obj;
 						switch(champ){
+							case 11:
+//								Vector2f pos = new Vector2f(compteur / NBCOLONNES, compteur % NBCOLONNES);
+//								// On a une nouvelle porte si il n'y a pas déjà de porte en haut ou à gauche
+//								nouvellePorte =(!(
+//									( // Si ce n'est pas en haut et qu'il y a une porte au dessus
+//										(pos.y != 0)&&
+//										(objets.containsKey(new Vector2f(pos.x, pos.y-1))&&
+//										(objets.get(new Vector2f(pos.x, pos.y-1)) instanceof Porte))
+//									)
+//								||
+//									( // Si ce n'est pas à gauche et qu'il y a une porte à gauche
+//										(pos.x != 0)&&
+//										(objets.containsKey(new Vector2f(pos.x-1, pos.y))&&
+//										(objets.get(new Vector2f(pos.x-1, pos.y-1)) instanceof Porte))
+//									)
+//								));
+								obj = new Porte(TypePorte.MorceauPorteHorizontal, nouvellePorte); 
+								break;
 							case 12:
 								obj = new Generateur(TypeGenerateur.fantome);								
 								break;
 							case 13:
 								obj = new Generateur(TypeGenerateur.gobelin);
+								break;
+							case 20:
+								obj = new Porte(TypePorte.BoutPorteDroite, nouvellePorte);
+								break;
+							case 21:
+								obj = new Porte(TypePorte.BoutPorteGauche, nouvellePorte);
+								break;
+							case 22:
+								obj = new Porte(TypePorte.BoutPorteBas, nouvellePorte);
+								break;
+							case 23:
+								obj = new Porte(TypePorte.BoutPorteHaut, nouvellePorte);
+								break;
+							case 24:
+								obj = new Porte(TypePorte.MorceauPorteVertical, nouvellePorte);
 								break;
 							case 26:
 								obj = new Tresor();
@@ -104,7 +140,13 @@ public class Niveau {
 								(float)((compteur / NBCOLONNES)*50)));
 						objets.put(obj.getPosition(),obj);
 						
-						level[compteur / NBCOLONNES][compteur % NBCOLONNES] = 0;
+						// Si c'est une porte, alors en fonction de son type on a un certain bloc
+						if ((obj instanceof Porte)&&(champ != 11)&&(champ != 24)){							
+							level[compteur / NBCOLONNES][compteur % NBCOLONNES] = champ - 13;
+						}
+						else{
+							level[compteur / NBCOLONNES][compteur % NBCOLONNES] = 0;
+						}
 					} else{
 						level[compteur / NBCOLONNES][compteur % NBCOLONNES] = champ;
 					}
