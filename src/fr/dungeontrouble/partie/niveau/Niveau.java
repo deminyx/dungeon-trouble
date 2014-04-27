@@ -1,9 +1,12 @@
 package fr.dungeontrouble.partie.niveau;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import org.jsfml.graphics.Texture;
 import org.jsfml.system.Vector2f;
 
 import fr.dungeontrouble.partie.niveau.Generateur.TypeGenerateur;
@@ -59,7 +62,7 @@ public class Niveau {
 				temp = scannerLine.nextLine(); // Récupération de la ligne
 				scannerTemp = new Scanner(temp); // Assignation au scanner
 				scannerTemp.useDelimiter(","); // Délimitation : virgules
-
+				
 				// Tant qu'il reste des entiers sur la ligne
 				while (scannerTemp.hasNext()) {
 					champ = scannerTemp.nextInt();
@@ -86,7 +89,13 @@ public class Niveau {
 								obj = new Tresor();
 								break;
 						}
+						
+						obj.setPosition(new Vector2f(compteur / NBCOLONNES, compteur % NBCOLONNES));
+						obj.getSprite().setPosition(new Vector2f(
+								(float)((compteur % NBCOLONNES)*50), 
+								(float)((compteur / NBCOLONNES)*50)));
 						objets.put(obj.getPosition(),obj);
+						
 						level[compteur / NBCOLONNES][compteur % NBCOLONNES] = 0;
 					} else{
 						level[compteur / NBCOLONNES][compteur % NBCOLONNES] = champ;
@@ -107,6 +116,15 @@ public class Niveau {
 	public Niveau(String path){
 		niveau = new int[NBLIGNES][NBCOLONNES];
 		objets = new HashMap<Vector2f,Objet>();
+		
+		// Chargement des textures des objets
+		try {
+			Objet.texture = new Texture();
+			Objet.texture.loadFromFile(Paths.get("img/objects.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		loadMap(path,niveau,objets);
 	}
 	

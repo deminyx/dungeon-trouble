@@ -98,7 +98,7 @@ public abstract class Affichage implements Drawable {
 			Affichage affJeu = new AffichageJeu(niveau);
 			
 			Affichage affScores = new AffichageScore();
-			Affichage affBestScores = new AffichageMeilleursScores();
+			//Affichage affBestScores = new AffichageMeilleursScores();
 			Affichage affChoix = new AffichageChoix();
 			
 			System.out.println("Chargement terminé !");
@@ -121,7 +121,7 @@ public abstract class Affichage implements Drawable {
 				p.setPosition(new Vector2f((float)Math.random()*200, (float)Math.random()*200));
 			}
 			
-			while (window.isOpen()) {				
+			while (window.isOpen()) {			
 				for(Event event : window.pollEvents()) {
 					switch(event.type)
 					{
@@ -156,7 +156,7 @@ public abstract class Affichage implements Drawable {
 				}
 				
 				// Mise à jour de la vue en conséquence
-				((AffichageJeu) affJeu).updateView(persos);
+				//((AffichageJeu) affJeu).updateView(persos);
 				
 				window.clear();
 				
@@ -167,9 +167,8 @@ public abstract class Affichage implements Drawable {
 				}
 				
 				window.draw(affScores); // Dessin des scores
-				window.draw(affBestScores); // Dessin des meilleurs scores			
 				
-				window.draw(affChoix);
+				//window.draw(affChoix);
 
 				window.display();
 			}
