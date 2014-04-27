@@ -6,6 +6,8 @@ import java.util.Scanner;
 
 import org.jsfml.system.Vector2f;
 
+import fr.dungeontrouble.partie.niveau.Generateur.TypeGenerateur;
+
 /**
  * Classe regroupant toutes informations d'un niveau en cours. Est gérée par
  * Partie
@@ -20,7 +22,7 @@ public class Niveau {
 	public static int SIZE = 50; // Constante : taille des cases de la map
 	
 	private HashMap<Vector2f,Objet> objets; // HashMap des objets de la map
-	private int[][] niveau; // Indices correspondnat au niveau
+	private int[][] niveau; // Indices correspondant au niveau
 	
 	public HashMap<Vector2f, Objet> getObjets() {
 		return objets;
@@ -69,10 +71,10 @@ public class Niveau {
 						Objet obj;
 						switch(champ){
 							case 12:
-								obj = new Generateur();								
+								obj = new Generateur(TypeGenerateur.fantome);								
 								break;
 							case 13:
-								obj = new Generateur();
+								obj = new Generateur(TypeGenerateur.gobelin);
 								break;
 							case 26:
 								obj = new Tresor();
@@ -81,7 +83,7 @@ public class Niveau {
 								obj = new Cle();
 								break;	
 							default: // Pour la compilation
-								obj = new Generateur();
+								obj = new Tresor();
 								break;
 						}
 						objets.put(obj.getPosition(),obj);
