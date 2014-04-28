@@ -17,7 +17,7 @@ public class EtatJeu {
 		 this.clock=new Clock();
 		 this.event=null;
 		 if (nbJoueurs==1){
-			 this.partie=new Partie(null, null); // ajout de l'id map + 1 joueurs
+			 this.partie=new Partie(null,null); // ajout de l'id map + 1 joueurs
 		 }
 		 if (nbJoueurs==4){
 			 this.partie=new Partie(null, null, null, null, null); // ajout de l'id mp + 4 joueurs
