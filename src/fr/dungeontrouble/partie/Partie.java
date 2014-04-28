@@ -37,16 +37,16 @@ public class Partie {
 		case map1:
 			niveau = new Niveau("map1.txt");
 			// AJOUTER LE CHOIX DU PERSONNAGE
-			personnages = new HashMap<Vector2f,Personnage>();
-			personnages.put(new Vector2f(5,5), new Personnage(p));
-			monstres = new HashMap<Vector2f,Monstre>();
+			personnages = new HashMap<Vector2f, Personnage>();
+			personnages.put(new Vector2f(5, 5), new Personnage(p));
+			monstres = new HashMap<Vector2f, Monstre>();
 			break;
 		case map2:
 			niveau = new Niveau("map2.txt");
 			// AJOUTER LE CHOIX DU PERSONNAGE
-			personnages = new HashMap<Vector2f,Personnage>();
-			personnages.put(new Vector2f(16,5), new Personnage(p));
-			monstres = new HashMap<Vector2f,Monstre>();
+			personnages = new HashMap<Vector2f, Personnage>();
+			personnages.put(new Vector2f(16, 5), new Personnage(p));
+			monstres = new HashMap<Vector2f, Monstre>();
 			break;
 		case map3:
 			break;
@@ -61,7 +61,6 @@ public class Partie {
 	 *            id du niveau joué
 	 * @param p1
 	 *            personnage souhaité par J1
-	 * 
 	 * @param p2
 	 *            personnage souhaité par J2
 	 * @param p3
@@ -77,22 +76,22 @@ public class Partie {
 		case map1:
 			niveau = new Niveau("map1.txt");
 			// AJOUTER LE CHOIX DU PERSONNAGE
-			personnages = new HashMap<Vector2f,Personnage>();
-			personnages.put(new Vector2f(5,5), new Personnage(p1));
-			personnages.put(new Vector2f(5,6), new Personnage(p2));
-			personnages.put(new Vector2f(6,5), new Personnage(p3));
-			personnages.put(new Vector2f(6,6), new Personnage(p4));
-			monstres = new HashMap<Vector2f,Monstre>();
+			personnages = new HashMap<Vector2f, Personnage>();
+			personnages.put(new Vector2f(5, 5), new Personnage(p1));
+			personnages.put(new Vector2f(5, 6), new Personnage(p2));
+			personnages.put(new Vector2f(6, 5), new Personnage(p3));
+			personnages.put(new Vector2f(6, 6), new Personnage(p4));
+			monstres = new HashMap<Vector2f, Monstre>();
 			break;
 		case map2:
 			niveau = new Niveau("map2.txt");
 			// AJOUTER LE CHOIX DU PERSONNAGE
-			personnages = new HashMap<Vector2f,Personnage>();
-			personnages.put(new Vector2f(16,5), new Personnage(p1));
-			personnages.put(new Vector2f(16,6), new Personnage(p2));
-			personnages.put(new Vector2f(16,7), new Personnage(p3));
-			personnages.put(new Vector2f(16,8), new Personnage(p4));
-			monstres = new HashMap<Vector2f,Monstre>();
+			personnages = new HashMap<Vector2f, Personnage>();
+			personnages.put(new Vector2f(16, 5), new Personnage(p1));
+			personnages.put(new Vector2f(16, 6), new Personnage(p2));
+			personnages.put(new Vector2f(16, 7), new Personnage(p3));
+			personnages.put(new Vector2f(16, 8), new Personnage(p4));
+			monstres = new HashMap<Vector2f, Monstre>();
 			break;
 		case map3:
 			break;
