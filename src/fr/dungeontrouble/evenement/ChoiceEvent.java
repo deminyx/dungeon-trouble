@@ -4,10 +4,19 @@ import org.jsfml.graphics.RenderWindow;
 import org.jsfml.system.Vector2i;
 import org.jsfml.window.event.Event;
 import fr.dungeontrouble.partie.entite.Personnage.TypePersonnage;
-
+/**
+ * Classe servant au choix du personnage [Jeu 1-Joueur]
+ * @author Maxime BELLIER
+ *
+ */
 public class ChoiceEvent extends Evenement {
 
-	public TypePersonnage getChoice(RenderWindow window) {
+	/**
+	 * 
+	 * @param window
+	 * @return
+	 */
+	public static TypePersonnage getChoice(RenderWindow window) {
 		for(Event e : window.pollEvents()) {
 		    switch(e.type) {
 		        case MOUSE_BUTTON_PRESSED :
