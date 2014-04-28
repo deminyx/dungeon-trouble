@@ -12,9 +12,9 @@ import fr.dungeontrouble.partie.entite.Personnage.TypePersonnage;
 public class ChoiceEvent extends Evenement {
 
 	/**
-	 * 
-	 * @param window
-	 * @return
+	 * Fonction de capture du clic pour choix du TypePersonnage
+	 * @param window Fenêtre courante
+	 * @return TypePersonnage : Valeur d'enum sur le type du personnage voulu
 	 */
 	public static TypePersonnage getChoice(RenderWindow window) {
 		for(Event e : window.pollEvents()) {
