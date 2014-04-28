@@ -1,5 +1,10 @@
 package fr.dungeontrouble.evenement;
 
-public class Evenement {
+import org.jsfml.window.event.Event;
 
+public abstract class Evenement {
+
+		protected Event event;
+		
+		
 }
