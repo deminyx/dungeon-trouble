@@ -42,28 +42,28 @@ public class AffichageScore extends Affichage {
 	public AffichageScore(){
 		background = loadTexture("bgscore.png");
 		sprite = new Sprite(background);
-		sprite.setPosition(0, 0);		
+		sprite.setPosition(0, 0);
 		scoresFont = loadFont("Finalnew.ttf");
 		
 		// Initialisation des textes des scores
 		scoresText = new HashMap<String, Text>();
 		
-		scoresText.put("Guerrier", new Text("1000",scoresFont,22));
+		scoresText.put("Guerrier", new Text("999",scoresFont,22));
 		scoresText.put("Magicien", new Text("1000",scoresFont,22));
 		scoresText.put("Valkyrie", new Text("1000",scoresFont,22));
 		scoresText.put("Elfe", new Text("1000",scoresFont,22));
 		
 		// On applique à chaque score une position et une couleur
-		scoresText.get("Guerrier").setPosition(new Vector2f(188,300));
+		scoresText.get("Guerrier").setPosition(new Vector2f(190,300));
 		scoresText.get("Guerrier").setColor(Color.RED);
 		
-		scoresText.get("Magicien").setPosition(new Vector2f(188,341));
+		scoresText.get("Magicien").setPosition(new Vector2f(190,341));
 		scoresText.get("Magicien").setColor(Color.YELLOW);
 		
-		scoresText.get("Valkyrie").setPosition(new Vector2f(188,382));
+		scoresText.get("Valkyrie").setPosition(new Vector2f(190,382));
 		scoresText.get("Valkyrie").setColor(Color.CYAN);
 		
-		scoresText.get("Elfe").setPosition(new Vector2f(188,423));
+		scoresText.get("Elfe").setPosition(new Vector2f(190,423));
 		scoresText.get("Elfe").setColor(Color.GREEN);
 		
 		// Initialisation des sprites contenant des clefs
@@ -74,7 +74,7 @@ public class AffichageScore extends Affichage {
 		
 		clefJoueur.put("Guerrier", new Sprite(clef));
 		clefJoueur.get("Guerrier").setPosition(new Vector2f(5,300));
-		clefJoueur.get("Guerrier").setTextureRect(new IntRect(0,0,24,25)); // 2 clefs
+		clefJoueur.get("Guerrier").setTextureRect(new IntRect(0,0,4*12,25)); // 4 clefs
 		
 		clefJoueur.put("Magicien", new Sprite(clef));
 		clefJoueur.get("Magicien").setPosition(new Vector2f(5,340));
