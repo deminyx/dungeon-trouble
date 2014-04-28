@@ -1,15 +1,8 @@
 package fr.dungeontrouble.affichage;
 
-import java.awt.Image;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-
-import javax.imageio.ImageIO;
 
 import org.jsfml.graphics.Drawable;
 import org.jsfml.graphics.Font;
@@ -104,7 +97,7 @@ public abstract class Affichage implements Drawable {
 
 		public static void main(String[] args) {
 			
-			Niveau niveau = new Niveau("map1.txt");
+			Niveau niveau = new Niveau("map2.txt");
 			Affichage affJeu = new AffichageJeu(niveau);
 			
 			Affichage affScores = new AffichageScore();
@@ -118,7 +111,7 @@ public abstract class Affichage implements Drawable {
 			window.setKeyRepeatEnabled(false); // Désactivation de la répétition des touches			
 			Vector2i mousePosition = Mouse.getPosition(window); // A effacer après les tests
 		
-			Texture text = loadTexture("sprite_mage.png");
+			Texture text = loadTexture("sprite_guerrier.png");
 			ArrayList<Sprite> persos = new ArrayList<Sprite>(4);
 			persos.add(new Sprite());
 			persos.add(new Sprite());
@@ -186,6 +179,5 @@ public abstract class Affichage implements Drawable {
 				window.display();
 			}
 		}
-
 	}
 }
