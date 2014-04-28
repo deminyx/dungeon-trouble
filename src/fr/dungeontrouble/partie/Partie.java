@@ -6,6 +6,7 @@ import org.jsfml.system.Vector2f;
 
 import fr.dungeontrouble.partie.entite.Monstre;
 import fr.dungeontrouble.partie.entite.Personnage;
+import fr.dungeontrouble.partie.entite.Personnage.TypePersonnage;
 import fr.dungeontrouble.partie.niveau.Niveau;
 
 /**
@@ -29,13 +30,23 @@ public class Partie {
 	 * @param p
 	 *            personnage souhaité par J1
 	 */
-	public Partie(Niveau.IDNiveau idmap, Personnage p) {
+	public Partie(Niveau.IDNiveau idmap, TypePersonnage p) {
 
 		switch (idmap) {
 
 		case map1:
+			niveau = new Niveau("map1.txt");
+			// AJOUTER LE CHOIX DU PERSONNAGE
+			personnages = new HashMap<Vector2f,Personnage>();
+			personnages.put(new Vector2f(5,5), new Personnage(p));
+			monstres = new HashMap<Vector2f,Monstre>();
 			break;
 		case map2:
+			niveau = new Niveau("map2.txt");
+			// AJOUTER LE CHOIX DU PERSONNAGE
+			personnages = new HashMap<Vector2f,Personnage>();
+			personnages.put(new Vector2f(16,5), new Personnage(p));
+			monstres = new HashMap<Vector2f,Monstre>();
 			break;
 		case map3:
 			break;
