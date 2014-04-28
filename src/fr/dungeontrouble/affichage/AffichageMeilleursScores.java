@@ -47,10 +47,10 @@ public class AffichageMeilleursScores extends Affichage {
 		//scores = loadScores("highscores.txt"); A REVOIR DEPUIS MODIF MOTEUR JEU
 		scoreNames = new Vector<Text>();
 		scoreValues = new Vector<Text>();
-		scoresFont = loadFont("font/Finalnew.ttf");
+		scoresFont = loadFont("Finalnew.ttf");
 		updateVisibleScores(); // Ajoute les scores chargés dans les listes de Text
 		
-		textureBackground = loadTexture("img/scores.png");		
+		textureBackground = loadTexture("scores.png");		
 		background = new Sprite(textureBackground);	
 	}
 	

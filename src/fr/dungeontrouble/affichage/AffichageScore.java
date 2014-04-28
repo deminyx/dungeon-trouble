@@ -40,10 +40,10 @@ public class AffichageScore extends Affichage {
 	 * Constructeur par défaut de l'affichage des scores
 	 */
 	public AffichageScore(){
-		background = loadTexture("img/bgscore.png");
+		background = loadTexture("bgscore.png");
 		sprite = new Sprite(background);
 		sprite.setPosition(0, 0);		
-		scoresFont = loadFont("font/Finalnew.ttf");
+		scoresFont = loadFont("Finalnew.ttf");
 		
 		// Initialisation des textes des scores
 		scoresText = new HashMap<String, Text>();
@@ -67,7 +67,7 @@ public class AffichageScore extends Affichage {
 		scoresText.get("Elfe").setColor(Color.GREEN);
 		
 		// Initialisation des sprites contenant des clefs
-		clef = loadTexture("img/clef.png");
+		clef = loadTexture("clef.png");
 		clef.setRepeated(true);
 		
 		clefJoueur = new HashMap<String, Sprite>();

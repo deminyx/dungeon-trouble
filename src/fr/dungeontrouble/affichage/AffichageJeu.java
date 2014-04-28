@@ -78,7 +78,7 @@ public class AffichageJeu extends Affichage {
 	public AffichageJeu(Niveau niv){
 		this.niveau = niv;
 		this.levelArray = loadVertex(niv.getNiveau());
-		this.terrain = loadTexture("img/terrain.png");
+		this.terrain = loadTexture("terrain.png");
 		
 		this.vue = new View(new FloatRect(0, 0, 11*Niveau.SIZE, HAUTEUR)); // On dèfinit la taille de la vue
 		this.vue.setViewport(new FloatRect(0, 0, 11/16.f, 1)); // On dèfinit la zone oè elle va s'afficher

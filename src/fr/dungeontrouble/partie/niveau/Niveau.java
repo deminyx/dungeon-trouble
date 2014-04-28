@@ -1,14 +1,12 @@
 package fr.dungeontrouble.partie.niveau;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Paths;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import org.jsfml.graphics.Texture;
 import org.jsfml.system.Vector2f;
 
+import fr.dungeontrouble.affichage.Affichage;
 import fr.dungeontrouble.partie.niveau.Generateur.TypeGenerateur;
 import fr.dungeontrouble.partie.niveau.Porte.TypePorte;
 
@@ -38,7 +36,6 @@ public class Niveau {
 		return niveau;
 	}
 	
-
 	public static IDNiveau getIdNiveau() {
 		return idNiveau;
 	}
@@ -59,7 +56,8 @@ public class Niveau {
 			 * autre pour les analyser
 			 */
 			// Scanner extracteur de lignes
-			Scanner scannerLine = new Scanner(new File(path));
+			InputStream inputStream = temp.getClass().getResourceAsStream("/"+path);
+			Scanner scannerLine = new Scanner(inputStream);
 
 			// Scanner analyseur de lignes
 			Scanner scannerTemp = new Scanner(temp);
@@ -205,12 +203,7 @@ public class Niveau {
 		objets = new HashMap<Vector2f,Objet>();
 		
 		// Chargement des textures des objets
-		try {
-			Objet.texture = new Texture();
-			Objet.texture.loadFromFile(Paths.get("img/objects.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		Objet.texture = Affichage.loadTexture("objects.png");
 		
 		loadMap(path,niveau,objets);
 	}

@@ -15,7 +15,7 @@ public class AffichageChoix extends Affichage {
 	private Sprite sprite;
 	
 	public AffichageChoix(){
-		background = loadTexture("img/bgchoix.png");
+		background = loadTexture("bgchoix.png");
 		sprite = new Sprite(background);
 	}
 	
