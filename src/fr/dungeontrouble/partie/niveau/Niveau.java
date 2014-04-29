@@ -147,11 +147,12 @@ public class Niveau {
 	}
 	
 	/**
-	 * Méthode de vérification de présence de bout de porte sur une case au dessus ou à gauche
-	 * @param nouvellePorte Booléan que l'on met à true si on n'a pas trouvé de bout de porte
-	 * @param idPorte Id de porte à laquelle on affecte l'id d'un bout de porte si trouvé
+	 * Méthode de vérification de présence de bout de porte sur une case au dessus ou à g
+	 
 	 * @param compteur Compteur de cases dans l'algorithme de lecture de fichier contenant la carte
 	 * @param objets HashMap des objets déjà trouvés sur la map
+	 * 
+	 * @return idPorte Id de porte à laquelle on affecte l'id d'un bout de porte si trouvé
 	 */
 	public static int verifPorte(int compteur, HashMap<Vector2i,Objet> objets){		
 		Vector2i pos = new Vector2i(compteur / NBCOLONNES, compteur % NBCOLONNES);
@@ -178,8 +179,6 @@ public class Niveau {
 	
 	/**
 	 * Méthode qui, couplée à la vérification de présence de porte, appelle le constructeur de Porte adéquat
-	 * @param nouvellePorte Booléan que l'on met à true si on n'a pas trouvé de bout de porte
-	 * @param idPorte Id de porte à laquelle on affecte l'id d'un bout de porte si trouvé
 	 * @param compteur Compteur de cases dans l'algorithme de lecture de fichier contenant la carte
 	 * @param objets HashMap des objets déjà trouvés sur la map
 	 * @param type Type du bout de Porte à créer

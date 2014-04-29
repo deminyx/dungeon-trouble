@@ -18,7 +18,7 @@ public class QuitEvent extends Evenement {
 	 * 
 	 * @param window
 	 *            Fenêtre courante
-	 * @return TypePersonnage : Valeur d'enum sur le type du personnage voulu
+	 * 
 	 */
 	public static void getChoice(RenderWindow window) {
 		for (Event e : window.pollEvents()) {
