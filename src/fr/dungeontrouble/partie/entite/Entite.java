@@ -5,6 +5,8 @@ import org.jsfml.graphics.RenderStates;
 import org.jsfml.graphics.RenderTarget;
 import org.jsfml.graphics.Sprite;
 import org.jsfml.graphics.Texture;
+import org.jsfml.system.Clock;
+import org.jsfml.system.Time;
 import org.jsfml.system.Vector2f;
 
 public abstract class Entite implements Drawable {
@@ -13,7 +15,30 @@ public abstract class Entite implements Drawable {
 	protected Sprite sprite;
 	protected Texture texture;
 	protected int attaque;
+	protected final Clock chrono;
+	
 
+	public enum Etat{
+		arret,
+		mouvement1,
+		mouvement2
+	};
+	
+	public Entite(){
+		this.chrono = new Clock();
+	}
+	public enum Direction{
+		haut,
+		haut_droit,
+		droit,
+		bas_droit,
+		bas,
+		bas_gauche,
+		gauche,
+		haut_gauche,
+		
+	};
+	
 	public int getAttaque() {
 		return attaque;
 	}

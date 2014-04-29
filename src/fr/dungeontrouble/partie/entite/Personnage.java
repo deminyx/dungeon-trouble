@@ -12,31 +12,16 @@ import fr.dungeontrouble.affichage.Affichage;
 public class Personnage extends Entite {
 	
 	//enumeration des differents personnages
-	public enum TypePersonnage
-	{
-		guerrier,
-		elfe,
-		magicien,
-		valkyrie
-	};
-	
-	public enum Etat{
-		arret,
-		mouvement1,
-		mouvement2
-	};
-	
-	public enum Direction{
-		haut,
-		bas,
-		bas_droit,
-		bas_gauche,
-		haut_gauche,
-		haut_droit
-	};
-	
+		public enum TypePersonnage
+		{
+			guerrier,
+			elfe,
+			magicien,
+			valkyrie
+		};
+		
 	private Texture textureArme;
-	private ArrayList spriteArme;
+	private ArrayList<Sprite> spriteArme;
 	private int nbCles;
 	private int score;
 	private Texture texturePersonnage;
@@ -44,8 +29,7 @@ public class Personnage extends Entite {
 	TypePersonnage perso;
 	Direction direction;
 	Etat etat;
-	private ArrayList directionArme; //Tableau contenant les indices correspondant à chaque lancée d'armes
-	private final Clock chrono;
+	private ArrayList<Direction> directionArme; //Tableau contenant les indices correspondant à chaque lancée d'armes
 	
 	public Personnage(TypePersonnage perso) { // A modifier !!!
 		// TODO Auto-generated constructor stub
@@ -60,7 +44,7 @@ public class Personnage extends Entite {
 		//this.spriteArme = new Sprite(textureArme);
 		this.direction = Direction.bas;
 		this.etat = Etat.arret;
-		this.chrono = new Clock();
+		
 	}
 	
 	
@@ -70,7 +54,8 @@ public class Personnage extends Entite {
 		// TODO Auto-generated method stub
 		//if((!existporte) Methode qui verifie la presence de porte 
 				{
-			spriteArme.add(spriteArme);
+			
+			spriteArme.add(sprite);
 			directionArme.add(direction);
 		}
 		
@@ -80,13 +65,70 @@ public class Personnage extends Entite {
 	 * Méthode de déplacement d'un personnage selon une direction
 	 * @param direction 0 = gauche, 1 = haut, 2 = droite, 3 = bas
 	 */
-	public void seDeplacer(int direction){ //deplace en fonction mv
+	
+	public void seDeplacer(Direction direction){ //deplace en fonction mv
 		//sprite.move(arg0)
-		//if(method=false) methde qui prend en parametre la positionSprite et la direction (retourne un boolean) verife la presence d'une collision
+		//if(method=false) methode qui prend en parametre la positionSprite et la direction (retourne un boolean) verifie la presence d'une collision
 		{
-			Time tmp =chrono.restart();
+			float vitesse=5;
+			Time tmp =chrono.restart(); //permet de connaitre la vitesse
 			float tempsEcoule = tmp.asSeconds();
-			//sprite.move(float x, float y);
+			float distance= tempsEcoule * vitesse;
+			float x = 0;
+			float y = 0;
+			
+			if (tmp.equals(5000)){
+				switch (direction){
+				
+				case haut :
+					x = 0;
+					y= -distance;
+					sprite.move(x, y);
+					break;
+				
+				case haut_droit :
+					x=distance;
+					y=-distance;
+					sprite.move(x, y);
+					break;
+				
+				case droit :
+					x = distance;
+					y = 0;
+					break;
+					
+				case bas_droit :
+					x = distance; 
+					y = distance;
+					break;
+					
+				case bas :
+					x = 0;
+					y = distance;
+					sprite.move(x, y);
+					break;
+				
+				case bas_gauche:
+					x = -distance;
+					y = distance;
+					sprite.move(x, y);
+					break;
+				
+				case gauche:
+					x = -distance;
+					y = 0;
+					sprite.move(x, y);
+					break;
+				
+				case haut_gauche:
+					x = -distance;
+					y = -distance;
+					sprite.move(x, y);
+					break;
+					
+				}
+				
+			}
 			
 		}
 		
