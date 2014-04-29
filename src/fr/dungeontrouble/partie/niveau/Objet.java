@@ -5,7 +5,7 @@ import org.jsfml.graphics.RenderStates;
 import org.jsfml.graphics.RenderTarget;
 import org.jsfml.graphics.Sprite;
 import org.jsfml.graphics.Texture;
-import org.jsfml.system.Vector2f;
+import org.jsfml.system.Vector2i;
 
 /**
  * Classe mère de tout objet du jeu.
@@ -17,13 +17,13 @@ public abstract class Objet implements Drawable {
 
 	protected Sprite sprite;
 	protected static Texture texture;
-	protected Vector2f position;
+	protected Vector2i position;
 
-	public Vector2f getPosition() {
+	public Vector2i getPosition() {
 		return position;
 	}
 
-	public void setPosition(Vector2f position) {
+	public void setPosition(Vector2i position) {
 		this.position = position;
 	}
 

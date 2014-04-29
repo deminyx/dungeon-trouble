@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 import org.jsfml.system.Vector2f;
+import org.jsfml.system.Vector2i;
 
 import fr.dungeontrouble.affichage.Affichage;
 import fr.dungeontrouble.partie.niveau.Generateur.TypeGenerateur;
@@ -23,16 +24,16 @@ public class Niveau {
 	public static int NBLIGNES = 100; // Constante : nombre de lignes de la map
 	public static int SIZE = 50; // Constante : taille des cases de la map
 	
-	private HashMap<Vector2f,Objet> objets; // HashMap des objets de la map
-	private int[][] niveau; // Indices correspondant au niveau
+	private HashMap<Vector2i,Objet> objets; // HashMap des objets de la map
+	private static int[][] niveau; // Indices correspondant au niveau
 	public enum IDNiveau {map1,map2,map3};
 	private static IDNiveau idNiveau;
 	
-	public HashMap<Vector2f, Objet> getObjets() {
+	public HashMap<Vector2i, Objet> getObjets() {
 		return objets;
 	}
 
-	public int[][] getNiveau() {
+	public static int[][] getNiveau() {
 		return niveau;
 	}
 	
@@ -46,7 +47,7 @@ public class Niveau {
 	 * @param level Tableau d'entiers dècrivant la carte è charger
 	 * @param objets HashMap contenant l'intégralité des objets
 	 */
-	public static void loadMap(String path, int[][] level, HashMap<Vector2f,Objet> objets) {
+	public static void loadMap(String path, int[][] level, HashMap<Vector2i,Objet> objets) {
 
 		String temp = new String(); // Chaine qui contiendra chaque ligne
 
@@ -116,7 +117,7 @@ public class Niveau {
 								break;
 						}
 						
-						obj.setPosition(new Vector2f(compteur / NBCOLONNES, compteur % NBCOLONNES));
+						obj.setPosition(new Vector2i(compteur / NBCOLONNES, compteur % NBCOLONNES));
 						obj.getSprite().setPosition(new Vector2f(
 								(float)((compteur % NBCOLONNES)*50), 
 								(float)((compteur / NBCOLONNES)*50)));
@@ -152,24 +153,24 @@ public class Niveau {
 	 * @param compteur Compteur de cases dans l'algorithme de lecture de fichier contenant la carte
 	 * @param objets HashMap des objets déjà trouvés sur la map
 	 */
-	public static int verifPorte(int compteur, HashMap<Vector2f,Objet> objets){		
-		Vector2f pos = new Vector2f(compteur / NBCOLONNES, compteur % NBCOLONNES);
+	public static int verifPorte(int compteur, HashMap<Vector2i,Objet> objets){		
+		Vector2i pos = new Vector2i(compteur / NBCOLONNES, compteur % NBCOLONNES);
 		Integer idPorte = -1;
 		
 		// On a une nouvelle porte si il n'y a pas déjà de porte en haut ou à gauche
 		if ( // Si ce on n'est pas en haut et qu'il y a une porte au dessus
 				(pos.y != 0)&&
-				(objets.containsKey(new Vector2f(pos.x, pos.y-1))&&
-				(objets.get(new Vector2f(pos.x, pos.y-1)) instanceof Porte))
+				(objets.containsKey(new Vector2i(pos.x, pos.y-1))&&
+				(objets.get(new Vector2i(pos.x, pos.y-1)) instanceof Porte))
 			){
-			idPorte = ((Porte)(objets.get(new Vector2f(pos.x, pos.y-1)))).getIdPorteCourante();
+			idPorte = ((Porte)(objets.get(new Vector2i(pos.x, pos.y-1)))).getIdPorteCourante();
 		}
 		else if( // Si ce on n'est pas à gauche et qu'il y a une porte à gauche
 				(pos.x != 0)&&
-				(objets.containsKey(new Vector2f(pos.x-1, pos.y))&&
-				(objets.get(new Vector2f(pos.x-1, pos.y)) instanceof Porte))
+				(objets.containsKey(new Vector2i(pos.x-1, pos.y))&&
+				(objets.get(new Vector2i(pos.x-1, pos.y)) instanceof Porte))
 			){
-			idPorte = ((Porte)(objets.get(new Vector2f(pos.x-1, pos.y)))).getIdPorteCourante();
+			idPorte = ((Porte)(objets.get(new Vector2i(pos.x-1, pos.y)))).getIdPorteCourante();
 		}
 		
 		return idPorte;
@@ -184,7 +185,7 @@ public class Niveau {
 	 * @param type Type du bout de Porte à créer
 	 * @return Objet Porte qui sera créée
 	 */
-	public static Objet assignPorte(int compteur, HashMap<Vector2f,Objet> objets, TypePorte type){
+	public static Objet assignPorte(int compteur, HashMap<Vector2i,Objet> objets, TypePorte type){
 		// Initialisation de la variable interne
 		Integer idPorte = verifPorte(compteur, objets);
 
@@ -200,7 +201,7 @@ public class Niveau {
 	
 	public Niveau(String path){
 		niveau = new int[NBLIGNES][NBCOLONNES];
-		objets = new HashMap<Vector2f,Objet>();
+		objets = new HashMap<Vector2i,Objet>();
 		
 		// Chargement des textures des objets
 		Objet.texture = Affichage.loadTexture("objects.png");
