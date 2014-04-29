@@ -31,7 +31,7 @@ public class Personnage extends Entite {
 	Etat etat;
 	private ArrayList<Direction> directionArme; //Tableau contenant les indices correspondant à chaque lancée d'armes
 	
-	public Personnage(TypePersonnage perso) { // A modifier !!!
+	public Personnage(TypePersonnage perso) { 
 		// TODO Auto-generated constructor stub
 		
 		this.perso = perso;
@@ -50,7 +50,7 @@ public class Personnage extends Entite {
 	
 	
 	@Override
-	public void faireAction() { //permet de balancer une arme lorsqu'il ny a pas dde porte
+	public void faireAction() { //permet de lancer une arme lorsqu'il ny a pas de porte
 		// TODO Auto-generated method stub
 		//if((!existporte) Methode qui verifie la presence de porte 
 				{
@@ -67,7 +67,6 @@ public class Personnage extends Entite {
 	 */
 	
 	public void seDeplacer(Direction direction){ //deplace en fonction mv
-		//sprite.move(arg0)
 		//if(method=false) methode qui prend en parametre la positionSprite et la direction (retourne un boolean) verifie la presence d'une collision
 		{
 			float vitesse=5;
@@ -78,6 +77,7 @@ public class Personnage extends Entite {
 			float y = 0;
 			
 			if (tmp.equals(5000)){
+				
 				switch (direction){
 				
 				case haut :

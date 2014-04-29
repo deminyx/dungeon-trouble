@@ -10,6 +10,15 @@ public class Monstre extends Entite {
 	
 	protected int pdv;
 	
+	public Monstre(){
+		
+	}
+	
+	public Monstre(Monstre monstre){
+		this.pdv = 5000;//valeur à modifier
+		
+	}
+	
 	public int getPdv() {
 		return pdv;
 	}
