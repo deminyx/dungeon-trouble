@@ -24,12 +24,12 @@ public class Niveau {
 	public static int NBLIGNES = 100; // Constante : nombre de lignes de la map
 	public static int SIZE = 50; // Constante : taille des cases de la map
 	
-	private HashMap<Vector2i,Objet> objets; // HashMap des objets de la map
+	private static HashMap<Vector2i,Objet> objets; // HashMap des objets de la map
 	private static int[][] niveau; // Indices correspondant au niveau
 	public enum IDNiveau {map1,map2,map3};
 	private static IDNiveau idNiveau;
 	
-	public HashMap<Vector2i, Objet> getObjets() {
+	public static HashMap<Vector2i, Objet> getObjets() {
 		return objets;
 	}
 
