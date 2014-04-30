@@ -53,8 +53,10 @@ public class Generateur extends Objet {
 			break;
 		}
 	}
+
 	/**
-	 * Fonction qui vérifie si des murs sont sur les points de générations de monstres
+	 * Fonction qui vérifie si des murs sont sur les points de générations de
+	 * monstres
 	 * 
 	 * @author Maxime BELLIER
 	 * 
@@ -75,6 +77,7 @@ public class Generateur extends Objet {
 		}
 
 	}
+
 	/**
 	 * Fonction générant les monstres si cases générables libres
 	 * 
@@ -84,7 +87,8 @@ public class Generateur extends Objet {
 
 		for (Vector2i v : casesGenerables.keySet()) {
 			if ((Partie.getMonstres().containsKey(v))
-					|| (Partie.getPersonnages().containsKey(v))) {
+					|| (Partie.getPersonnages().containsKey(v))
+					|| (Niveau.getObjets().containsKey(v))) {
 				casesGenerables.put(v, false);
 			} else {
 				casesGenerables.put(v, true);
