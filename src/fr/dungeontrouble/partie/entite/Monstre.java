@@ -1,5 +1,7 @@
 package fr.dungeontrouble.partie.entite;
 
+import org.jsfml.system.Vector2i;
+
 public class Monstre extends Entite {
 	
 	//enumeration des differents monstres
@@ -10,11 +12,10 @@ public class Monstre extends Entite {
 	
 	protected int pdv;
 	
-	public Monstre(){
-		
-	}
 	
-	public Monstre(Monstre monstre){
+	
+	public Monstre(Monstre monstre,Vector2i position){
+		super(position);
 		this.pdv = 5000;//valeur à modifier
 		
 	}

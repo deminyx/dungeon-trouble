@@ -2,12 +2,15 @@ package fr.dungeontrouble.partie.entite;
 
 import java.util.ArrayList;
 
+import org.jsfml.graphics.IntRect;
 import org.jsfml.graphics.Sprite;
 import org.jsfml.graphics.Texture;
 import org.jsfml.system.Clock;
 import org.jsfml.system.Time;
+import org.jsfml.system.Vector2i;
 
 import fr.dungeontrouble.affichage.Affichage;
+import fr.dungeontrouble.partie.niveau.Niveau;
 
 public class Personnage extends Entite {
 	
@@ -20,45 +23,48 @@ public class Personnage extends Entite {
 			valkyrie
 		};
 		
-	private Texture textureArme;
+	private static Texture textureArme;
 	private ArrayList<Sprite> spriteArme;
 	private int nbCles;
 	private int score;
-	private Texture texturePersonnage;
-	private Sprite spritePersonnage;
 	TypePersonnage perso;
-	Direction direction;
-	Etat etat;
+	
 	private ArrayList<Direction> directionArme; //Tableau contenant les indices correspondant à chaque lancée d'armes
 	
-	public Personnage(TypePersonnage perso) { 
+	public Personnage(TypePersonnage perso, Vector2i position) { 
 		// TODO Auto-generated constructor stub
-		
+		super(position);
 		this.perso = perso;
 		this.nbCles = 0;
-		this.score = 5000;
-		this.texturePersonnage = Affichage.loadTexture("sprite_"+perso.name()+".png");
-		this.spritePersonnage = new Sprite(texturePersonnage);
-		this.textureArme = Affichage.loadTexture("spriteArme_"+perso.name()+".png");
+		this.score = 1000;
+		this.texture = Affichage.loadTexture("sprite_"+perso.name()+".png");
+		this.sprite = new Sprite(texture);
 		this.spriteArme = new ArrayList<Sprite>();
-		//this.spriteArme = new Sprite(textureArme);
-		this.direction = Direction.bas;
-		this.etat = Etat.arret;
+		this.sprite.setPosition(this.position.x*50,this.position.y*50);//initialise la position
+		updateSprite(this.direction, this.etat);
+		
 		
 	}
 	
-	
+	//une fonction dinitialisation
+	public static void init(){
+		textureArme = Affichage.loadTexture("spriteArmes.png");
+	}
 	
 	@Override
 	public void faireAction() { //permet de lancer une arme lorsqu'il ny a pas de porte
 		// TODO Auto-generated method stub
-		//if((!existporte) Methode qui verifie la presence de porte 
+		if(regardeUnePorte()==false) //Methode qui verifie la presence de porte 
 				{
 			
-			spriteArme.add(sprite);
+			spriteArme.add(new Sprite(textureArme,new IntRect(perso.ordinal()*50,0,50,50)));
 			directionArme.add(direction);
 		}
-		
+		//else retirerPorte()
+	}
+	
+	public void updateSprite(Direction direction, Etat etat){ //permet de faire la mise à jour du sprite actuel
+		this.sprite.setTextureRect(new IntRect(etat.ordinal()*50, direction.ordinal()*50,50,50));
 	}
 	
 	/**
@@ -66,30 +72,28 @@ public class Personnage extends Entite {
 	 * @param direction 0 = gauche, 1 = haut, 2 = droite, 3 = bas
 	 */
 	
-	public void seDeplacer(Direction direction){ //deplace en fonction mv
+	public void seDeplacer(Direction direction, Time tempsEcoule){ //deplace en fonction mv
 		//if(method=false) methode qui prend en parametre la positionSprite et la direction (retourne un boolean) verifie la presence d'une collision
 		{
 			float vitesse=5;
-			Time tmp =chrono.restart(); //permet de connaitre la vitesse
-			float tempsEcoule = tmp.asSeconds();
-			float distance= tempsEcoule * vitesse;
+			
+			float tpsEcoule = tempsEcoule.asSeconds(); //temps ecoulé our changemet d'image
+			float distance= tpsEcoule * vitesse;
 			float x = 0;
 			float y = 0;
 			
-			if (tmp.equals(5000)){
-				
-				switch (direction){
+			switch (direction){
 				
 				case haut :
 					x = 0;
 					y= -distance;
 					sprite.move(x, y);
+					//mise à jour position du sprite
 					break;
 				
 				case haut_droit :
 					x=distance;
 					y=-distance;
-					sprite.move(x, y);
 					break;
 				
 				case droit :
@@ -105,30 +109,50 @@ public class Personnage extends Entite {
 				case bas :
 					x = 0;
 					y = distance;
-					sprite.move(x, y);
+					
 					break;
 				
 				case bas_gauche:
 					x = -distance;
 					y = distance;
-					sprite.move(x, y);
+					
 					break;
 				
 				case gauche:
 					x = -distance;
 					y = 0;
-					sprite.move(x, y);
+					
 					break;
 				
 				case haut_gauche:
 					x = -distance;
 					y = -distance;
-					sprite.move(x, y);
+					
 					break;
 					
 				}
+				sprite.move(x,y);
 				
-			}
+				//updatePosition (met à jour la variable de position)
+				this.position=new Vector2i((int)this.sprite.getPosition().x/Niveau.SIZE,(int)this.sprite.getPosition().y/Niveau.SIZE);
+				if(direction !=this.direction){ //test pour voir si la direction choisie est différente de la diection actuelle
+					
+					updateSprite(direction, Etat.mouvement1);
+				}
+				
+				if(chrono.getElapsedTime().asMilliseconds()>500)
+				
+				{
+					chrono.restart(); 
+					if(this.etat==Etat.mouvement1){
+						
+						updateSprite(this.direction, Etat.mouvement2);
+					}
+
+					else
+						updateSprite(this.direction, Etat.mouvement1);
+				}
+
 			
 		}
 		
@@ -137,7 +161,15 @@ public class Personnage extends Entite {
 	/**
 	 * Méthode de vérification de sortie du jeu
 	 */
-	public void verifierSortie(){
+	public boolean verifierSortie(){//verifier si position perso = niveau.getNiveaude la pos du perso = val = 14 (correspoond à la sortie)
 		
+		if(Niveau.getNiveau()[position.y][position.x]==14 ){
+			
+			System.out.println("on est sortie weaaaaaah");
+			return true;
+		}
+		
+		else
+			return false;
 	}
 }

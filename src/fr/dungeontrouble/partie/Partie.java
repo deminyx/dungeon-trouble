@@ -39,14 +39,14 @@ public class Partie {
 			niveau = new Niveau("map1.txt");
 			// AJOUTER LE CHOIX DU PERSONNAGE
 			personnages = new HashMap<Vector2i, Personnage>();
-			personnages.put(new Vector2i(5, 5), new Personnage(p));
+			personnages.put(new Vector2i(5, 5), new Personnage(p,new Vector2i(5, 5)));
 			setMonstres(new HashMap<Vector2i, Monstre>());
 			break;
 		case map2:
 			niveau = new Niveau("map2.txt");
 			// AJOUTER LE CHOIX DU PERSONNAGE
 			personnages = new HashMap<Vector2i, Personnage>();
-			personnages.put(new Vector2i(16, 5), new Personnage(p));
+			personnages.put(new Vector2i(16, 5), new Personnage(p,new Vector2i(16, 5)));
 			setMonstres(new HashMap<Vector2i, Monstre>());
 			break;
 		case map3:
