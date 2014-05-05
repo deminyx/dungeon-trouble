@@ -3,9 +3,12 @@ package fr.dungeontrouble.partie.entite;
 import java.util.ArrayList;
 
 import org.jsfml.graphics.IntRect;
+import org.jsfml.graphics.RenderStates;
+import org.jsfml.graphics.RenderTarget;
 import org.jsfml.graphics.Sprite;
 import org.jsfml.graphics.Texture;
 import org.jsfml.system.Time;
+import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 
 import fr.dungeontrouble.affichage.Affichage;
@@ -26,6 +29,7 @@ public class Personnage extends Entite {
 	private ArrayList<Sprite> spriteArme;
 	private int nbCles;
 	private int score;
+	private int vitesse;
 	TypePersonnage perso;
 	
 	private ArrayList<Direction> directionArme; //Tableau contenant les indices correspondant à chaque lancée d'armes
@@ -36,9 +40,11 @@ public class Personnage extends Entite {
 		this.perso = perso;
 		this.nbCles = 0;
 		this.score = 1000;
+		this.vitesse = 100;
 		this.texture = Affichage.loadTexture("sprite_"+perso.name()+".png");
 		this.sprite = new Sprite(texture);
 		this.spriteArme = new ArrayList<Sprite>();
+		this.directionArme = new ArrayList<Direction>();
 		this.sprite.setPosition(this.position.x*50,this.position.y*50);//initialise la position
 		updateSprite(this.direction, this.etat);
 		
@@ -47,7 +53,7 @@ public class Personnage extends Entite {
 	
 	//une fonction dinitialisation
 	public static void init(){
-		textureArme = Affichage.loadTexture("spriteArmes.png");
+		textureArme = Affichage.loadTexture("sprite_armes.png");
 	}
 	
 	@Override
@@ -57,7 +63,39 @@ public class Personnage extends Entite {
 				{
 			
 			spriteArme.add(new Sprite(textureArme,new IntRect(perso.ordinal()*50,0,50,50)));
+			spriteArme.get(spriteArme.size()-1).setPosition(this.sprite.getPosition());
 			directionArme.add(direction);
+			
+			spriteArme.get(spriteArme.size()-1).setOrigin(new Vector2f(25,25));
+			switch(direction){
+			case bas:
+				spriteArme.get(spriteArme.size()-1).rotate(90);
+				break;
+			case bas_droit:
+				spriteArme.get(spriteArme.size()-1).rotate(45);
+				break;
+			case bas_gauche:
+				spriteArme.get(spriteArme.size()-1).rotate(135);
+				break;
+			case droit:
+				spriteArme.get(spriteArme.size()-1).rotate(0);
+				break;
+			case gauche:
+				spriteArme.get(spriteArme.size()-1).rotate(180);
+				break;
+			case haut:
+				spriteArme.get(spriteArme.size()-1).rotate(-90);
+				break;
+			case haut_droit:
+				spriteArme.get(spriteArme.size()-1).rotate(-45);
+				break;
+			case haut_gauche:
+				spriteArme.get(spriteArme.size()-1).rotate(-135);
+				break;
+			default:
+				break;
+			
+			}
 		}
 		//else retirerPorte()
 	}
@@ -74,9 +112,7 @@ public class Personnage extends Entite {
 	public void seDeplacer(Direction direction, Time tempsEcoule){ //deplace en fonction mv
 		this.direction = direction;
 		//if(method=false) methode qui prend en parametre la positionSprite et la direction (retourne un boolean) verifie la presence d'une collision
-		{
-			float vitesse=100;
-			
+		{			
 			float tpsEcoule = tempsEcoule.asSeconds(); //temps ecoulé our changemet d'image
 			float distance= tpsEcoule * vitesse;
 			float x = 0;
@@ -167,5 +203,52 @@ public class Personnage extends Entite {
 		
 		else
 			return false;
+	}
+	
+	/**
+	 * Méthode pour mettre à jour les positions des armes jetées
+	 */
+	public void bougerArmes(Time t){
+		float distance = this.vitesse*3*t.asSeconds();
+		
+		for (int i=0; i < spriteArme.size(); i++){
+			switch(directionArme.get(i)){
+			case bas:
+				spriteArme.get(i).move(new Vector2f(0,distance));
+				break;
+			case bas_droit:
+				spriteArme.get(i).move(new Vector2f(distance,distance));
+				break;
+			case bas_gauche:
+				spriteArme.get(i).move(new Vector2f(-distance,distance));
+				break;
+			case droit:
+				spriteArme.get(i).move(new Vector2f(distance,0));
+				break;
+			case gauche:
+				spriteArme.get(i).move(new Vector2f(-distance,0));
+				break;
+			case haut:
+				spriteArme.get(i).move(new Vector2f(0,-distance));
+				break;
+			case haut_droit:
+				spriteArme.get(i).move(new Vector2f(distance,-distance));
+				break;
+			case haut_gauche:
+				spriteArme.get(i).move(new Vector2f(-distance,-distance));
+				break;
+			default:
+				break;
+				
+			}
+		}
+	}
+	
+	@Override
+	public void draw(RenderTarget target, RenderStates states) {
+		target.draw(this.sprite);
+		for (Sprite s : spriteArme){
+			target.draw(s);
+		}		
 	}
 }

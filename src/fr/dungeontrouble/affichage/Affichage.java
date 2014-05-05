@@ -23,8 +23,10 @@ import org.jsfml.window.VideoMode;
 import org.jsfml.window.event.Event;
 
 import fr.dungeontrouble.etatmoteurjeu.EtatJeu;
+import fr.dungeontrouble.evenement.ActionEvent;
 import fr.dungeontrouble.evenement.MoveEvent;
 import fr.dungeontrouble.partie.Partie;
+import fr.dungeontrouble.partie.entite.Personnage;
 import fr.dungeontrouble.partie.niveau.Niveau;
 
 /**
@@ -106,6 +108,7 @@ public abstract class Affichage implements Drawable {
 			Affichage affJeu = new AffichageJeu();
 			Affichage affScores = new AffichageScore();
 			Clock clock = new Clock();
+			Personnage.init();
 			//Affichage affBestScores = new AffichageMeilleursScores();
 			//Affichage affChoix = new AffichageChoix();
 			
@@ -138,15 +141,23 @@ public abstract class Affichage implements Drawable {
 							}
 							break;
 						
+						case KEY_PRESSED:
+							ActionEvent.getAction4J();
+							break;
 						
 						default:break;
 					}
 				}
 				
 				MoveEvent.getMove4J(timeElapsed);
+				
+				
 				mousePosition = Mouse.getPosition(window); // Sauvegarde de la position de la souris
 				
 				// Mise à jour de la vue en conséquence
+				for (Personnage p : Partie.getPersonnages().values()){
+					p.bougerArmes(timeElapsed);
+				}
 				((AffichageJeu) affJeu).updateView();
 				
 				window.clear();
