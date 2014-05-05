@@ -18,8 +18,12 @@ import fr.dungeontrouble.partie.niveau.Niveau;
  */
 public class Partie {
 
-	private Niveau niveau;
+	private static Niveau niveau;
 	private static HashMap<Vector2i, Personnage> personnages;
+	private static Personnage p1;
+	private static Personnage p2;
+	private static Personnage p3;
+	private static Personnage p4;
 	private static HashMap<Vector2i, Monstre> monstres;
 
 	/**
@@ -29,8 +33,9 @@ public class Partie {
 	 *            id du niveau joué
 	 * @param p
 	 *            personnage souhaité par J1
+	 * @return 
 	 */
-	public Partie(Niveau.IDNiveau idmap, TypePersonnage p) {
+	public static void InitPartie(Niveau.IDNiveau idmap, TypePersonnage p) {
 
 		switch (idmap) {
 
@@ -40,6 +45,7 @@ public class Partie {
 			personnages = new HashMap<Vector2i, Personnage>();
 			personnages.put(new Vector2i(5, 5), new Personnage(p,new Vector2i(5, 5)));
 			setMonstres(new HashMap<Vector2i, Monstre>());
+			p1=personnages.get(new Vector2i(5, 5));
 			break;
 		case map2:
 			niveau = new Niveau("map2.txt");
@@ -47,6 +53,7 @@ public class Partie {
 			personnages = new HashMap<Vector2i, Personnage>();
 			personnages.put(new Vector2i(16, 5), new Personnage(p,new Vector2i(16, 5)));
 			setMonstres(new HashMap<Vector2i, Monstre>());
+			p1=personnages.get(new Vector2i(16, 5));
 			break;
 		case map3:
 			break;
@@ -68,8 +75,7 @@ public class Partie {
 	 * @param p4
 	 *            personnage souhaité par J4
 	 */
-	public Partie(Niveau.IDNiveau idmap, TypePersonnage p1, TypePersonnage p2,
-			TypePersonnage p3, TypePersonnage p4) {
+	public static void InitPartie(Niveau.IDNiveau idmap) {
 
 		switch (idmap) {
 
@@ -77,20 +83,28 @@ public class Partie {
 			niveau = new Niveau("map1.txt");
 			// AJOUTER LE CHOIX DU PERSONNAGE
 			personnages = new HashMap<Vector2i, Personnage>();
-			personnages.put(new Vector2i(5, 5), new Personnage(p1,new Vector2i(5, 5)));
-			personnages.put(new Vector2i(5, 6), new Personnage(p2,new Vector2i(5, 6)));
-			personnages.put(new Vector2i(6, 5), new Personnage(p3,new Vector2i(6, 5)));
-			personnages.put(new Vector2i(6, 6), new Personnage(p4,new Vector2i(6, 6)));
+			personnages.put(new Vector2i(5, 5), new Personnage(TypePersonnage.guerrier,new Vector2i(5, 5)));
+			p1=personnages.get(new Vector2i(5, 5));
+			personnages.put(new Vector2i(5, 6), new Personnage(TypePersonnage.elfe,new Vector2i(5, 6)));
+			p2=personnages.get(new Vector2i(5, 6));
+			personnages.put(new Vector2i(6, 5), new Personnage(TypePersonnage.magicien,new Vector2i(6, 5)));
+			p3=personnages.get(new Vector2i(6, 5));
+			personnages.put(new Vector2i(6, 6), new Personnage(TypePersonnage.valkyrie,new Vector2i(6, 6)));
+			p4=personnages.get(new Vector2i(6, 6));
 			setMonstres(new HashMap<Vector2i, Monstre>());
 			break;
 		case map2:
 			niveau = new Niveau("map2.txt");
 			// AJOUTER LE CHOIX DU PERSONNAGE
 			personnages = new HashMap<Vector2i, Personnage>();
-			personnages.put(new Vector2i(16, 5), new Personnage(p1,new Vector2i(16, 5)));
-			personnages.put(new Vector2i(16, 6), new Personnage(p2,new Vector2i(16, 6)));
-			personnages.put(new Vector2i(16, 7), new Personnage(p3,new Vector2i(16, 7)));
-			personnages.put(new Vector2i(16, 8), new Personnage(p4,new Vector2i(16, 8)));
+			personnages.put(new Vector2i(16, 5), new Personnage(TypePersonnage.guerrier,new Vector2i(16, 5)));
+			p1=personnages.get(new Vector2i(16, 5));
+			personnages.put(new Vector2i(16, 6), new Personnage(TypePersonnage.elfe,new Vector2i(16, 6)));
+			p2=personnages.get(new Vector2i(16, 6));
+			personnages.put(new Vector2i(16, 7), new Personnage(TypePersonnage.magicien,new Vector2i(16, 7)));
+			p3=personnages.get(new Vector2i(16, 7));
+			personnages.put(new Vector2i(16, 8), new Personnage(TypePersonnage.valkyrie,new Vector2i(16, 8)));
+			p4=personnages.get(new Vector2i(16, 8));
 			setMonstres(new HashMap<Vector2i, Monstre>());
 			break;
 		case map3:
@@ -109,4 +123,38 @@ public class Partie {
 	public static HashMap<Vector2i, Personnage> getPersonnages() {
 		return personnages;
 	}
+
+	public static Personnage getP1() {
+		return p1;
+	}
+
+	public static void setP1(Personnage p1) {
+		Partie.p1 = p1;
+	}
+
+	public static Personnage getP2() {
+		return p2;
+	}
+
+	public static void setP2(Personnage p2) {
+		Partie.p2 = p2;
+	}
+
+	public static Personnage getP3() {
+		return p3;
+	}
+
+	public static void setP3(Personnage p3) {
+		Partie.p3 = p3;
+	}
+
+	public static Personnage getP4() {
+		return p4;
+	}
+
+	public static void setP4(Personnage p4) {
+		Partie.p4 = p4;
+	}
+
+
 }
