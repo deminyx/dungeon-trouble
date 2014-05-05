@@ -75,7 +75,7 @@ public class Personnage extends Entite {
 		this.direction = direction;
 		//if(method=false) methode qui prend en parametre la positionSprite et la direction (retourne un boolean) verifie la presence d'une collision
 		{
-			float vitesse=5;
+			float vitesse=100;
 			
 			float tpsEcoule = tempsEcoule.asSeconds(); //temps ecoulé our changemet d'image
 			float distance= tpsEcoule * vitesse;

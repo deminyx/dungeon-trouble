@@ -13,6 +13,8 @@ import org.jsfml.graphics.RenderWindow;
 import org.jsfml.graphics.Sprite;
 import org.jsfml.graphics.Texture;
 import org.jsfml.graphics.View;
+import org.jsfml.system.Clock;
+import org.jsfml.system.Time;
 import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 import org.jsfml.window.Mouse;
@@ -20,6 +22,9 @@ import org.jsfml.window.Mouse.Button;
 import org.jsfml.window.VideoMode;
 import org.jsfml.window.event.Event;
 
+import fr.dungeontrouble.etatmoteurjeu.EtatJeu;
+import fr.dungeontrouble.evenement.MoveEvent;
+import fr.dungeontrouble.partie.Partie;
 import fr.dungeontrouble.partie.niveau.Niveau;
 
 /**
@@ -97,12 +102,12 @@ public abstract class Affichage implements Drawable {
 
 		public static void main(String[] args) {
 			
-			Niveau niveau = new Niveau("map2.txt");
-			Affichage affJeu = new AffichageJeu(niveau);
-			
+			EtatJeu etat = new EtatJeu(4);
+			Affichage affJeu = new AffichageJeu();
 			Affichage affScores = new AffichageScore();
+			Clock clock = new Clock();
 			//Affichage affBestScores = new AffichageMeilleursScores();
-			Affichage affChoix = new AffichageChoix();
+			//Affichage affChoix = new AffichageChoix();
 			
 			System.out.println("Chargement terminé !");
 				
@@ -110,21 +115,10 @@ public abstract class Affichage implements Drawable {
 			window.setVerticalSyncEnabled(true); // Activation de la synchronisation verticale
 			window.setKeyRepeatEnabled(false); // Désactivation de la répétition des touches			
 			Vector2i mousePosition = Mouse.getPosition(window); // A effacer après les tests
-		
-			Texture text = loadTexture("sprite_guerrier.png");
-			ArrayList<Sprite> persos = new ArrayList<Sprite>(4);
-			persos.add(new Sprite());
-			persos.add(new Sprite());
-			persos.add(new Sprite());
-			persos.add(new Sprite());
-			
-			for (Sprite p : persos){
-				p.setTexture(text);
-				p.setTextureRect(new IntRect(0,0,50,50));
-				p.setPosition(new Vector2f((float)Math.random()*200, (float)Math.random()*200));
-			}
 			
 			while (window.isOpen()) {			
+				Time timeElapsed = clock.restart();
+				
 				for(Event event : window.pollEvents()) {
 					switch(event.type)
 					{
@@ -144,36 +138,21 @@ public abstract class Affichage implements Drawable {
 							}
 							break;
 						
-						case KEY_PRESSED:
-							persos.get(0).move(-10,0);
-							break;
+						
 						default:break;
 					}
 				}
 				
+				MoveEvent.getMove4J(timeElapsed);
 				mousePosition = Mouse.getPosition(window); // Sauvegarde de la position de la souris
 				
-				// Mouvement des mariiiiios
-				for (Sprite p : persos){
-					p.setTextureRect(new IntRect(
-							(int)(1+(Math.random()*2))*50,
-							100,50,50));
-					p.move((int)(Math.random() * 3),(int)(Math.random() * 3));
-				}
-				
 				// Mise à jour de la vue en conséquence
-				//((AffichageJeu) affJeu).updateView(persos);
+				((AffichageJeu) affJeu).updateView();
 				
 				window.clear();
 				
 				window.draw(affJeu); // Dessin de la map
-				
-				for (Sprite p : persos){
-					window.draw(p);
-				}
-				
-				window.draw(affScores); // Dessin des scores
-				
+				window.draw(affScores); // Dessin des scores				
 				//window.draw(affChoix);
 
 				window.display();

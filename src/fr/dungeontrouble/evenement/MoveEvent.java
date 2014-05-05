@@ -12,7 +12,7 @@ public class MoveEvent extends Evenement {
 
 	
 	
-	public void getMove1J(Time t) {
+	public static void getMove1J(Time t) {
 		if (Keyboard.isKeyPressed(Key.UP)) {
 			if (Keyboard.isKeyPressed(Key.RIGHT)) {
 				Partie.getP1().seDeplacer(Direction.haut_droit, t);
@@ -37,7 +37,7 @@ public class MoveEvent extends Evenement {
 		}
 	}
 
-	public void getMove4J(Time t) {
+	public static void getMove4J(Time t) {
 		// JOUEUR  1 : Guerrier
 		/*
 		 * Z = HAUT

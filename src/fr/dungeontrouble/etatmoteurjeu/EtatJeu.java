@@ -10,7 +10,6 @@ import fr.dungeontrouble.partie.niveau.Niveau;
 public class EtatJeu {
 
 	private Clock clock;
-	private Partie partie;
 	private Evenement event;
 	
 	 public EtatJeu(int nbJoueurs) {

@@ -13,6 +13,8 @@ import org.jsfml.graphics.VertexArray;
 import org.jsfml.graphics.View;
 import org.jsfml.system.Vector2f;
 
+import fr.dungeontrouble.partie.Partie;
+import fr.dungeontrouble.partie.entite.Personnage;
 import fr.dungeontrouble.partie.niveau.Niveau;
 import fr.dungeontrouble.partie.niveau.Objet;
 
@@ -56,16 +58,16 @@ public class AffichageJeu extends Affichage {
 	}
 	
 	// Fonction test pour mise à jour de la place de la vue
-	public void updateView(ArrayList<Sprite> persos){
+	public void updateView(){
 		float x=0, y=0;
 		
-		for (Sprite p : persos){
-			x += p.getPosition().x;
-			y += p.getPosition().y;
+		for (Personnage p : Partie.getPersonnages().values()){
+			x += p.getSprite().getPosition().x;
+			y += p.getSprite().getPosition().y;
 		}
 		
-		x /= persos.size();
-		y /= persos.size();
+		x /= Partie.getPersonnages().values().size();
+		y /= Partie.getPersonnages().values().size();
 		
 		this.vue.setCenter(x, y);
 	}
@@ -75,9 +77,9 @@ public class AffichageJeu extends Affichage {
 	 * Constructeur par dèfaut de l'affichage du jeu
 	 * @param niv Le niveau courant
 	 */
-	public AffichageJeu(Niveau niv){
-		this.niveau = niv;
-		this.levelArray = loadVertex(niv.getNiveau());
+	@SuppressWarnings("static-access")
+	public AffichageJeu(){
+		this.levelArray = loadVertex(Partie.getNiveau().getNiveau());
 		this.terrain = loadTexture("terrain.png");
 		
 		this.vue = new View(new FloatRect(0, 0, 11*Niveau.SIZE, HAUTEUR)); // On dèfinit la taille de la vue
@@ -87,13 +89,17 @@ public class AffichageJeu extends Affichage {
 	/**
 	 * Fonction d'affichage du jeu
 	 */
+	@SuppressWarnings("static-access")
 	@Override
 	public void draw(RenderTarget target, RenderStates states) {
 		target.setView(vue); // On applique la vue
 		RenderStates newStates = new RenderStates(this.terrain); // On crèe un nouvel état de rendu prenant en compte les textures
 		target.draw(this.levelArray, newStates); // On affiche le tableau de vertex associé au nouvel état de rendu
-		for (Objet s : this.niveau.getObjets().values()){
+		for (Objet s : Partie.getNiveau().getObjets().values()){
 			target.draw(s);
+		}
+		for (Personnage p : Partie.getPersonnages().values()){
+			target.draw(p);
 		}
 	}	
 }

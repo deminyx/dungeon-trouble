@@ -156,5 +156,13 @@ public class Partie {
 		Partie.p4 = p4;
 	}
 
+	public static Niveau getNiveau() {
+		return niveau;
+	}
+
+	public static void setNiveau(Niveau niveau) {
+		Partie.niveau = niveau;
+	}
+
 
 }
