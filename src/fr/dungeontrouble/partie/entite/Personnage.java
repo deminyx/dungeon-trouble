@@ -72,6 +72,7 @@ public class Personnage extends Entite {
 	 */
 	
 	public void seDeplacer(Direction direction, Time tempsEcoule){ //deplace en fonction mv
+		this.direction = direction;
 		//if(method=false) methode qui prend en parametre la positionSprite et la direction (retourne un boolean) verifie la presence d'une collision
 		{
 			float vitesse=5;
@@ -133,25 +134,22 @@ public class Personnage extends Entite {
 				
 				//updatePosition (met à jour la variable de position)
 				this.position=new Vector2i((int)this.sprite.getPosition().x/Niveau.SIZE,(int)this.sprite.getPosition().y/Niveau.SIZE);
+				
 				if(direction !=this.direction){ //test pour voir si la direction choisie est différente de la diection actuelle
-					
 					updateSprite(direction, Etat.mouvement1);
+					chrono.restart();
 				}
 				
-				if(chrono.getElapsedTime().asMilliseconds()>500)
-				
+				else if(chrono.getElapsedTime().asMilliseconds()>200)
 				{
 					chrono.restart(); 
-					if(this.etat==Etat.mouvement1){
-						
-						updateSprite(this.direction, Etat.mouvement2);
-					}
-
+					if(this.etat==Etat.mouvement1)
+						this.etat = Etat.mouvement2;
 					else
-						updateSprite(this.direction, Etat.mouvement1);
-				}
-
-			
+						this.etat = Etat.mouvement1;
+					
+					updateSprite(this.direction, this.etat);
+				}			
 		}
 		
 	}

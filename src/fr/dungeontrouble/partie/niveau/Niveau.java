@@ -86,10 +86,10 @@ public class Niveau {
 								obj = assignPorte(compteur, objets, TypePorte.MorceauPorteHorizontal);								
 								break;
 							case 12:
-								obj = new Generateur(TypeMonstre.Fantome);								
+								obj = new Generateur(TypeMonstre.Fantome, new Vector2i(compteur / NBCOLONNES, compteur % NBCOLONNES));								
 								break;
 							case 13:
-								obj = new Generateur(TypeMonstre.Gobelin);
+								obj = new Generateur(TypeMonstre.Gobelin, new Vector2i(compteur / NBCOLONNES, compteur % NBCOLONNES));
 								break;
 							case 20:
 								obj = assignPorte(compteur, objets, TypePorte.BoutPorteDroite);	

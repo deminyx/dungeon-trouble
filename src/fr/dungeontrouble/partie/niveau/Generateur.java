@@ -28,7 +28,10 @@ public class Generateur extends Objet {
 	 * @param t
 	 *            type : enum TypeGenerateur{ fantome, gobelin };
 	 */
-	public Generateur(TypeMonstre t) {
+	public Generateur(TypeMonstre t, Vector2i pos) {
+		
+		this.position = pos;
+		
 		casesGenerables = new HashMap<Vector2i, Boolean>();
 		casesGenerables.put(new Vector2i(this.position.x - 1, this.position.y),
 				false);
@@ -41,6 +44,7 @@ public class Generateur extends Objet {
 		VerifCaseMursGenerateurs();
 
 		this.t = t;
+		
 		switch (t) {
 		case Fantome:
 			this.sprite = new Sprite(texture, new IntRect(0, 0, 50, 50));
