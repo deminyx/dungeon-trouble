@@ -2,15 +2,12 @@ package fr.dungeontrouble.affichage;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 
 import org.jsfml.graphics.Drawable;
 import org.jsfml.graphics.Font;
-import org.jsfml.graphics.IntRect;
 import org.jsfml.graphics.RenderStates;
 import org.jsfml.graphics.RenderTarget;
 import org.jsfml.graphics.RenderWindow;
-import org.jsfml.graphics.Sprite;
 import org.jsfml.graphics.Texture;
 import org.jsfml.graphics.View;
 import org.jsfml.system.Clock;
@@ -27,7 +24,6 @@ import fr.dungeontrouble.evenement.ActionEvent;
 import fr.dungeontrouble.evenement.MoveEvent;
 import fr.dungeontrouble.partie.Partie;
 import fr.dungeontrouble.partie.entite.Personnage;
-import fr.dungeontrouble.partie.niveau.Niveau;
 
 /**
  * Classe principale d'affichage héritée par les différents affichages

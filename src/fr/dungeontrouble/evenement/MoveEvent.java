@@ -6,7 +6,6 @@ import org.jsfml.window.Keyboard.Key;
 
 import fr.dungeontrouble.partie.Partie;
 import fr.dungeontrouble.partie.entite.Entite.Direction;
-import fr.dungeontrouble.partie.entite.Personnage;
 
 public class MoveEvent extends Evenement {
 

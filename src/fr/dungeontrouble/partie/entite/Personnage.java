@@ -40,7 +40,7 @@ public class Personnage extends Entite {
 		this.perso = perso;
 		this.nbCles = 0;
 		this.score = 1000;
-		this.vitesse = 100;
+		this.vitesse = 150;
 		this.texture = Affichage.loadTexture("sprite_"+perso.name()+".png");
 		this.sprite = new Sprite(texture);
 		this.spriteArme = new ArrayList<Sprite>();
@@ -63,7 +63,7 @@ public class Personnage extends Entite {
 				{
 			
 			spriteArme.add(new Sprite(textureArme,new IntRect(perso.ordinal()*50,0,50,50)));
-			spriteArme.get(spriteArme.size()-1).setPosition(this.sprite.getPosition());
+			spriteArme.get(spriteArme.size()-1).setPosition(this.sprite.getPosition().x + 25, this.sprite.getPosition().y + 25);
 			directionArme.add(direction);
 			
 			spriteArme.get(spriteArme.size()-1).setOrigin(new Vector2f(25,25));
@@ -176,7 +176,7 @@ public class Personnage extends Entite {
 					chrono.restart();
 				}
 				
-				else if(chrono.getElapsedTime().asMilliseconds()>200)
+				else if(chrono.getElapsedTime().asMilliseconds()>150)
 				{
 					chrono.restart(); 
 					if(this.etat==Etat.mouvement1)

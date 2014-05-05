@@ -1,12 +1,9 @@
 package fr.dungeontrouble.affichage;
 
-import java.util.ArrayList;
-
 import org.jsfml.graphics.FloatRect;
 import org.jsfml.graphics.PrimitiveType;
 import org.jsfml.graphics.RenderStates;
 import org.jsfml.graphics.RenderTarget;
-import org.jsfml.graphics.Sprite;
 import org.jsfml.graphics.Texture;
 import org.jsfml.graphics.Vertex;
 import org.jsfml.graphics.VertexArray;
@@ -27,7 +24,6 @@ public class AffichageJeu extends Affichage {
 	
 	private VertexArray levelArray; // VertexArray du terrain
 	private Texture terrain; // Texture du terrain
-	private Niveau niveau; // Référence vers le niveau actuel
 	
 	/**
 	 * Fonction permettant d'initialiser les vertex pour l'affichage du niveau
@@ -59,6 +55,7 @@ public class AffichageJeu extends Affichage {
 	
 	// Fonction test pour mise à jour de la place de la vue
 	public void updateView(){
+		
 		float x=0, y=0;
 		
 		for (Personnage p : Partie.getPersonnages().values()){
@@ -69,7 +66,25 @@ public class AffichageJeu extends Affichage {
 		x /= Partie.getPersonnages().values().size();
 		y /= Partie.getPersonnages().values().size();
 		
-		this.vue.setCenter(x, y);
+		// Si la vue est proche du bord gauche
+		if (x < 275){
+			x = 275;
+		}
+		// Sinon si elle est proche du bord droit
+		else if (x > Niveau.NBCOLONNES*50 - 275){
+			x = Niveau.NBCOLONNES*50 - 275;
+		}
+		
+		// Si la vue est proche du bord haut
+		if (y < 300){
+			y = 300;
+		}
+		// Sinon si la vue est proche du bord bas
+		else if (y > Niveau.NBLIGNES*50 - 300){
+			y = Niveau.NBLIGNES*50 - 300;
+		}
+	
+		this.vue.setCenter(x, y);	
 	}
 	
 	
