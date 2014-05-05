@@ -3,6 +3,7 @@ package fr.dungeontrouble.evenement;
 import org.jsfml.graphics.RenderWindow;
 import org.jsfml.system.Vector2i;
 import org.jsfml.window.event.Event;
+
 import fr.dungeontrouble.partie.entite.Personnage.TypePersonnage;
 /**
  * Classe servant au choix du personnage [Jeu 1-Joueur]

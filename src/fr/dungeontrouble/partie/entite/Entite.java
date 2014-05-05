@@ -6,8 +6,6 @@ import org.jsfml.graphics.RenderTarget;
 import org.jsfml.graphics.Sprite;
 import org.jsfml.graphics.Texture;
 import org.jsfml.system.Clock;
-import org.jsfml.system.Time;
-import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 
 import fr.dungeontrouble.partie.niveau.Niveau;

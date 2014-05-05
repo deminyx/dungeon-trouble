@@ -2,7 +2,6 @@ package fr.dungeontrouble.partie;
 
 import java.util.HashMap;
 
-import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 
 import fr.dungeontrouble.partie.entite.Monstre;

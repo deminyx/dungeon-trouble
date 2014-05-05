@@ -3,8 +3,6 @@ package fr.dungeontrouble.evenement;
 import org.jsfml.graphics.RenderWindow;
 import org.jsfml.window.event.Event;
 
-import fr.dungeontrouble.partie.entite.Personnage.TypePersonnage;
-
 /**
  * Classe traitant l'arrêt du programme en cas de QuitEvent
  * 

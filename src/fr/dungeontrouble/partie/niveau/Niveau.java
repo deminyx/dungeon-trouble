@@ -8,7 +8,7 @@ import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 
 import fr.dungeontrouble.affichage.Affichage;
-import fr.dungeontrouble.partie.niveau.Generateur.TypeGenerateur;
+import fr.dungeontrouble.partie.entite.Monstre.TypeMonstre;
 import fr.dungeontrouble.partie.niveau.Porte.TypePorte;
 
 /**
@@ -86,10 +86,10 @@ public class Niveau {
 								obj = assignPorte(compteur, objets, TypePorte.MorceauPorteHorizontal);								
 								break;
 							case 12:
-								obj = new Generateur(TypeGenerateur.fantome);								
+								obj = new Generateur(TypeMonstre.Fantome);								
 								break;
 							case 13:
-								obj = new Generateur(TypeGenerateur.gobelin);
+								obj = new Generateur(TypeMonstre.Gobelin);
 								break;
 							case 20:
 								obj = assignPorte(compteur, objets, TypePorte.BoutPorteDroite);	

@@ -2,7 +2,6 @@ package fr.dungeontrouble.etatmoteurjeu;
 
 import org.jsfml.system.Clock;
 
-import fr.dungeontrouble.affichage.Affichage;
 import fr.dungeontrouble.evenement.Evenement;
 import fr.dungeontrouble.partie.Partie;
 

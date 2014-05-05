@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.jsfml.graphics.IntRect;
 import org.jsfml.graphics.Sprite;
 import org.jsfml.graphics.Texture;
-import org.jsfml.system.Clock;
 import org.jsfml.system.Time;
 import org.jsfml.system.Vector2i;
 
@@ -87,7 +86,6 @@ public class Personnage extends Entite {
 				case haut :
 					x = 0;
 					y= -distance;
-					sprite.move(x, y);
 					//mise à jour position du sprite
 					break;
 				
@@ -165,7 +163,7 @@ public class Personnage extends Entite {
 		
 		if(Niveau.getNiveau()[position.y][position.x]==14 ){
 			
-			System.out.println("on est sortie weaaaaaah");
+			System.out.println("on est sorti weaaaaaah");
 			return true;
 		}
 		

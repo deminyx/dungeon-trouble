@@ -8,6 +8,7 @@ import org.jsfml.system.Vector2i;
 
 import fr.dungeontrouble.partie.Partie;
 import fr.dungeontrouble.partie.entite.Monstre;
+import fr.dungeontrouble.partie.entite.Monstre.TypeMonstre;
 
 /**
  * Classe associée aux générateurs de monstres du jeu.
@@ -17,11 +18,7 @@ import fr.dungeontrouble.partie.entite.Monstre;
  */
 public class Generateur extends Objet {
 
-	enum TypeGenerateur {
-		fantome, gobelin
-	};
-
-	TypeGenerateur t;
+	TypeMonstre t;
 	HashMap<Vector2i, Boolean> casesGenerables;
 
 	/**
@@ -31,7 +28,7 @@ public class Generateur extends Objet {
 	 * @param t
 	 *            type : enum TypeGenerateur{ fantome, gobelin };
 	 */
-	public Generateur(TypeGenerateur t) {
+	public Generateur(TypeMonstre t) {
 		casesGenerables = new HashMap<Vector2i, Boolean>();
 		casesGenerables.put(new Vector2i(this.position.x - 1, this.position.y),
 				false);
@@ -45,10 +42,10 @@ public class Generateur extends Objet {
 
 		this.t = t;
 		switch (t) {
-		case fantome:
+		case Fantome:
 			this.sprite = new Sprite(texture, new IntRect(0, 0, 50, 50));
 			break;
-		case gobelin:
+		case Gobelin:
 			this.sprite = new Sprite(texture, new IntRect(50, 0, 50, 50));
 			break;
 		}
@@ -96,7 +93,7 @@ public class Generateur extends Objet {
 		}
 		for (Vector2i v : casesGenerables.keySet()) {
 			if (casesGenerables.get(v) == true) {
-				Partie.getMonstres().put(v, new Monstre());
+				Partie.getMonstres().put(v, new Monstre(TypeMonstre.Fantome,v));
 				casesGenerables.put(v, false);
 			}
 		}

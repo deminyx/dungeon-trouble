@@ -9,14 +9,16 @@ public class Monstre extends Entite {
 		Fantome,
 		Gobelin
 	};
+	private TypeMonstre type;
 	
 	protected int pdv;
 	
 	
 	
-	public Monstre(Monstre monstre,Vector2i position){
+	public Monstre(TypeMonstre monstre,Vector2i position){
 		super(position);
 		this.pdv = 5000;//valeur à modifier
+		type=monstre;
 		
 	}
 	
