@@ -1,16 +1,23 @@
 package fr.dungeontrouble.partie.entite;
 
 import org.jsfml.graphics.Drawable;
+import org.jsfml.graphics.IntRect;
 import org.jsfml.graphics.RenderStates;
 import org.jsfml.graphics.RenderTarget;
 import org.jsfml.graphics.Sprite;
 import org.jsfml.graphics.Texture;
 import org.jsfml.system.Clock;
+import org.jsfml.system.Time;
 import org.jsfml.system.Vector2i;
 
 import fr.dungeontrouble.partie.niveau.Niveau;
 import fr.dungeontrouble.partie.niveau.Porte;
 
+/**
+ * 
+ * @author Awa CAMARA
+ *
+ */
 public abstract class Entite implements Drawable {
 
 	protected Vector2i position;
@@ -18,6 +25,7 @@ public abstract class Entite implements Drawable {
 	protected Texture texture;
 	protected int attaque;
 	protected final Clock chrono;
+	protected int vitesse;
 	Direction direction;
 	Etat etat;
 
@@ -33,6 +41,7 @@ public abstract class Entite implements Drawable {
 		this.direction = Direction.bas;
 		this.etat = Etat.arret;
 		this.position = position;
+		this.vitesse = 150;
 	}
 	
 	
@@ -48,6 +57,90 @@ public abstract class Entite implements Drawable {
 		haut_gauche,
 		
 	};
+	
+	public void updateSprite(Direction direction, Etat etat){ //permet de faire la mise à jour du sprite actuel
+		this.sprite.setTextureRect(new IntRect(etat.ordinal()*50, direction.ordinal()*50,50,50));
+	}
+	
+	public void seDeplacer(Direction direction, Time tempsEcoule){ //deplace en fonction mv
+		this.direction = direction;
+		//if(method=false) methode qui prend en parametre la positionSprite et la direction (retourne un boolean) verifie la presence d'une collision
+		{			
+			float tpsEcoule = tempsEcoule.asSeconds(); //temps ecoulé our changemet d'image
+			float distance= tpsEcoule * vitesse;
+			float x = 0;
+			float y = 0;
+			
+			switch (direction){
+				
+				case haut :
+					x = 0;
+					y= -distance;
+					break;
+				
+				case haut_droit :
+					x=distance;
+					y=-distance;
+					break;
+				
+				case droit :
+					x = distance;
+					y = 0;
+					break;
+					
+				case bas_droit :
+					x = distance; 
+					y = distance;
+					break;
+					
+				case bas :
+					x = 0;
+					y = distance;
+					
+					break;
+				
+				case bas_gauche:
+					x = -distance;
+					y = distance;
+					
+					break;
+				
+				case gauche:
+					x = -distance;
+					y = 0;
+					
+					break;
+				
+				case haut_gauche:
+					x = -distance;
+					y = -distance;
+					
+					break;
+					
+				}
+				sprite.move(x,y); //mise à jour position du sprite
+				
+				//updatePosition (met à jour la variable de position)
+				this.position=new Vector2i((int)this.sprite.getPosition().x/Niveau.SIZE,(int)this.sprite.getPosition().y/Niveau.SIZE);
+				
+				if(direction !=this.direction){ //test pour voir si la direction choisie est différente de la diection actuelle
+					updateSprite(direction, Etat.mouvement1);
+					chrono.restart();
+				}
+				
+				else if(chrono.getElapsedTime().asMilliseconds()>150)
+				{
+					chrono.restart(); 
+					if(this.etat==Etat.mouvement1)
+						this.etat = Etat.mouvement2;
+					else
+						this.etat = Etat.mouvement1;
+					
+					updateSprite(this.direction, this.etat);
+				}			
+		}
+		
+	}
 	
 	public boolean regardeUnePorte(){
         Vector2i pos = this.position;
@@ -123,6 +216,36 @@ public abstract class Entite implements Drawable {
 
 	public void setTexture(Texture texture) {
 		this.texture = texture;
+	}
+	
+	
+
+	public int getVitesse() {
+		return vitesse;
+	}
+
+	public void setVitesse(int vitesse) {
+		this.vitesse = vitesse;
+	}
+
+	public Direction getDirection() {
+		return direction;
+	}
+
+	public void setDirection(Direction direction) {
+		this.direction = direction;
+	}
+
+	public Etat getEtat() {
+		return etat;
+	}
+
+	public void setEtat(Etat etat) {
+		this.etat = etat;
+	}
+
+	public Clock getChrono() {
+		return chrono;
 	}
 
 	/**
