@@ -13,6 +13,11 @@ import org.jsfml.system.Vector2i;
 
 import fr.dungeontrouble.affichage.Affichage;
 import fr.dungeontrouble.partie.niveau.Niveau;
+/**
+ * 
+ * @author Awa CAMARA
+ * permet de gerer les personnages (position, score,deplacement..)
+ */
 
 public class Personnage extends Entite {
 	
@@ -29,7 +34,7 @@ public class Personnage extends Entite {
 	private ArrayList<Sprite> spriteArme;
 	private int nbCles;
 	private int score;
-	private int vitesse;
+	
 	TypePersonnage perso;
 	
 	private ArrayList<Direction> directionArme; //Tableau contenant les indices correspondant à chaque lancée d'armes
@@ -40,7 +45,6 @@ public class Personnage extends Entite {
 		this.perso = perso;
 		this.nbCles = 0;
 		this.score = 1000;
-		this.vitesse = 150;
 		this.texture = Affichage.loadTexture("sprite_"+perso.name()+".png");
 		this.sprite = new Sprite(texture);
 		this.spriteArme = new ArrayList<Sprite>();
@@ -100,95 +104,14 @@ public class Personnage extends Entite {
 		//else retirerPorte()
 	}
 	
-	public void updateSprite(Direction direction, Etat etat){ //permet de faire la mise à jour du sprite actuel
-		this.sprite.setTextureRect(new IntRect(etat.ordinal()*50, direction.ordinal()*50,50,50));
-	}
+	
 	
 	/**
 	 * Méthode de déplacement d'un personnage selon une direction
 	 * @param direction 0 = gauche, 1 = haut, 2 = droite, 3 = bas
 	 */
 	
-	public void seDeplacer(Direction direction, Time tempsEcoule){ //deplace en fonction mv
-		this.direction = direction;
-		//if(method=false) methode qui prend en parametre la positionSprite et la direction (retourne un boolean) verifie la presence d'une collision
-		{			
-			float tpsEcoule = tempsEcoule.asSeconds(); //temps ecoulé our changemet d'image
-			float distance= tpsEcoule * vitesse;
-			float x = 0;
-			float y = 0;
-			
-			switch (direction){
-				
-				case haut :
-					x = 0;
-					y= -distance;
-					//mise à jour position du sprite
-					break;
-				
-				case haut_droit :
-					x=distance;
-					y=-distance;
-					break;
-				
-				case droit :
-					x = distance;
-					y = 0;
-					break;
-					
-				case bas_droit :
-					x = distance; 
-					y = distance;
-					break;
-					
-				case bas :
-					x = 0;
-					y = distance;
-					
-					break;
-				
-				case bas_gauche:
-					x = -distance;
-					y = distance;
-					
-					break;
-				
-				case gauche:
-					x = -distance;
-					y = 0;
-					
-					break;
-				
-				case haut_gauche:
-					x = -distance;
-					y = -distance;
-					
-					break;
-					
-				}
-				sprite.move(x,y);
-				
-				//updatePosition (met à jour la variable de position)
-				this.position=new Vector2i((int)this.sprite.getPosition().x/Niveau.SIZE,(int)this.sprite.getPosition().y/Niveau.SIZE);
-				
-				if(direction !=this.direction){ //test pour voir si la direction choisie est différente de la diection actuelle
-					updateSprite(direction, Etat.mouvement1);
-					chrono.restart();
-				}
-				
-				else if(chrono.getElapsedTime().asMilliseconds()>150)
-				{
-					chrono.restart(); 
-					if(this.etat==Etat.mouvement1)
-						this.etat = Etat.mouvement2;
-					else
-						this.etat = Etat.mouvement1;
-					
-					updateSprite(this.direction, this.etat);
-				}			
-		}
-		
-	}
+	
 	
 	/**
 	 * Méthode de vérification de sortie du jeu
@@ -251,4 +174,62 @@ public class Personnage extends Entite {
 			target.draw(s);
 		}		
 	}
+
+	public static Texture getTextureArme() {
+		return textureArme;
+	}
+
+	public static void setTextureArme(Texture textureArme) {
+		Personnage.textureArme = textureArme;
+	}
+
+	public ArrayList<Sprite> getSpriteArme() {
+		return spriteArme;
+	}
+
+	public void setSpriteArme(ArrayList<Sprite> spriteArme) {
+		this.spriteArme = spriteArme;
+	}
+
+	public int getNbCles() {
+		return nbCles;
+	}
+
+	public void setNbCles(int nbCles) {
+		this.nbCles = nbCles;
+	}
+
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
+	}
+
+	public int getVitesse() {
+		return vitesse;
+	}
+
+	public void setVitesse(int vitesse) {
+		this.vitesse = vitesse;
+	}
+
+	public TypePersonnage getPerso() {
+		return perso;
+	}
+
+	public void setPerso(TypePersonnage perso) {
+		this.perso = perso;
+	}
+
+	public ArrayList<Direction> getDirectionArme() {
+		return directionArme;
+	}
+
+	public void setDirectionArme(ArrayList<Direction> directionArme) {
+		this.directionArme = directionArme;
+	}
+	
+	
 }
