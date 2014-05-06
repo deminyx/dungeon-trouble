@@ -6,6 +6,7 @@ import org.jsfml.window.Keyboard.Key;
 
 import fr.dungeontrouble.partie.Partie;
 import fr.dungeontrouble.partie.entite.Entite.Direction;
+import fr.dungeontrouble.partie.entite.Entite.Etat;
 
 public class MoveEvent extends Evenement {
 
@@ -33,6 +34,8 @@ public class MoveEvent extends Evenement {
 			Partie.getP1().seDeplacer(Direction.droit, t);
 		} else if (Keyboard.isKeyPressed(Key.LEFT)) {
 			Partie.getP1().seDeplacer(Direction.gauche, t);
+		} else {
+			Partie.getP1().updateSprite(Partie.getP1().getDirection(), Etat.arret);
 		}
 	}
 
@@ -64,6 +67,8 @@ public class MoveEvent extends Evenement {
 			Partie.getP1().seDeplacer(Direction.droit, t);
 		} else if (Keyboard.isKeyPressed(Key.Q)) {
 			Partie.getP1().seDeplacer(Direction.gauche, t);
+		} else {
+			Partie.getP1().updateSprite(Partie.getP1().getDirection(), Etat.arret);
 		}
 		// JOUEUR 2 :Elfe
 				/*
@@ -92,6 +97,8 @@ public class MoveEvent extends Evenement {
 					Partie.getP2().seDeplacer(Direction.droit, t);
 				} else if (Keyboard.isKeyPressed(Key.NUMPAD4)) {
 					Partie.getP2().seDeplacer(Direction.gauche, t);
+				} else {
+					Partie.getP2().updateSprite(Partie.getP2().getDirection(), Etat.arret);
 				}
 		
 			// JOUEUR 3 : Magicien
@@ -123,6 +130,8 @@ public class MoveEvent extends Evenement {
 				Partie.getP3().seDeplacer(Direction.droit, t);
 			} else if (Keyboard.isKeyPressed(Key.K)) {
 				Partie.getP3().seDeplacer(Direction.gauche, t);
+			} else {
+				Partie.getP3().updateSprite(Partie.getP3().getDirection(), Etat.arret);
 			}
 			
 			
@@ -154,8 +163,8 @@ public class MoveEvent extends Evenement {
 			Partie.getP4().seDeplacer(Direction.droit, t);
 		} else if (Keyboard.isKeyPressed(Key.F)) {
 			Partie.getP4().seDeplacer(Direction.gauche, t);
+		} else {
+			Partie.getP4().updateSprite(Partie.getP4().getDirection(), Etat.arret);
 		}
-
-		
 	}
 }

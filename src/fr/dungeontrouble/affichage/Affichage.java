@@ -14,7 +14,9 @@ import org.jsfml.system.Clock;
 import org.jsfml.system.Time;
 import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
+import org.jsfml.window.Keyboard;
 import org.jsfml.window.Mouse;
+import org.jsfml.window.Keyboard.Key;
 import org.jsfml.window.Mouse.Button;
 import org.jsfml.window.VideoMode;
 import org.jsfml.window.event.Event;
@@ -100,9 +102,9 @@ public abstract class Affichage implements Drawable {
 
 		public static void main(String[] args) {
 			
-			EtatJeu etat = new EtatJeu(4);
+			EtatJeu etat = new EtatJeu(1);
 			Affichage affJeu = new AffichageJeu();
-			Affichage affScores = new AffichageScore();
+			Affichage affScores = new AffichageScore(1);
 			Clock clock = new Clock();
 			Personnage.init();
 			//Affichage affBestScores = new AffichageMeilleursScores();
@@ -138,14 +140,19 @@ public abstract class Affichage implements Drawable {
 							break;
 						
 						case KEY_PRESSED:
-							ActionEvent.getAction4J();
+							ActionEvent.getAction1J();
+//							if (Keyboard.isKeyPressed(Key.B))
+//								Partie.getP1().setNbCles(Partie.getP1().getNbCles()+1);
+//							if (Keyboard.isKeyPressed(Key.A))
+//								Partie.getP1().setScore(Partie.getP1().getScore()-1);
+							
 							break;
 						
 						default:break;
 					}
 				}
 				
-				MoveEvent.getMove4J(timeElapsed);
+				MoveEvent.getMove1J(timeElapsed);
 				
 				
 				mousePosition = Mouse.getPosition(window); // Sauvegarde de la position de la souris
@@ -155,6 +162,9 @@ public abstract class Affichage implements Drawable {
 					p.bougerArmes(timeElapsed);
 				}
 				((AffichageJeu) affJeu).updateView();
+				
+				// A appeler après chaque modif de score et de cles plutôt que tout le temps
+				//((AffichageScore) affScores).updateScores();
 				
 				window.clear();
 				

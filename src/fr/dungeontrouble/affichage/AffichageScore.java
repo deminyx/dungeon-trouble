@@ -16,6 +16,10 @@ import org.jsfml.graphics.View;
 import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 
+import fr.dungeontrouble.partie.Partie;
+import fr.dungeontrouble.partie.entite.Personnage;
+import fr.dungeontrouble.partie.entite.Personnage.TypePersonnage;
+
 /**
  * Classe concernant l'affichage des scores pendant une partie
  * @author Valentin PORCHET
@@ -39,8 +43,14 @@ public class AffichageScore extends Affichage {
 	/**
 	 * Constructeur par défaut de l'affichage des scores
 	 */
-	public AffichageScore(){
-		background = loadTexture("bgscore.png");
+	public AffichageScore(int nbJoueurs){
+		
+		if (nbJoueurs == 1){
+			background = loadTexture("bgscore_"+Partie.getP1().getPerso().name()+".png");
+		} else {
+			background = loadTexture("bgscore.png");
+		}
+		
 		sprite = new Sprite(background);
 		sprite.setPosition(0, 0);
 		scoresFont = loadFont("Finalnew.ttf");
@@ -48,23 +58,46 @@ public class AffichageScore extends Affichage {
 		// Initialisation des textes des scores
 		scoresText = new HashMap<String, Text>();
 		
-		scoresText.put("Guerrier", new Text("999",scoresFont,22));
-		scoresText.put("Magicien", new Text("1000",scoresFont,22));
-		scoresText.put("Valkyrie", new Text("1000",scoresFont,22));
-		scoresText.put("Elfe", new Text("1000",scoresFont,22));
-		
-		// On applique à chaque score une position et une couleur
-		scoresText.get("Guerrier").setPosition(new Vector2f(190,300));
-		scoresText.get("Guerrier").setColor(Color.RED);
-		
-		scoresText.get("Magicien").setPosition(new Vector2f(190,341));
-		scoresText.get("Magicien").setColor(Color.YELLOW);
-		
-		scoresText.get("Valkyrie").setPosition(new Vector2f(190,382));
-		scoresText.get("Valkyrie").setColor(Color.CYAN);
-		
-		scoresText.get("Elfe").setPosition(new Vector2f(190,423));
-		scoresText.get("Elfe").setColor(Color.GREEN);
+		if (nbJoueurs == 1){
+			String characterName = Partie.getP1().getPerso().name();
+			scoresText.put(characterName, new Text("1000",scoresFont,22));
+			scoresText.get(characterName).setPosition(new Vector2f(190,300));
+			switch(Partie.getP1().getPerso()){
+				case elfe:
+					scoresText.get(characterName).setColor(Color.GREEN);
+					break;
+				case guerrier:
+					scoresText.get(characterName).setColor(Color.RED);
+					break;
+				case magicien:
+					scoresText.get(characterName).setColor(Color.YELLOW);
+					break;
+				case valkyrie:
+					scoresText.get(characterName).setColor(Color.CYAN);
+					break;
+				default:
+					break;
+			}
+		} else {
+			scoresText.put("guerrier", new Text("1000",scoresFont,22));
+			scoresText.put("magicien", new Text("1000",scoresFont,22));
+			scoresText.put("valkyrie", new Text("1000",scoresFont,22));
+			scoresText.put("elfe", new Text("1000",scoresFont,22));
+			
+			// On applique à chaque score une position et une couleur
+			scoresText.get("guerrier").setPosition(new Vector2f(190,300));
+			scoresText.get("guerrier").setColor(Color.RED);
+			
+			scoresText.get("magicien").setPosition(new Vector2f(190,341));
+			scoresText.get("magicien").setColor(Color.YELLOW);
+			
+			scoresText.get("valkyrie").setPosition(new Vector2f(190,382));
+			scoresText.get("valkyrie").setColor(Color.CYAN);
+			
+			scoresText.get("elfe").setPosition(new Vector2f(190,423));
+			scoresText.get("elfe").setColor(Color.GREEN);
+		}
+			
 		
 		// Initialisation des sprites contenant des clefs
 		clef = loadTexture("clef.png");
@@ -72,22 +105,43 @@ public class AffichageScore extends Affichage {
 		
 		clefJoueur = new HashMap<String, Sprite>();
 		
-		clefJoueur.put("Guerrier", new Sprite(clef));
-		clefJoueur.get("Guerrier").setPosition(new Vector2f(5,300));
-		clefJoueur.get("Guerrier").setTextureRect(new IntRect(0,0,4*12,25)); // 4 clefs
-		
-		clefJoueur.put("Magicien", new Sprite(clef));
-		clefJoueur.get("Magicien").setPosition(new Vector2f(5,340));
-		
-		clefJoueur.put("Valkyrie", new Sprite(clef));
-		clefJoueur.get("Valkyrie").setPosition(new Vector2f(5,380));
-		clefJoueur.get("Valkyrie").setTextureRect(new IntRect(0,0,0,0)); // 0 clef
-		
-		clefJoueur.put("Elfe", new Sprite(clef));
-		clefJoueur.get("Elfe").setPosition(new Vector2f(5,420));		
+		if (nbJoueurs == 1){
+			String characterName = Partie.getP1().getPerso().name();
+			clefJoueur.put(characterName, new Sprite(clef));
+			clefJoueur.get(characterName).setPosition(new Vector2f(5,300));
+			clefJoueur.get(characterName).setTextureRect(new IntRect(0,0,0,0)); // 0 clef
+		} else {
+			clefJoueur.put("guerrier", new Sprite(clef));
+			clefJoueur.get("guerrier").setPosition(new Vector2f(5,300));
+			clefJoueur.get("guerrier").setTextureRect(new IntRect(0,0,0,0)); // 0 clef
+			
+			clefJoueur.put("magicien", new Sprite(clef));
+			clefJoueur.get("magicien").setPosition(new Vector2f(5,340));
+			clefJoueur.get("magicien").setTextureRect(new IntRect(0,0,0,0)); // 0 clef
+			
+			clefJoueur.put("valkyrie", new Sprite(clef));
+			clefJoueur.get("valkyrie").setPosition(new Vector2f(5,380));
+			clefJoueur.get("valkyrie").setTextureRect(new IntRect(0,0,0,0)); // 0 clef
+			
+			clefJoueur.put("elfe", new Sprite(clef));
+			clefJoueur.get("elfe").setPosition(new Vector2f(5,420));		
+			clefJoueur.get("elfe").setTextureRect(new IntRect(0,0,0,0)); // 0 clef
+		}
 		
 		vue = new View(new FloatRect(0, 0, TAILLE.x, TAILLE.y)); // On définit la taille de la vue
 		vue.setViewport(new FloatRect(11/16.f, 0, 5/16.f, 1)); // On définit la zone où elle va s'afficher (coordonnées puis taille entre 0 et 1)
+	}
+	
+	/**
+	 * Méthode de mise à jour de l'affichage des scores et des clefs
+	 */
+	public void updateScores(){
+		for (Personnage p : Partie.getPersonnages().values()){
+			// Mise à jour des images de clefs
+			clefJoueur.get(p.getPerso().name()).setTextureRect(new IntRect(0,0,12*p.getNbCles(),25));
+			// Mise à jour des scores
+			scoresText.get(p.getPerso().name()).setString(p.getScore()+"");
+		}
 	}
 	
 	@Override
