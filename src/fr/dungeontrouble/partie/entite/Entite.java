@@ -10,6 +10,7 @@ import org.jsfml.system.Clock;
 import org.jsfml.system.Time;
 import org.jsfml.system.Vector2i;
 
+import fr.dungeontrouble.partie.Partie;
 import fr.dungeontrouble.partie.niveau.Niveau;
 import fr.dungeontrouble.partie.niveau.Porte;
 
@@ -62,9 +63,45 @@ public abstract class Entite implements Drawable {
 		this.sprite.setTextureRect(new IntRect(etat.ordinal()*50, direction.ordinal()*50,50,50));
 	}
 	
+	public boolean collision(){
+		boolean returnValue = false;
+		
+		switch(direction){
+		case bas:
+			returnValue = Niveau.getNiveau()[this.position.y+1][this.position.x] > 0;
+			break;
+		case bas_droit:
+			returnValue = Niveau.getNiveau()[this.position.y+1][this.position.x+1] > 0;
+			break;
+		case bas_gauche:
+			returnValue = Niveau.getNiveau()[this.position.y+1][this.position.x-1] > 0;
+			break;
+		case droit:
+			returnValue = Niveau.getNiveau()[this.position.y][this.position.x+1] > 0;
+			break;
+		case gauche:
+			returnValue = Niveau.getNiveau()[this.position.y][this.position.x-1] > 0;
+			break;
+		case haut:
+			returnValue = Niveau.getNiveau()[this.position.y-1][this.position.x] > 0;
+			break;
+		case haut_droit:
+			returnValue = Niveau.getNiveau()[this.position.y-1][this.position.x+1] > 0;
+			break;
+		case haut_gauche:
+			returnValue = Niveau.getNiveau()[this.position.y-1][this.position.x-1] > 0;
+			break;
+		default:
+			break;
+			
+		}
+		
+		return returnValue;
+	}
+	
 	public void seDeplacer(Direction direction, Time tempsEcoule){ //deplace en fonction mv
 		this.direction = direction;
-		//if(method=false) methode qui prend en parametre la positionSprite et la direction (retourne un boolean) verifie la presence d'une collision
+		if (!collision()) // S'il y a collision, alors on ne fait pas le déplacement
 		{			
 			float tpsEcoule = tempsEcoule.asSeconds(); //temps ecoulé our changemet d'image
 			float distance= tpsEcoule * vitesse;
