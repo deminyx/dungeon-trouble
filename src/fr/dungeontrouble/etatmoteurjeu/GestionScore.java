@@ -6,15 +6,20 @@ import java.util.Scanner;
 
 import fr.dungeontrouble.evenement.Evenement;
 
-public class MoteurJeu {
+/**
+ * Classe gérant le palmarès des scores en fin de partie
+ * @author Maxime BELLIER
+ * @author Valentin PORCHET
+ */
+public class GestionScore {
 
-	private static int nbJoueurs;
 	private LinkedHashMap<String, Integer> meilleursScores;
-
 	
-	
-	public MoteurJeu(int nbJoueurs,String path) {
-		this.nbJoueurs=nbJoueurs;
+	/**
+	 * Constructeur de GestionScore
+	 * @param path String: chemin vers le fichier .txt contenant les scores.
+	 */
+	public GestionScore(String path) {
 		this.meilleursScores=recupererScores("highscores.txt");
 	}
 	
@@ -55,18 +60,6 @@ public class MoteurJeu {
 		return highscores;
 	}
 	
-	
-	public static int getNbJoueurs() {
-		return nbJoueurs;
-	}
-
-	public void setNbJoueurs(int nbJoueurs) {
-		this.nbJoueurs = nbJoueurs;
-	}
-
-	public void analyserEvent(Evenement e) {
-	}
-
 	public void changerPalmares() {
 	}
 
