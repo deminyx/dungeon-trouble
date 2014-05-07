@@ -10,6 +10,12 @@ import org.jsfml.graphics.Sprite;
  */
 public class Cle extends Objet {
 
+	/**
+	 * Constructeur liés aux "clés" initialisant le sprite des celles-çi.
+	 * @author Maxime BELLIER
+	 *
+	 */
+	
 	public Cle() {
 		this.sprite = new Sprite (texture,new IntRect(50,50,50,50));
 	}

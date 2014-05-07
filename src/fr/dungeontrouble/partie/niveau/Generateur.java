@@ -18,8 +18,8 @@ import fr.dungeontrouble.partie.entite.Monstre.TypeMonstre;
  */
 public class Generateur extends Objet {
 
-	TypeMonstre t;
-	HashMap<Vector2i, Boolean> casesGenerables;
+	TypeMonstre t;	// Type de Générateur (fantôme)
+	HashMap<Vector2i, Boolean> casesGenerables; // HashMap des cases où l'on peut y creer des monstres
 	public static int nbMonstres=0;
 
 	/**
@@ -30,10 +30,10 @@ public class Generateur extends Objet {
 	 *            type : enum TypeGenerateur{ fantome, gobelin };
 	 */
 	public Generateur(TypeMonstre t, Vector2i pos) {
-		this.position = pos;
+		this.position = pos;								// Initialisation de la position
 		
-		casesGenerables = new HashMap<Vector2i, Boolean>();
-		casesGenerables.put(new Vector2i(this.position.x - 1, this.position.y),
+		casesGenerables = new HashMap<Vector2i, Boolean>(); 
+		casesGenerables.put(new Vector2i(this.position.x - 1, this.position.y), // Ajout des 4 cases entourant le générateur
 				false);
 		casesGenerables.put(new Vector2i(this.position.x + 1, this.position.y),
 				false);
@@ -41,11 +41,12 @@ public class Generateur extends Objet {
 				false);
 		casesGenerables.put(new Vector2i(this.position.x, this.position.y + 1),
 				false);
-		VerifCaseMursGenerateurs();
+		VerifCaseMursGenerateurs(); // Appel à la méthodes pour la supression 
+									// éventuelle de certaines cases générables
 
 		this.t = t;
 		
-		switch (t) {
+		switch (t) {		// Ajout du sprite selon le type de générateur
 		case Fantome:
 			this.sprite = new Sprite(texture, new IntRect(0, 0, 50, 50));
 			break;
@@ -85,12 +86,12 @@ public class Generateur extends Objet {
 	 * @author Maxime BELLIER
 	 */
 	public void genererMonstres() {
-		nbMonstres++;
-		for (Vector2i v : casesGenerables.keySet()) {
+		nbMonstres++;					//Ajout d'un monstre
+		for (Vector2i v : casesGenerables.keySet()) { // Pour toutes cases générables ....
 			if ((Partie.getMonstres().containsKey(v))
 					|| (Partie.getPersonnages().containsKey(v))
 					|| (Niveau.getObjets().containsKey(v))) {
-				casesGenerables.put(v, false);
+				casesGenerables.put(v, false);		// On vérifie que l'on a encore rien géneré dessus.
 			} else {
 				casesGenerables.put(v, true);
 			}
@@ -98,7 +99,7 @@ public class Generateur extends Objet {
 		for (Vector2i v : casesGenerables.keySet()) {
 			if (casesGenerables.get(v) == true) {
 				Monstre m = new Monstre(t,v);
-				Partie.getMonstres().put(m.getPosition(), m);
+				Partie.getMonstres().put(m.getPosition(), m); // ... puis on ajoute une nouvelle instanciation de monstres.
 				casesGenerables.put(v, false);
 			}
 		}

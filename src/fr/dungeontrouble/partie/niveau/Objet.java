@@ -43,6 +43,10 @@ public abstract class Objet implements Drawable {
 		Objet.texture = texture;
 	}
 
+	/**
+	 * Méthode héritée de la JSFML pour l'affichage des images "Objets"
+	 * @see Drawable
+	 */
 	@Override
 	public void draw(RenderTarget target, RenderStates states) {
 		target.draw(this.sprite);

@@ -20,12 +20,12 @@ import fr.dungeontrouble.partie.niveau.Porte.TypePorte;
  */
 
 public class Niveau {
-	public static int NBCOLONNES = 100; // Constante : nombre de colonnes de la										// map
-	public static int NBLIGNES = 100; // Constante : nombre de lignes de la map
-	public static int SIZE = 50; // Constante : taille des cases de la map
+	public static int NBCOLONNES = 100; 	// Constante : nombre de colonnes de la  map
+	public static int NBLIGNES = 100; 		// Constante : nombre de lignes de la map
+	public static int SIZE = 50; 			// Constante : taille des cases de la map
 	
 	private static HashMap<Vector2i,Objet> objets; // HashMap des objets de la map
-	private static int[][] niveau; // Indices correspondant au niveau
+	private static int[][] niveau; 			// Indices correspondant au niveau
 	public enum IDNiveau {map1,map2,map3};
 	private static IDNiveau idNiveau;
 	
@@ -197,7 +197,11 @@ public class Niveau {
 			return new Porte(type, idPorte);
 		}
 	}
-	
+	/**
+	 * Constructeur de la classe Niveau
+	 * @param path
+	 * 				Chemin vers le fichier .txt de la map voulue.
+	 */
 	public Niveau(String path){
 		niveau = new int[NBLIGNES][NBCOLONNES];
 		objets = new HashMap<Vector2i,Objet>();
