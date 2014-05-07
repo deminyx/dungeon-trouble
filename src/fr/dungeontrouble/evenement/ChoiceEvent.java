@@ -20,14 +20,20 @@ public class ChoiceEvent extends Evenement {
 	public static TypePersonnage getChoice(RenderWindow window) {
 		for(Event e : window.pollEvents()) {
 		    switch(e.type) {
-		        case MOUSE_BUTTON_PRESSED :
+		        case MOUSE_BUTTON_PRESSED : 								// Si on clique...
 		            
 		        	Vector2i positionClic = e.asMouseEvent().position;
-		        	
+		        															// .. on récupère la position de ce clic...
 		        	if ((positionClic.x<800)&&(positionClic.y<600)){
 		            			
 		        		// Analyse du perso cliqué
-		           
+		        		/*
+		        		 * Coin supérieur gauche : Guerrier
+		        		 * Coin supérieur droit : Elfe
+		        		 * Coin inférieur gauche : Valkyrie
+		        		 * Coin inférieur droit : Magicien 
+		        		 */
+		        		
 		        		if ((positionClic.x<400)&&(positionClic.y<300)){
 		        			return(TypePersonnage.guerrier);
 		            	}		            

@@ -18,6 +18,7 @@ public class QuitEvent extends Evenement {
 	 *            Fenêtre courante
 	 * 
 	 */
+	
 	public static void getChoice(RenderWindow window) {
 		for (Event e : window.pollEvents()) {
 			switch (e.type) {

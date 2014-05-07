@@ -8,11 +8,28 @@ import fr.dungeontrouble.partie.Partie;
 import fr.dungeontrouble.partie.entite.Entite.Direction;
 import fr.dungeontrouble.partie.entite.Entite.Etat;
 
+/**
+ * Classe contenant la méthode de capture des touches "Action" des Personnages
+ * 
+ * @author Maxime BELLIER
+ * 
+ */
 public class MoveEvent extends Evenement {
 
 	
-	
+	/**
+	 *  Fonction de la capture des touches de déplacements pour le jeu en mode 1 joueur.
+	 * @param t
+	 * 			Temps : Temps écoulé entre deux déplacements  pour un calcul de vitesse
+	 */
 	public static void getMove1J(Time t) {
+		/*
+		 * J1 :
+		 * HAUT : UP
+		 * GAUCHE : LEFT
+		 * DROITE : RIGHT
+		 * BAS : DOWN
+		 */
 		if (Keyboard.isKeyPressed(Key.UP)) {
 			if (Keyboard.isKeyPressed(Key.RIGHT)) {
 				Partie.getP1().seDeplacer(Direction.haut_droit, t);
@@ -35,10 +52,15 @@ public class MoveEvent extends Evenement {
 		} else if (Keyboard.isKeyPressed(Key.LEFT)) {
 			Partie.getP1().seDeplacer(Direction.gauche, t);
 		} else {
+			// Si aucun déplacement
 			Partie.getP1().updateSprite(Partie.getP1().getDirection(), Etat.arret);
 		}
 	}
-
+	/**
+	 *  Fonction de la capture des touches de déplacements pour le jeu en mode 4 joueurs.
+	 * @param t
+	 * 			Temps : Temps écoulé entre deux déplacements  pour un calcul de vitesse
+	 */
 	public static void getMove4J(Time t) {
 		// JOUEUR  1 : Guerrier
 		/*
@@ -70,7 +92,7 @@ public class MoveEvent extends Evenement {
 		} else {
 			Partie.getP1().updateSprite(Partie.getP1().getDirection(), Etat.arret);
 		}
-		// JOUEUR 2 :Elfe
+		// JOUEUR 2 : Elfe
 				/*
 				 * NUMPAD8 = HAUT
 				 * NUMPAD6 = DROITE
