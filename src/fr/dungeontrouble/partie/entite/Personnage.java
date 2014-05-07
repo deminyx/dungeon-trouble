@@ -183,7 +183,6 @@ public class Personnage extends Entite {
 					Objet o = i.next().getValue();
 					if (o.toString().equals("Porte")){
 						if(((Porte)o).getIdPorteCourante() == idASupprimer){
-							System.out.println("a");
 							i.remove();
 						}								
 					}
@@ -198,8 +197,6 @@ public class Personnage extends Entite {
 	public boolean verifierSortie(){//verifier si position perso = niveau.getNiveaude la pos du perso = val = 14 (correspoond à la sortie)
 		
 		if(Niveau.getNiveau()[position.y][position.x]==14 ){
-			
-			System.out.println("on est sorti weaaaaaah");
 			return true;
 		}
 		

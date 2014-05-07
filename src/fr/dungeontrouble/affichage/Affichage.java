@@ -114,7 +114,7 @@ public abstract class Affichage implements Drawable {
 			//Affichage affBestScores = new AffichageMeilleursScores();
 			//Affichage affChoix = new AffichageChoix();
 			
-			System.out.println("Chargement terminé !");
+			//System.out.println("Chargement terminé !");
 				
 			RenderWindow window = new RenderWindow(new VideoMode(Affichage.LARGEUR,Affichage.HAUTEUR), "Dungeon Trouble",RenderWindow.CLOSE | RenderWindow.TITLEBAR);
 			window.setVerticalSyncEnabled(true); // Activation de la synchronisation verticale
@@ -145,10 +145,10 @@ public abstract class Affichage implements Drawable {
 						
 						case KEY_PRESSED:
 							ActionEvent.getAction1J();
-							if (Keyboard.isKeyPressed(Key.B))
-								Partie.getP1().setNbCles(Partie.getP1().getNbCles()+1);
-							if (Keyboard.isKeyPressed(Key.A))
-								Partie.getP1().setScore(Partie.getP1().getScore()-1);
+//							if (Keyboard.isKeyPressed(Key.B))
+//								Partie.getP1().setNbCles(Partie.getP1().getNbCles()+1);
+//							if (Keyboard.isKeyPressed(Key.A))
+//								Partie.getP1().setScore(Partie.getP1().getScore()-1);
 							
 							break;
 						
@@ -170,9 +170,7 @@ public abstract class Affichage implements Drawable {
 							((Generateur)o).genererMonstres();
 						}
 					}
-				}		
-				
-				mousePosition = Mouse.getPosition(window); // Sauvegarde de la position de la souris
+				}	
 				
 				// Mise à jour de la vue en conséquence
 				for (Personnage p : Partie.getPersonnages().values()){
@@ -182,14 +180,11 @@ public abstract class Affichage implements Drawable {
 				((AffichageJeu) affJeu).updateView();
 				
 				// A appeler après chaque modif de score et de cles plutôt que tout le temps
-				((AffichageScore) affScores).updateScores();
-				//System.out.println(Partie.getP1().getPosition());
-				//System.out.println(Partie.getP1().getSprite().getPosition());
+				((AffichageScore) affScores).updateScores();				
 				window.clear();
 				
 				window.draw(affJeu); // Dessin de la map
 				window.draw(affScores); // Dessin des scores				
-				//window.draw(affChoix);
 
 				window.display();
 			}

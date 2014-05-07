@@ -22,13 +22,11 @@ public class Porte extends Objet {
 		compteurId++;		
 		idPorteCourante = compteurId;		
 		this.sprite = new Sprite(texture, new IntRect(100+(50*(t.ordinal()%3)),(50*(t.ordinal()/3)), 50, 50));
-		System.out.println("Porte NOUVELLE " + idPorteCourante);
 	}
 	
 	public Porte(TypePorte t, int id){
 		idPorteCourante = id;
 		this.sprite = new Sprite(texture, new IntRect(100+(50*(t.ordinal()%3)),(50*(t.ordinal()/3)), 50, 50));
-		System.out.println("Porte SUITE " + idPorteCourante);
 	}
 
 	public int getIdPorteCourante() {

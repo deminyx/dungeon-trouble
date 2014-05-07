@@ -26,31 +26,20 @@ public class ChoiceEvent extends Evenement {
 		        	
 		        	if ((positionClic.x<800)&&(positionClic.y<600)){
 		            			
-		        		System.out.println("Analyse du perso cliqué !");
-		           
+		        		// Analyse du perso cliqué
 		           
 		        		if ((positionClic.x<400)&&(positionClic.y<300)){
-		        			System.out.println("Choix Guerrier");
 		        			return(TypePersonnage.guerrier);
-		        			
-		            			}
-		            
+		            	}		            
 		        		if ((positionClic.x>400)&&(positionClic.y<300)){
-		        			System.out.println("Choix Elfe");
 		        			return(TypePersonnage.elfe);
-		        			
-		            			}
-
+		        		}
 		        		if ((positionClic.x<400)&&(positionClic.y>300)){
-		        			System.out.println("Choix Valkyrie");
 		        			return(TypePersonnage.valkyrie);
-		        			
-		            			}
+		        		}
 		        		if ((positionClic.x>400)&&(positionClic.y>300)){
-		        			System.out.println("Choix Magicien !");
 		        			return(TypePersonnage.magicien);
-		        			
-		            			}
+		        		}
 		        	}
 		            break;
 			
