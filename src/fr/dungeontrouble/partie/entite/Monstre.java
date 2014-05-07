@@ -32,7 +32,7 @@ public class Monstre extends Entite {
 	public Monstre(TypeMonstre monstre,Vector2i position){
 		super(position);
 		type=monstre;
-		
+		//en fonction du type de personnage les points de vie varient
 		switch(type){
 		case Fantome:
 			this.pdv = 1;
@@ -81,13 +81,18 @@ public class Monstre extends Entite {
 	}
 	
 	
+	/**
+	 * permet au monstre de se déplacer vers une cible précise(un personnage)
+	 * @param tempsEcoule
+	 */
 	public void seDeplacerVersCible(Time tempsEcoule){
 		
-		int diffAbs=this.getPosition().x-cible.getPosition().x;
-		int diffOrd=this.getPosition().y-cible.getPosition().y;
+		 
+		int diffAbs=this.getPosition().x-cible.getPosition().x;//difference entre les abscisses du monstre et celui du personnage
+		int diffOrd=this.getPosition().y-cible.getPosition().y;//difference entre les ordonnées du monstre et celui du personnage
 		
 		
-		if(diffAbs==0){
+		if(diffAbs==0){//en fonction de cette difference le monstre se déplacera vers sa cible 
 			if(diffOrd<0){ //va vers le haut ou le bas
 				this.seDeplacer(Direction.bas, tempsEcoule);
 			}

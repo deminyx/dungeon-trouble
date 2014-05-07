@@ -17,7 +17,7 @@ import fr.dungeontrouble.partie.niveau.Objet;
 import fr.dungeontrouble.partie.niveau.Porte;
 
 /**
- * 
+ * Classe Entite dont hérite Monstre et Personnage
  * @author Awa CAMARA
  *
  */
@@ -32,23 +32,14 @@ public abstract class Entite implements Drawable {
 	Direction direction;
 	Etat etat;
 
+	//Enum pour determiner les differents états des personnages lors d'un mouvement
 	public enum Etat{
 		arret,
 		mouvement1,
 		mouvement2
 	};
 	
-	
-	public Entite(Vector2i position){
-		this.chrono = new Clock();
-		this.direction = Direction.bas;
-		this.etat = Etat.arret;
-		this.position = position;
-		this.vitesse = 150;
-	}
-	
-	
-	
+	//Enumeration pour déterminer les différentes dirction que peut suivre un personnage
 	public enum Direction{
 		haut,
 		haut_droit,
@@ -61,9 +52,38 @@ public abstract class Entite implements Drawable {
 		
 	};
 	
-	public void updateSprite(Direction direction, Etat etat){ //permet de faire la mise à jour du sprite actuel
+	/**
+	 * Constructeur de Entite
+	 * @param position
+	 */
+	public Entite(Vector2i position){
+		this.chrono = new Clock();
+		this.direction = Direction.bas;
+		this.etat = Etat.arret;
+		this.position = position;
+		this.vitesse = 150;
+	}
+	
+	
+	/**
+	 * permet de faire la mise à jour du sprite actuel
+	 * @param direction : direction qu'une entité va prendre
+	 * @param etat: etat de l'entité
+	 */
+	public void updateSprite(Direction direction, Etat etat){ 
 		this.sprite.setTextureRect(new IntRect(etat.ordinal()*50, direction.ordinal()*50,50,50));
 	}
+	
+	/**
+	 * Permet de determiner la presence d'un obstacle 
+	 * selon la direction on calcule la position à laquelle le personnage devrais être et on verifie s'il y a un objet là où
+	 * il se dirige
+	 * si c'est une clé incrémetation du nombre de clés du personnage
+	 * si c'est un trésor incrementation du score du personnage
+	 * si c'est un mur déclenchement de la collision 
+	 * @param timeElapsed
+	 * @return
+	 */
 	
 	public boolean collision(Time timeElapsed){
 		float move = this.vitesse * timeElapsed.asSeconds();		
@@ -104,7 +124,7 @@ public abstract class Entite implements Drawable {
 	
 		boolean returnValue = Niveau.getNiveau()[nextCoord.y][nextCoord.x] > 0;
 		
-		// Vérification si un objet sur la case cible
+		// Vérification si un objet est sur la case cible
 		if (Niveau.getObjets().containsKey(nextCoord)){
 			switch (Niveau.getObjets().get(nextCoord).getClass().getSimpleName()){
 				case "Tresor":
@@ -134,18 +154,21 @@ public abstract class Entite implements Drawable {
 					break;
 			}
 		}
-//		else if (Partie.getMonstres().containsKey(nextCoord)){
-//			returnValue = true;
-//		}
-		
+	
 		return returnValue;
 	}
+	
 
-	public void seDeplacer(Direction direction, Time tempsEcoule){ //deplace en fonction mv
+	/**
+	 * Permet à l'entité de se déplacer en focntion de la direction et du tems ecoulé
+	 * @param direction
+	 * @param tempsEcoule
+	 */
+	public void seDeplacer(Direction direction, Time tempsEcoule){ 
 		this.direction = direction;
 		if (!collision(tempsEcoule)) // S'il y a collision, alors on ne fait pas le déplacement
 		{			
-			float tpsEcoule = tempsEcoule.asSeconds(); //temps ecoulé our changemet d'image
+			float tpsEcoule = tempsEcoule.asSeconds(); //temps ecoulé pour chargement d'image
 			float distance= tpsEcoule * vitesse;
 			float x = 0;
 			float y = 0;
@@ -223,11 +246,15 @@ public abstract class Entite implements Drawable {
 		
 	}
 	
+	/**
+	 * permet de verifier la présence d'une porte
+	 * @return
+	 */
 	public boolean regardeUnePorte(){
         Vector2i pos = this.position;
         boolean value = false;
        
-        switch(this.direction){
+        switch(this.direction){ //verification en fonction de la direction
                 case bas:
                         value = (Niveau.getObjets().containsKey(new Vector2i(pos.x, pos.y+1))&&
                                         (Niveau.getObjets().get(new Vector2i(pos.x, pos.y+1)) instanceof Porte));
@@ -330,7 +357,7 @@ public abstract class Entite implements Drawable {
 	}
 
 	/**
-	 * Méthode abstraite permettant à l'entité de faire son action
+	 * Méthode abstraite permettant à l'entité de faire une action
 	 */
 	public abstract void faireAction();
 

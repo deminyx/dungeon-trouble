@@ -44,6 +44,11 @@ public class Personnage extends Entite {
 	
 	private ArrayList<Direction> directionArme; //Tableau contenant les indices correspondant à chaque lancée d'armes
 	
+	/**
+	 * Constructeur de personnage
+	 * @param perso: un personnage
+	 * @param position
+	 */
 	public Personnage(TypePersonnage perso, Vector2i position) { 
 		// TODO Auto-generated constructor stub
 		super(position);
@@ -65,8 +70,12 @@ public class Personnage extends Entite {
 		textureArme = Affichage.loadTexture("sprite_armes.png");
 	}
 	
+	
+	/**
+	 * permet de lancer une arme lorsqu'il n'y a pas de porte
+	 */
 	@Override
-	public void faireAction() { //permet de lancer une arme lorsqu'il ny a pas de porte
+	public void faireAction() { 
 		// TODO Auto-generated method stub
 		if(!regardeUnePorte()) //Methode qui verifie la presence de porte 
 		{			
@@ -75,7 +84,7 @@ public class Personnage extends Entite {
 			directionArme.add(direction);
 			
 			spriteArme.get(spriteArme.size()-1).setOrigin(new Vector2f(25,25));
-			switch(direction){
+			switch(direction){//lancement de l'arme en fonction de la direction
 			case bas:
 				spriteArme.get(spriteArme.size()-1).rotate(90);
 				break;
@@ -142,6 +151,12 @@ public class Personnage extends Entite {
 	}
 	
 
+	/**
+	 * Methode de verification de collision entre une arme et un monstre
+	 * @param m
+	 * @param arme
+	 * @return
+	 */
 	public boolean collisionMonstre(Monstre m, Sprite arme){
 		Vector2f armePos = new Vector2f(arme.getPosition().x + 25, arme.getPosition().y + 25);
 		return (armePos.x >= m.getSprite().getPosition().x &&
@@ -220,6 +235,7 @@ public class Personnage extends Entite {
 	
 	/**
 	 * Méthode pour mettre à jour les positions des armes jetées
+	 * 
 	 */
 	public void bougerArmes(Time t, Vector2f centre){
 		float distance = this.vitesse*3*t.asSeconds();
@@ -263,6 +279,9 @@ public class Personnage extends Entite {
 		}
 	}
 	
+	/**methode d'affichage du personnage
+	 *
+	 */
 	@Override
 	public void draw(RenderTarget target, RenderStates states) {
 		target.draw(this.sprite);
