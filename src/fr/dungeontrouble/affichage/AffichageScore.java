@@ -18,7 +18,6 @@ import org.jsfml.system.Vector2i;
 
 import fr.dungeontrouble.partie.Partie;
 import fr.dungeontrouble.partie.entite.Personnage;
-import fr.dungeontrouble.partie.entite.Personnage.TypePersonnage;
 
 /**
  * Classe concernant l'affichage des scores pendant une partie
@@ -34,17 +33,14 @@ public class AffichageScore extends Affichage {
 	private Sprite sprite; // Sprite utilisant la texture "background"
 	private HashMap<String, Text> scoresText; // Text à afficher pour les scores	
 	private HashMap<String, Sprite> clefJoueur; // Tableau de sprites des clefs pour chaque joueur
-	
-	// Future fonction de mise à jour des données d'affichage prenant en paramètre des joueurs
-	public void updateData(){
-		// Maj du nombre de clés et des scores...
-	}
-	
+			
 	/**
 	 * Constructeur par défaut de l'affichage des scores
+	 * @param nbJoueurs Nombre de joueurs de la partie
 	 */
 	public AffichageScore(int nbJoueurs){
 		
+		// On charge le bon background selon le nombre de joueur et la classe
 		if (nbJoueurs == 1){
 			background = loadTexture("bgscore_"+Partie.getP1().getPerso().name()+".png");
 		} else {
@@ -58,6 +54,7 @@ public class AffichageScore extends Affichage {
 		// Initialisation des textes des scores
 		scoresText = new HashMap<String, Text>();
 		
+		// On initialise le score et la couleur du joueur en fonction de sa classe
 		if (nbJoueurs == 1){
 			String characterName = Partie.getP1().getPerso().name();
 			scoresText.put(characterName, new Text("1000",scoresFont,22));
@@ -79,6 +76,7 @@ public class AffichageScore extends Affichage {
 					break;
 			}
 		} else {
+			// On fait la même chose pour 4 joueurs
 			scoresText.put("guerrier", new Text("1000",scoresFont,22));
 			scoresText.put("magicien", new Text("1000",scoresFont,22));
 			scoresText.put("valkyrie", new Text("1000",scoresFont,22));
@@ -128,6 +126,7 @@ public class AffichageScore extends Affichage {
 			clefJoueur.get("elfe").setTextureRect(new IntRect(0,0,0,0)); // 0 clef
 		}
 		
+		// On applique la vue 250*600 à droite de l'écran
 		vue = new View(new FloatRect(0, 0, TAILLE.x, TAILLE.y)); // On définit la taille de la vue
 		vue.setViewport(new FloatRect(11/16.f, 0, 5/16.f, 1)); // On définit la zone où elle va s'afficher (coordonnées puis taille entre 0 et 1)
 	}

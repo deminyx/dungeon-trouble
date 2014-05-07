@@ -12,18 +12,20 @@ import org.jsfml.graphics.Text;
 import org.jsfml.graphics.Texture;
 import org.jsfml.system.Vector2f;
 
+import fr.dungeontrouble.etatmoteurjeu.GestionScore;
+
 /**
  * Classe concernant l'affichage des meilleurs score au lancement de la fenêtre
  * @author Valentin PORCHET
  *
  */
 public class AffichageMeilleursScores extends Affichage {
-	private Texture textureBackground;
-	private Sprite background;
-	private Font scoresFont;
-	private LinkedHashMap<String, Integer> scores; // A voir si on laisse éa lé
-	private Vector<Text> scoreNames;
-	private Vector<Text> scoreValues;
+	private Texture textureBackground; // Texture de background des meilleurs scores
+	private Sprite background; // Sprite sur lequel on applique la texture
+	private Font scoresFont; // Police pour les scores
+	private LinkedHashMap<String, Integer> scores; // Hashmap des scores
+	private Vector<Text> scoreNames; // Vecteur des textes des noms des joueurs
+	private Vector<Text> scoreValues; // Vecteur des textes des scores des joueurs
 	
 	
 	/**
@@ -34,17 +36,21 @@ public class AffichageMeilleursScores extends Affichage {
 		
 		// A l'entrée dans cette méthode, tous les scores sont triés		
 		for(Entry<String, Integer> entry : scores.entrySet()) {
-			scoreNames.add(new Text(entry.getKey(), scoresFont, 29));
-			scoreValues.add(new Text(entry.getValue().toString(), scoresFont, 29));
+			scoreNames.add(new Text(entry.getKey(), scoresFont, 29)); // On rajoute le pseudo
+			scoreValues.add(new Text(entry.getValue().toString(), scoresFont, 29)); // On rajoute le score
 			
+			// On leur donne leur proposition
 			scoreNames.lastElement().setPosition(new Vector2f(200,110+compteur*50));
 			scoreValues.lastElement().setPosition(new Vector2f(525,110+compteur*50));
 			compteur++;
 		}
 	}
 	
+	/**
+	 * Constructeur de l'affichage des meilleurs scores
+	 */
 	public AffichageMeilleursScores(){		
-		//scores = loadScores("highscores.txt"); A REVOIR DEPUIS MODIF MOTEUR JEU
+		scores = GestionScore.recupererScores("highscores.txt"); // Cette méthode sera déplacée dans la gestion des scores
 		scoreNames = new Vector<Text>();
 		scoreValues = new Vector<Text>();
 		scoresFont = loadFont("Finalnew.ttf");
@@ -56,13 +62,15 @@ public class AffichageMeilleursScores extends Affichage {
 	
 	@Override
 	public void draw(RenderTarget target, RenderStates states) {
-		target.setView(target.getDefaultView());
-		target.draw(this.background, states);
+		target.setView(target.getDefaultView()); // On remet la vue par défaut
+		target.draw(this.background, states); // On affiche le background
 		
+		// Affichage des pseudonymes
 		for (Text t : scoreNames){
 			target.draw(t);
 		}
 		
+		// Affichage des scores		
 		for (Text t : scoreValues){
 			target.draw(t);
 		}
