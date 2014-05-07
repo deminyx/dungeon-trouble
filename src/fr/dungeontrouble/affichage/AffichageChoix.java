@@ -14,6 +14,9 @@ public class AffichageChoix extends Affichage {
 	private Texture background;
 	private Sprite sprite;
 	
+	/**
+	 * Constructeur par défaut de l'affichage de choix de personnage en mode 1J
+	 */
 	public AffichageChoix(){
 		background = loadTexture("bgchoix.png");
 		sprite = new Sprite(background);
@@ -21,7 +24,7 @@ public class AffichageChoix extends Affichage {
 	
 	@Override
 	public void draw(RenderTarget target, RenderStates states) {
-		target.setView(target.getDefaultView());
-		target.draw(this.sprite, states);
+		target.setView(target.getDefaultView()); // Remise de la vue par défaut
+		target.draw(this.sprite, states); // Affichage de l'image
 	}
 }

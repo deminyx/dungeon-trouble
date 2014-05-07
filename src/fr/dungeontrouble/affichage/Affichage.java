@@ -7,29 +7,8 @@ import org.jsfml.graphics.Drawable;
 import org.jsfml.graphics.Font;
 import org.jsfml.graphics.RenderStates;
 import org.jsfml.graphics.RenderTarget;
-import org.jsfml.graphics.RenderWindow;
 import org.jsfml.graphics.Texture;
 import org.jsfml.graphics.View;
-import org.jsfml.system.Clock;
-import org.jsfml.system.Time;
-import org.jsfml.system.Vector2f;
-import org.jsfml.system.Vector2i;
-import org.jsfml.window.Keyboard;
-import org.jsfml.window.Mouse;
-import org.jsfml.window.Keyboard.Key;
-import org.jsfml.window.Mouse.Button;
-import org.jsfml.window.VideoMode;
-import org.jsfml.window.event.Event;
-
-import fr.dungeontrouble.etatmoteurjeu.EtatJeu;
-import fr.dungeontrouble.evenement.ActionEvent;
-import fr.dungeontrouble.evenement.MoveEvent;
-import fr.dungeontrouble.partie.Partie;
-import fr.dungeontrouble.partie.entite.Monstre;
-import fr.dungeontrouble.partie.entite.Personnage;
-import fr.dungeontrouble.partie.niveau.Generateur;
-import fr.dungeontrouble.partie.niveau.Niveau;
-import fr.dungeontrouble.partie.niveau.Objet;
 
 /**
  * Classe principale d'affichage héritée par les différents affichages
@@ -42,30 +21,23 @@ public abstract class Affichage implements Drawable {
 	
 	protected View vue; // Vue de l'affichage en question
 
-	// Fonction temporaire pour les tests
-	public View getVue() {
-		return vue;
-	}
-	
-	public Vector2f getCentreVue(){
-		return vue.getCenter();
-	}
-
 	/**
 	 * Fonction permettant de charger une texture, renvoie une exception si probléme
 	 * @param path Chemin vers le fichier contenant la texture
 	 * @return La texture chargée
 	 */
 	public static Texture loadTexture(String path){
-		Texture texture = new Texture();
+		Texture texture = new Texture(); // Instanciation d'une nouvelle texture
 		        
 		try {
+			// On stocke dans un input stream l'image que l'on veut charger
+			// (la méthode utilisée permet de charger depuis le .jar final)
 			InputStream inputStream = texture.getClass().getResourceAsStream("/"+path);
 			texture.loadFromStream(inputStream);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return texture;
+		return texture; // Retour de la texture
 	}
 	
 	/**
@@ -76,6 +48,8 @@ public abstract class Affichage implements Drawable {
 	public static Font loadFont(String path){
 		Font font = new Font();
 		try {
+			// On stocke dans un input stream la police que l'on veut charger
+			// (la méthode utilisée permet de charger depuis le .jar final)
 			InputStream inputStream = font.getClass().getResourceAsStream("/"+path);
 		    font.loadFromStream(inputStream);
 		} catch(IOException ex) {
@@ -84,110 +58,9 @@ public abstract class Affichage implements Drawable {
 		return font;
 	}
 	
-	/**
-	 * Méthode pour déplacer la vue de x en abscisse et y en ordonnée
-	 * @param x Déplacement en abscisse
-	 * @param y Déplacement en ordonnée
-	 */
-	public void deplacerVue(float x, float y) {
-		vue.move(x,y);		
-	}	
-	
-	/**
-	  * {@inheritDoc}
-	  */
+	// Méthode d'affichage de l'affichage, qui sera redéfinie dans les classes filles
 	@Override
 	public void draw(RenderTarget target, RenderStates states) {
 		
-	}
-	
-	// Classe de test de l'affichage
-	public static class Test {
-
-		public static void main(String[] args) {
-			
-			EtatJeu etat = new EtatJeu(1);
-			Affichage affJeu = new AffichageJeu();
-			Affichage affScores = new AffichageScore(1);
-			Clock clock = new Clock();
-			Personnage.init();
-			//Affichage affBestScores = new AffichageMeilleursScores();
-			//Affichage affChoix = new AffichageChoix();
-			
-			//System.out.println("Chargement terminé !");
-				
-			RenderWindow window = new RenderWindow(new VideoMode(Affichage.LARGEUR,Affichage.HAUTEUR), "Dungeon Trouble",RenderWindow.CLOSE | RenderWindow.TITLEBAR);
-			window.setVerticalSyncEnabled(true); // Activation de la synchronisation verticale
-			window.setKeyRepeatEnabled(false); // Désactivation de la répétition des touches			
-			Vector2i mousePosition = Mouse.getPosition(window); // A effacer après les tests
-			
-			while (window.isOpen()) {			
-				Time timeElapsed = clock.restart();
-				
-				for(Event event : window.pollEvents()) {
-					switch(event.type)
-					{
-						case CLOSED:
-							window.close();
-							break;
-						
-						 //Test de mouvement de la vue
-						case MOUSE_MOVED: // Souris bougée
-							if (Mouse.isButtonPressed(Button.LEFT)||(Mouse.isButtonPressed(Button.RIGHT))) // Déplacement sur la carte
-							{
-								Vector2f mousePos = window.mapPixelToCoords(mousePosition);
-								Vector2f eventPosition = window.mapPixelToCoords(new Vector2i(event.asMouseEvent().position.x, event.asMouseEvent().position.y));
-
-								Vector2f movement = new Vector2f(mousePos.x - eventPosition.x, mousePos.y - eventPosition.y);
-								affJeu.deplacerVue(movement.x, movement.y);
-							}
-							break;
-						
-						case KEY_PRESSED:
-							ActionEvent.getAction1J();
-//							if (Keyboard.isKeyPressed(Key.B))
-//								Partie.getP1().setNbCles(Partie.getP1().getNbCles()+1);
-//							if (Keyboard.isKeyPressed(Key.A))
-//								Partie.getP1().setScore(Partie.getP1().getScore()-1);
-							
-							break;
-						
-						default:break;
-					}
-				}
-				
-				MoveEvent.getMove1J(timeElapsed);
-				
-				if (timeElapsed.asSeconds() < 1){
-					for (Monstre m : Partie.getMonstres().values()){					
-						m.seDeplacerVersCible(timeElapsed);
-					}
-				}
-				
-				if (Generateur.nbMonstres < 100){
-					for (Objet o : Niveau.getObjets().values()){
-						if ((o instanceof Generateur)&&(Generateur.nbMonstres < 100)){
-							((Generateur)o).genererMonstres();
-						}
-					}
-				}	
-				
-				// Mise à jour de la vue en conséquence
-				for (Personnage p : Partie.getPersonnages().values()){
-					p.bougerArmes(timeElapsed, ((AffichageJeu)affJeu).getCenter());
-					p.verifierCollisionArmes();
-				}
-				((AffichageJeu) affJeu).updateView();
-				
-				// A appeler après chaque modif de score et de cles plutôt que tout le temps
-				((AffichageScore) affScores).updateScores();				
-				window.clear();
-				
-				window.draw(affJeu); // Dessin de la map
-				window.draw(affScores); // Dessin des scores				
-
-				window.display();
-			}
-		}
 	}
 }
