@@ -8,10 +8,12 @@ import org.jsfml.graphics.Sprite;
 import org.jsfml.graphics.Texture;
 import org.jsfml.system.Clock;
 import org.jsfml.system.Time;
+import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 
 import fr.dungeontrouble.partie.Partie;
 import fr.dungeontrouble.partie.niveau.Niveau;
+import fr.dungeontrouble.partie.niveau.Objet;
 import fr.dungeontrouble.partie.niveau.Porte;
 
 /**
@@ -63,45 +65,85 @@ public abstract class Entite implements Drawable {
 		this.sprite.setTextureRect(new IntRect(etat.ordinal()*50, direction.ordinal()*50,50,50));
 	}
 	
-	public boolean collision(){
-		boolean returnValue = false;
+	public boolean collision(Time timeElapsed){
+		float move = this.vitesse * timeElapsed.asSeconds();		
+		Vector2f nextPos = null;
+		Vector2i nextCoord = null;
 		
 		switch(direction){
-		case bas:
-			returnValue = Niveau.getNiveau()[this.position.y+1][this.position.x] > 0;
-			break;
-		case bas_droit:
-			returnValue = Niveau.getNiveau()[this.position.y+1][this.position.x+1] > 0;
-			break;
-		case bas_gauche:
-			returnValue = Niveau.getNiveau()[this.position.y+1][this.position.x-1] > 0;
-			break;
-		case droit:
-			returnValue = Niveau.getNiveau()[this.position.y][this.position.x+1] > 0;
-			break;
-		case gauche:
-			returnValue = Niveau.getNiveau()[this.position.y][this.position.x-1] > 0;
-			break;
-		case haut:
-			returnValue = Niveau.getNiveau()[this.position.y-1][this.position.x] > 0;
-			break;
-		case haut_droit:
-			returnValue = Niveau.getNiveau()[this.position.y-1][this.position.x+1] > 0;
-			break;
-		case haut_gauche:
-			returnValue = Niveau.getNiveau()[this.position.y-1][this.position.x-1] > 0;
-			break;
-		default:
-			break;
-			
+			case bas:
+				nextPos = new Vector2f(this.sprite.getPosition().x ,this.sprite.getPosition().y + move);			
+				break;
+			case bas_droit:
+				nextPos = new Vector2f(this.sprite.getPosition().x + move,this.sprite.getPosition().y + move);
+				break;
+			case bas_gauche:
+				nextPos = new Vector2f(this.sprite.getPosition().x - move,this.sprite.getPosition().y + move);
+				break;
+			case droit:
+				nextPos = new Vector2f(this.sprite.getPosition().x + move,this.sprite.getPosition().y);
+				break;
+			case gauche:
+				nextPos = new Vector2f(this.sprite.getPosition().x - move,this.sprite.getPosition().y);
+				break;
+			case haut:
+				nextPos = new Vector2f(this.sprite.getPosition().x,this.sprite.getPosition().y - move);
+				break;
+			case haut_droit:
+				nextPos = new Vector2f(this.sprite.getPosition().x + move,this.sprite.getPosition().y - move);
+				break;
+			case haut_gauche:
+				nextPos = new Vector2f(this.sprite.getPosition().x - move,this.sprite.getPosition().y - move);
+				break;
+			default:
+				break;
 		}
+		
+		nextPos = new Vector2f(nextPos.x + 20, nextPos.y + 35);
+		nextCoord = new Vector2i((int)nextPos.x/Niveau.SIZE, (int)nextPos.y/Niveau.SIZE);
+	
+		boolean returnValue = Niveau.getNiveau()[nextCoord.y][nextCoord.x] > 0;
+		
+		// Vérification si un objet sur la case cible
+		if (Niveau.getObjets().containsKey(nextCoord)){
+			switch (Niveau.getObjets().get(nextCoord).getClass().getSimpleName()){
+				case "Tresor":
+					if (this instanceof Personnage){
+						((Personnage)(this)).setScore(((Personnage)(this)).getScore()+100);
+						Niveau.getObjets().remove(nextCoord);
+						returnValue = false;
+					}
+					
+					break;
+				
+				case "Cle":
+					if (this instanceof Personnage){
+						((Personnage)(this)).setNbCles(((Personnage)(this)).getNbCles()+1);
+						Niveau.getObjets().remove(nextCoord);
+						returnValue = false;
+					}
+					
+					break;
+				
+				case "Generateur":
+					returnValue = true;
+					break;
+				
+				case "Porte":
+					returnValue = true;
+					break;
+			}
+		}
+//		else if (Partie.getMonstres().containsKey(nextCoord)){
+//			returnValue = true;
+//		}
 		
 		return returnValue;
 	}
-	
+
 	public void seDeplacer(Direction direction, Time tempsEcoule){ //deplace en fonction mv
 		this.direction = direction;
-		if (!collision()) // S'il y a collision, alors on ne fait pas le déplacement
+		if (!collision(tempsEcoule)) // S'il y a collision, alors on ne fait pas le déplacement
 		{			
 			float tpsEcoule = tempsEcoule.asSeconds(); //temps ecoulé our changemet d'image
 			float distance= tpsEcoule * vitesse;
@@ -158,7 +200,8 @@ public abstract class Entite implements Drawable {
 				sprite.move(x,y); //mise à jour position du sprite
 				
 				//updatePosition (met à jour la variable de position)
-				this.position=new Vector2i((int)this.sprite.getPosition().x/Niveau.SIZE,(int)this.sprite.getPosition().y/Niveau.SIZE);
+				this.position=new Vector2i(((int)this.sprite.getPosition().x+25)/Niveau.SIZE,
+						((int)this.sprite.getPosition().y+25)/Niveau.SIZE);
 				
 				if(direction !=this.direction){ //test pour voir si la direction choisie est différente de la diection actuelle
 					updateSprite(direction, Etat.mouvement1);
@@ -176,6 +219,7 @@ public abstract class Entite implements Drawable {
 					updateSprite(this.direction, this.etat);
 				}			
 		}
+		updateSprite(this.direction, this.etat);
 		
 	}
 	

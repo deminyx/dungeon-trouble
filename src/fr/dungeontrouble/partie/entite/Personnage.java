@@ -1,6 +1,8 @@
 package fr.dungeontrouble.partie.entite;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map.Entry;
 
 import org.jsfml.graphics.IntRect;
 import org.jsfml.graphics.RenderStates;
@@ -12,7 +14,10 @@ import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 
 import fr.dungeontrouble.affichage.Affichage;
+import fr.dungeontrouble.partie.Partie;
 import fr.dungeontrouble.partie.niveau.Niveau;
+import fr.dungeontrouble.partie.niveau.Objet;
+import fr.dungeontrouble.partie.niveau.Porte;
 /**
  * 
  * @author Awa CAMARA
@@ -63,9 +68,8 @@ public class Personnage extends Entite {
 	@Override
 	public void faireAction() { //permet de lancer une arme lorsqu'il ny a pas de porte
 		// TODO Auto-generated method stub
-		if(regardeUnePorte()==false) //Methode qui verifie la presence de porte 
-				{
-			
+		if(!regardeUnePorte()) //Methode qui verifie la presence de porte 
+		{			
 			spriteArme.add(new Sprite(textureArme,new IntRect(perso.ordinal()*50,0,50,50)));
 			spriteArme.get(spriteArme.size()-1).setPosition(this.sprite.getPosition().x + 25, this.sprite.getPosition().y + 25);
 			directionArme.add(direction);
@@ -101,17 +105,92 @@ public class Personnage extends Entite {
 			
 			}
 		}
-		//else retirerPorte()
+		else{
+			if (this.nbCles > 0){ 	// On ouvre la porte si on a au moins une clef
+				switch(this.direction){
+				case bas:
+					detruirePorte(this.position.x, this.position.y+1);
+					break;
+				case bas_droit:
+					detruirePorte(this.position.x+1, this.position.y+1);
+					break;
+				case bas_gauche:
+					detruirePorte(this.position.x-1, this.position.y+1);
+					break;
+				case droit:
+					detruirePorte(this.position.x+1, this.position.y);
+					break;
+				case gauche:
+					detruirePorte(this.position.x-1, this.position.y);
+					break;
+				case haut:
+					detruirePorte(this.position.x, this.position.y-1);
+					break;
+				case haut_droit:
+					detruirePorte(this.position.x+1, this.position.y-1);
+					break;
+				case haut_gauche:
+					detruirePorte(this.position.x-1, this.position.y-1);
+					break;
+				default:
+					break;
+				
+				}
+				this.nbCles--;
+			}
+		}
 	}
 	
-	
+
+	public boolean collisionMonstre(Monstre m, Sprite arme){
+		Vector2f armePos = new Vector2f(arme.getPosition().x + 25, arme.getPosition().y + 25);
+		return (armePos.x >= m.getSprite().getPosition().x &&
+				armePos.x <= m.getSprite().getPosition().x + 50 &&
+				armePos.y >= m.getSprite().getPosition().y &&
+				armePos.y <= m.getSprite().getPosition().y + 50);				
+	}
 	
 	/**
-	 * Méthode de déplacement d'un personnage selon une direction
-	 * @param direction 0 = gauche, 1 = haut, 2 = droite, 3 = bas
+	 * Méthode de vérification de collision des armes
+	 * @return
 	 */
+	public void verifierCollisionArmes(){
+		Iterator<Entry<Vector2i, Monstre>> i = Partie.getMonstres().entrySet().iterator();
+		for (Sprite s : this.spriteArme){
+			while (i.hasNext()){
+				Monstre m = i.next().getValue();
+				if (collisionMonstre(m,s)){
+					m.setPdv(m.getPdv()-1);
+					if (m.getPdv() == 0){
+						i.remove();
+					}
+				}
+			}			
+		}
+	}
 	
-	
+	/**
+	 * Méthode de destruction d'une porte sur la case ciblée
+	 * @param posX Position en X de la porte dans la matrice du niveau
+	 * @param posY Position en Y de la porte dans la matrice du niveau
+	 */
+	void detruirePorte(int posX, int posY){
+		if (Niveau.getObjets().containsKey(new Vector2i(posX, posY))){
+			if ((Niveau.getObjets().get(new Vector2i(posX,posY))) instanceof Porte){
+				int idASupprimer = ((Porte)(Niveau.getObjets().get(new Vector2i(posX, posY)))).getIdPorteCourante();
+				Iterator<Entry<Vector2i, Objet>> i = Niveau.getObjets().entrySet().iterator();
+				while (i.hasNext()){
+					Objet o = i.next().getValue();
+					if (o.toString().equals("Porte")){
+						if(((Porte)o).getIdPorteCourante() == idASupprimer){
+							System.out.println("a");
+							i.remove();
+						}								
+					}
+				}
+			}
+		}
+	}
 	
 	/**
 	 * Méthode de vérification de sortie du jeu
@@ -129,41 +208,61 @@ public class Personnage extends Entite {
 	}
 	
 	/**
+	 * Méthode qui vérifie si une arme est toujours visible
+	 * @param arme Arme à vérifier
+	 * @param centre Centre de la vue
+	 * @return Booléen à vrai si l'arme est dans la vue
+	 */
+	public boolean armeDansVue(Sprite arme, Vector2f centre){
+		Vector2f pos = new Vector2f(arme.getPosition().x, arme.getPosition().y);
+		return ((pos.x >= centre.x - 275)&&
+				(pos.x <= centre.x + 275)&&
+				(pos.y >= centre.y - 300)&&
+				(pos.y <= centre.y + 300));
+	}
+	
+	/**
 	 * Méthode pour mettre à jour les positions des armes jetées
 	 */
-	public void bougerArmes(Time t){
+	public void bougerArmes(Time t, Vector2f centre){
 		float distance = this.vitesse*3*t.asSeconds();
 		
 		for (int i=0; i < spriteArme.size(); i++){
-			switch(directionArme.get(i)){
-			case bas:
-				spriteArme.get(i).move(new Vector2f(0,distance));
-				break;
-			case bas_droit:
-				spriteArme.get(i).move(new Vector2f(distance,distance));
-				break;
-			case bas_gauche:
-				spriteArme.get(i).move(new Vector2f(-distance,distance));
-				break;
-			case droit:
-				spriteArme.get(i).move(new Vector2f(distance,0));
-				break;
-			case gauche:
-				spriteArme.get(i).move(new Vector2f(-distance,0));
-				break;
-			case haut:
-				spriteArme.get(i).move(new Vector2f(0,-distance));
-				break;
-			case haut_droit:
-				spriteArme.get(i).move(new Vector2f(distance,-distance));
-				break;
-			case haut_gauche:
-				spriteArme.get(i).move(new Vector2f(-distance,-distance));
-				break;
-			default:
-				break;
-				
+			if (!armeDansVue(spriteArme.get(i), centre)){
+				spriteArme.remove(i);
+				directionArme.remove(i);
 			}
+			else{
+				switch(directionArme.get(i)){
+				case bas:
+					spriteArme.get(i).move(new Vector2f(0,distance));
+					break;
+				case bas_droit:
+					spriteArme.get(i).move(new Vector2f(distance,distance));
+					break;
+				case bas_gauche:
+					spriteArme.get(i).move(new Vector2f(-distance,distance));
+					break;
+				case droit:
+					spriteArme.get(i).move(new Vector2f(distance,0));
+					break;
+				case gauche:
+					spriteArme.get(i).move(new Vector2f(-distance,0));
+					break;
+				case haut:
+					spriteArme.get(i).move(new Vector2f(0,-distance));
+					break;
+				case haut_droit:
+					spriteArme.get(i).move(new Vector2f(distance,-distance));
+					break;
+				case haut_gauche:
+					spriteArme.get(i).move(new Vector2f(-distance,-distance));
+					break;
+				default:
+					break;
+					
+				}
+			}			
 		}
 	}
 	

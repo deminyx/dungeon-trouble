@@ -25,7 +25,11 @@ import fr.dungeontrouble.etatmoteurjeu.EtatJeu;
 import fr.dungeontrouble.evenement.ActionEvent;
 import fr.dungeontrouble.evenement.MoveEvent;
 import fr.dungeontrouble.partie.Partie;
+import fr.dungeontrouble.partie.entite.Monstre;
 import fr.dungeontrouble.partie.entite.Personnage;
+import fr.dungeontrouble.partie.niveau.Generateur;
+import fr.dungeontrouble.partie.niveau.Niveau;
+import fr.dungeontrouble.partie.niveau.Objet;
 
 /**
  * Classe principale d'affichage héritée par les différents affichages
@@ -141,10 +145,10 @@ public abstract class Affichage implements Drawable {
 						
 						case KEY_PRESSED:
 							ActionEvent.getAction1J();
-//							if (Keyboard.isKeyPressed(Key.B))
-//								Partie.getP1().setNbCles(Partie.getP1().getNbCles()+1);
-//							if (Keyboard.isKeyPressed(Key.A))
-//								Partie.getP1().setScore(Partie.getP1().getScore()-1);
+							if (Keyboard.isKeyPressed(Key.B))
+								Partie.getP1().setNbCles(Partie.getP1().getNbCles()+1);
+							if (Keyboard.isKeyPressed(Key.A))
+								Partie.getP1().setScore(Partie.getP1().getScore()-1);
 							
 							break;
 						
@@ -154,18 +158,33 @@ public abstract class Affichage implements Drawable {
 				
 				MoveEvent.getMove1J(timeElapsed);
 				
+				if (timeElapsed.asSeconds() < 1){
+					for (Monstre m : Partie.getMonstres().values()){					
+						m.seDeplacerVersCible(timeElapsed);
+					}
+				}
+				
+				if (Generateur.nbMonstres < 100){
+					for (Objet o : Niveau.getObjets().values()){
+						if ((o instanceof Generateur)&&(Generateur.nbMonstres < 100)){
+							((Generateur)o).genererMonstres();
+						}
+					}
+				}		
 				
 				mousePosition = Mouse.getPosition(window); // Sauvegarde de la position de la souris
 				
 				// Mise à jour de la vue en conséquence
 				for (Personnage p : Partie.getPersonnages().values()){
-					p.bougerArmes(timeElapsed);
+					p.bougerArmes(timeElapsed, ((AffichageJeu)affJeu).getCenter());
+					p.verifierCollisionArmes();
 				}
 				((AffichageJeu) affJeu).updateView();
 				
 				// A appeler après chaque modif de score et de cles plutôt que tout le temps
-				//((AffichageScore) affScores).updateScores();
-				
+				((AffichageScore) affScores).updateScores();
+				//System.out.println(Partie.getP1().getPosition());
+				//System.out.println(Partie.getP1().getSprite().getPosition());
 				window.clear();
 				
 				window.draw(affJeu); // Dessin de la map

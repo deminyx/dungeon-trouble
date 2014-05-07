@@ -3,9 +3,11 @@ package fr.dungeontrouble.partie.entite;
 import java.util.HashMap;
 import java.util.Random;
 
+import org.jsfml.graphics.Sprite;
 import org.jsfml.system.Time;
 import org.jsfml.system.Vector2i;
 
+import fr.dungeontrouble.affichage.Affichage;
 import fr.dungeontrouble.partie.Partie;
 
 /**
@@ -34,15 +36,23 @@ public class Monstre extends Entite {
 		switch(type){
 		case Fantome:
 			this.pdv = 1;
+			this.texture = Affichage.loadTexture("sprite_fantome.png");
+			this.sprite = new Sprite(this.texture);
 			break;
 		
 		case Gobelin:
 			this.pdv = 2;
+			this.texture = Affichage.loadTexture("sprite_gobelin.png");
+			this.sprite = new Sprite(this.texture);
 		break;
 		}
 		
+		this.sprite.setPosition(this.position.y*50,this.position.x*50);//initialise la position
+		updateSprite(this.direction, this.etat);
+		
 		Random rand = new Random();
-		cible = (Personnage) Partie.getPersonnages().values().toArray()[rand.nextInt(4)]; //permet de prendre un personnage aleatoirement
+		cible = Partie.getP1();
+		//cible = (Personnage) Partie.getPersonnages().values().toArray()[rand.nextInt(0)]; //permet de prendre un personnage aleatoirement
 			
 	}
 	
@@ -78,13 +88,12 @@ public class Monstre extends Entite {
 		
 		
 		if(diffAbs==0){
-			if(diffOrd>0){ //va vers le haut ou le bas
+			if(diffOrd<0){ //va vers le haut ou le bas
 				this.seDeplacer(Direction.bas, tempsEcoule);
 			}
 			else {
 				this.seDeplacer(Direction.haut, tempsEcoule);
 			}
-			
 		}
 		
 		else if (diffAbs<0){ //va a droite

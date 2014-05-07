@@ -11,6 +11,7 @@ import org.jsfml.graphics.View;
 import org.jsfml.system.Vector2f;
 
 import fr.dungeontrouble.partie.Partie;
+import fr.dungeontrouble.partie.entite.Monstre;
 import fr.dungeontrouble.partie.entite.Personnage;
 import fr.dungeontrouble.partie.niveau.Niveau;
 import fr.dungeontrouble.partie.niveau.Objet;
@@ -116,5 +117,12 @@ public class AffichageJeu extends Affichage {
 		for (Personnage p : Partie.getPersonnages().values()){
 			target.draw(p);
 		}
+		for (Monstre m : Partie.getMonstres().values()){
+			target.draw(m);
+		}
 	}	
+	
+	public Vector2f getCenter(){
+		return this.vue.getCenter();
+	}
 }

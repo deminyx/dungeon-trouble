@@ -20,6 +20,7 @@ public class Generateur extends Objet {
 
 	TypeMonstre t;
 	HashMap<Vector2i, Boolean> casesGenerables;
+	public static int nbMonstres=0;
 
 	/**
 	 * Constructeur de Generateur prenant en paramètre son type
@@ -29,7 +30,6 @@ public class Generateur extends Objet {
 	 *            type : enum TypeGenerateur{ fantome, gobelin };
 	 */
 	public Generateur(TypeMonstre t, Vector2i pos) {
-		
 		this.position = pos;
 		
 		casesGenerables = new HashMap<Vector2i, Boolean>();
@@ -64,17 +64,17 @@ public class Generateur extends Objet {
 	 */
 	public void VerifCaseMursGenerateurs() {
 
-		if (Niveau.getNiveau()[position.y - 1][position.x] > 0) {
-			casesGenerables.remove(new Vector2i(position.x, position.y - 1));
+		if (Niveau.getNiveau()[position.x - 1][position.y] > 0) {
+			casesGenerables.remove(new Vector2i(position.x-1, position.y));
 		}
-		if (Niveau.getNiveau()[position.y][position.x - 1] > 0) {
-			casesGenerables.remove(new Vector2i(position.x - 1, position.y));
+		if (Niveau.getNiveau()[position.x][position.y-1] > 0) {
+			casesGenerables.remove(new Vector2i(position.x, position.y-1));
 		}
-		if (Niveau.getNiveau()[position.y + 1][position.x] > 0) {
-			casesGenerables.remove(new Vector2i(position.x, position.y + 1));
+		if (Niveau.getNiveau()[position.x+1][position.y] > 0) {
+			casesGenerables.remove(new Vector2i(position.x+1, position.y));
 		}
-		if (Niveau.getNiveau()[position.y][position.x + 1] > 0) {
-			casesGenerables.remove(new Vector2i(position.x + 1, position.y));
+		if (Niveau.getNiveau()[position.x][position.y+1] > 0) {
+			casesGenerables.remove(new Vector2i(position.x, position.y+1));
 		}
 
 	}
@@ -85,7 +85,7 @@ public class Generateur extends Objet {
 	 * @author Maxime BELLIER
 	 */
 	public void genererMonstres() {
-
+		nbMonstres++;
 		for (Vector2i v : casesGenerables.keySet()) {
 			if ((Partie.getMonstres().containsKey(v))
 					|| (Partie.getPersonnages().containsKey(v))
@@ -97,7 +97,8 @@ public class Generateur extends Objet {
 		}
 		for (Vector2i v : casesGenerables.keySet()) {
 			if (casesGenerables.get(v) == true) {
-				Partie.getMonstres().put(v, new Monstre(TypeMonstre.Fantome,v));
+				Monstre m = new Monstre(t,v);
+				Partie.getMonstres().put(m.getPosition(), m);
 				casesGenerables.put(v, false);
 			}
 		}

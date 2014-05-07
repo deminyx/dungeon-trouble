@@ -47,4 +47,9 @@ public abstract class Objet implements Drawable {
 	public void draw(RenderTarget target, RenderStates states) {
 		target.draw(this.sprite);
 	}
+
+	@Override
+	public String toString() {
+		return this.getClass().getSimpleName();
+	}
 }

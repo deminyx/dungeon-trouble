@@ -121,7 +121,7 @@ public class Niveau {
 						obj.getSprite().setPosition(new Vector2f(
 								(float)((compteur % NBCOLONNES)*50), 
 								(float)((compteur / NBCOLONNES)*50)));
-						objets.put(obj.getPosition(),obj);
+						objets.put(new Vector2i(obj.getPosition().y, obj.getPosition().x),obj);
 						
 						// Si c'est une porte, alors en fonction de son type on a un certain bloc
 						if ((obj instanceof Porte)&&(champ != 11)&&(champ != 24)){							
@@ -155,7 +155,7 @@ public class Niveau {
 	 * @return idPorte Id de porte à laquelle on affecte l'id d'un bout de porte si trouvé
 	 */
 	public static int verifPorte(int compteur, HashMap<Vector2i,Objet> objets){		
-		Vector2i pos = new Vector2i(compteur / NBCOLONNES, compteur % NBCOLONNES);
+		Vector2i pos = new Vector2i(compteur % NBCOLONNES, compteur / NBCOLONNES);
 		Integer idPorte = -1;
 		
 		// On a une nouvelle porte si il n'y a pas déjà de porte en haut ou à gauche
