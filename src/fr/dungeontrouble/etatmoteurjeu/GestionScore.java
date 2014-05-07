@@ -28,7 +28,7 @@ public class GestionScore {
 	 * @param path Chemin vers le fichier contenant les meilleurs scores
 	 * @return HashMap de la forme Joueur -> Score
 	 */
-	private static LinkedHashMap<String, Integer> recupererScores(String path){
+	public static LinkedHashMap<String, Integer> recupererScores(String path){
 		LinkedHashMap<String,Integer> highscores = new LinkedHashMap<String,Integer>();
 		String temp = new String(); // Chaine temporaire qui contiendra chaque ligne
 		
