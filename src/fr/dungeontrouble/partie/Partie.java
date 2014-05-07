@@ -18,22 +18,20 @@ import fr.dungeontrouble.partie.niveau.Niveau;
  */
 public class Partie {
 
-	private static Niveau niveau;
-	private static HashMap<Vector2i, Personnage> personnages;
+	private static Niveau niveau; // Objet contenant le niveau
+	private static HashMap<Vector2i, Personnage> personnages; // Hashmap des objets avec comme clé la position
+	// Variables qui contiendront des références vers les personnages pour une autre méthode d'accès
 	private static Personnage p1;
 	private static Personnage p2;
 	private static Personnage p3;
 	private static Personnage p4;
-	private static HashMap<Vector2i, Monstre> monstres;
+	private static HashMap<Vector2i, Monstre> monstres; // Hashmap des monstres avec comme clé leur position
 
 	/**
 	 * Constructeur pour partie 1 joueur
 	 * 
-	 * @param idmap
-	 *            id du niveau joué
-	 * @param p
-	 *            personnage souhaité par J1
-	 * @return 
+	 * @param idmap	id du niveau joué
+	 * @param p	personnage souhaité par J1
 	 */
 	public static void InitPartie(Niveau.IDNiveau idmap, TypePersonnage p) {
 
@@ -61,19 +59,9 @@ public class Partie {
 	}
 
 	/**
-	 * 
 	 * Constructeur pour partie 4 joueurs
 	 * 
-	 * @param idmap
-	 *            id du niveau joué
-	 * @param p1
-	 *            personnage souhaité par J1
-	 * @param p2
-	 *            personnage souhaité par J2
-	 * @param p3
-	 *            personnage souhaité par J3
-	 * @param p4
-	 *            personnage souhaité par J4
+	 * @param idmap	id du niveau joué
 	 */
 	public static void InitPartie(Niveau.IDNiveau idmap) {
 
@@ -111,7 +99,9 @@ public class Partie {
 			break;
 		}
 	}
-
+	
+	// Accesseurs
+	
 	public static HashMap<Vector2i, Monstre> getMonstres() {
 		return monstres;
 	}
