@@ -54,7 +54,7 @@ public abstract class Entite implements Drawable {
 	
 	/**
 	 * Constructeur de Entite
-	 * @param position
+	 * @param position Position à laquelle positionner l'entité
 	 */
 	public Entite(Vector2i position){
 		this.chrono = new Clock();
@@ -78,11 +78,11 @@ public abstract class Entite implements Drawable {
 	 * Permet de determiner la presence d'un obstacle 
 	 * selon la direction on calcule la position à laquelle le personnage devrais être et on verifie s'il y a un objet là où
 	 * il se dirige
-	 * si c'est une clé incrémetation du nombre de clés du personnage
+	 * si c'est une clé incrémentation du nombre de clés du personnage
 	 * si c'est un trésor incrementation du score du personnage
 	 * si c'est un mur déclenchement de la collision 
-	 * @param timeElapsed
-	 * @return
+	 * @param timeElapsed temps écoulé lors du dernier passage dans la boucle principale
+	 * @return true s'il y a collision
 	 */
 	
 	public boolean collision(Time timeElapsed){
@@ -160,9 +160,9 @@ public abstract class Entite implements Drawable {
 	
 
 	/**
-	 * Permet à l'entité de se déplacer en focntion de la direction et du tems ecoulé
-	 * @param direction
-	 * @param tempsEcoule
+	 * Permet à l'entité de se déplacer en fonction de la direction et du temps ecoulé
+	 * @param direction Direction vers laquelle se déplacer
+	 * @param tempsEcoule Temps écoulé lors du dernier passage dans la boucle principale
 	 */
 	public void seDeplacer(Direction direction, Time tempsEcoule){ 
 		this.direction = direction;
@@ -248,7 +248,7 @@ public abstract class Entite implements Drawable {
 	
 	/**
 	 * permet de verifier la présence d'une porte
-	 * @return
+	 * @return true s'il y a une porte en face du personnage, false sinon
 	 */
 	public boolean regardeUnePorte(){
         Vector2i pos = this.position;

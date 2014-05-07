@@ -83,7 +83,7 @@ public class Monstre extends Entite {
 	
 	/**
 	 * permet au monstre de se déplacer vers une cible précise(un personnage)
-	 * @param tempsEcoule
+	 * @param tempsEcoule Temps écoulé depuis le dernier passage dans la boucle principale
 	 */
 	public void seDeplacerVersCible(Time tempsEcoule){
 		

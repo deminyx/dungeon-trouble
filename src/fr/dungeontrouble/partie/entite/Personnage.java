@@ -46,8 +46,8 @@ public class Personnage extends Entite {
 	
 	/**
 	 * Constructeur de personnage
-	 * @param perso: un personnage
-	 * @param position
+	 * @param perso Le type du personnage
+	 * @param position Position à laquelle faire apparaître le personnage
 	 */
 	public Personnage(TypePersonnage perso, Vector2i position) { 
 		// TODO Auto-generated constructor stub
@@ -153,9 +153,9 @@ public class Personnage extends Entite {
 
 	/**
 	 * Methode de verification de collision entre une arme et un monstre
-	 * @param m
-	 * @param arme
-	 * @return
+	 * @param m Monstre avec lequel vérifier la collision
+	 * @param arme Arme avec laquelle vérifier la collision
+	 * @return true s'il y a collision, false sinon
 	 */
 	public boolean collisionMonstre(Monstre m, Sprite arme){
 		Vector2f armePos = new Vector2f(arme.getPosition().x + 25, arme.getPosition().y + 25);
@@ -167,7 +167,6 @@ public class Personnage extends Entite {
 	
 	/**
 	 * Méthode de vérification de collision des armes
-	 * @return
 	 */
 	public void verifierCollisionArmes(){
 		Iterator<Entry<Vector2i, Monstre>> i = Partie.getMonstres().entrySet().iterator();
@@ -208,6 +207,7 @@ public class Personnage extends Entite {
 	
 	/**
 	 * Méthode de vérification de sortie du jeu
+	 * @return true si on est sorti du jeu, false sinon
 	 */
 	public boolean verifierSortie(){//verifier si position perso = niveau.getNiveaude la pos du perso = val = 14 (correspoond à la sortie)
 		
@@ -235,7 +235,8 @@ public class Personnage extends Entite {
 	
 	/**
 	 * Méthode pour mettre à jour les positions des armes jetées
-	 * 
+	 * @param t Temps écoulé depuis le dernier passage dans la boucle principale
+	 * @param centre Coordonnées du centre de la vue de jeu
 	 */
 	public void bougerArmes(Time t, Vector2f centre){
 		float distance = this.vitesse*3*t.asSeconds();

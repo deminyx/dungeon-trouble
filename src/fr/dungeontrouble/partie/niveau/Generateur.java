@@ -25,9 +25,8 @@ public class Generateur extends Objet {
 	/**
 	 * Constructeur de Generateur prenant en paramètre son type
 	 * 
-	 * @author Maxime BELLIER
-	 * @param t
-	 *            type : enum TypeGenerateur{ fantome, gobelin };
+	 * @param t type : enum TypeGenerateur{ fantome, gobelin }
+	 * @param pos Position du générateur à générer
 	 */
 	public Generateur(TypeMonstre t, Vector2i pos) {
 		this.position = pos;								// Initialisation de la position
