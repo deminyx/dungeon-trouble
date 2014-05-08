@@ -1,6 +1,5 @@
 package fr.dungeontrouble.partie.entite;
 
-import java.util.HashMap;
 import java.util.Random;
 
 import org.jsfml.graphics.Sprite;

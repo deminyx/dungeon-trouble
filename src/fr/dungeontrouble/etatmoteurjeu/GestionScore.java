@@ -4,8 +4,6 @@ import java.io.File;
 import java.util.LinkedHashMap;
 import java.util.Scanner;
 
-import fr.dungeontrouble.evenement.Evenement;
-
 /**
  * Classe gérant le palmarès des scores en fin de partie
  * @author Maxime BELLIER
@@ -20,7 +18,7 @@ public class GestionScore {
 	 * @param path String: chemin vers le fichier .txt contenant les scores.
 	 */
 	public GestionScore(String path) {
-		this.meilleursScores=recupererScores("highscores.txt");
+		this.setMeilleursScores(recupererScores("highscores.txt"));
 	}
 	
 	/**
@@ -64,6 +62,14 @@ public class GestionScore {
 	}
 
 	public void enregistrerScores() {
+	}
+
+	public LinkedHashMap<String, Integer> getMeilleursScores() {
+		return meilleursScores;
+	}
+
+	public void setMeilleursScores(LinkedHashMap<String, Integer> meilleursScores) {
+		this.meilleursScores = meilleursScores;
 	}
 
 	
