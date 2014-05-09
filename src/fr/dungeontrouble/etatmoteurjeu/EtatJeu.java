@@ -29,7 +29,7 @@ public class EtatJeu{
 		 this.clock=new Clock();
 		 this.event=null;
 		 Niveau.IDNiveau n=Niveau.IDNiveau.map1;
-		 TypePersonnage p = TypePersonnage.magicien;
+		 TypePersonnage p = TypePersonnage.guerrier;
 		 if (nbJoueurs==1){
 			 Partie.InitPartie(n,p); // ajout de l'id map + 1 joueurs
 		 }

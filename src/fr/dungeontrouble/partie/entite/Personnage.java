@@ -1,6 +1,7 @@
 package fr.dungeontrouble.partie.entite;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
@@ -15,6 +16,7 @@ import org.jsfml.system.Vector2i;
 
 import fr.dungeontrouble.affichage.Affichage;
 import fr.dungeontrouble.partie.Partie;
+import fr.dungeontrouble.partie.niveau.Generateur;
 import fr.dungeontrouble.partie.niveau.Niveau;
 import fr.dungeontrouble.partie.niveau.Objet;
 import fr.dungeontrouble.partie.niveau.Porte;
@@ -158,28 +160,62 @@ public class Personnage extends Entite {
 	 * @return true s'il y a collision, false sinon
 	 */
 	public boolean collisionMonstre(Monstre m, Sprite arme){
-		Vector2f armePos = new Vector2f(arme.getPosition().x + 25, arme.getPosition().y + 25);
-		return (armePos.x >= m.getSprite().getPosition().x &&
-				armePos.x <= m.getSprite().getPosition().x + 50 &&
-				armePos.y >= m.getSprite().getPosition().y &&
-				armePos.y <= m.getSprite().getPosition().y + 50);				
+		Vector2f armePos = new Vector2f(arme.getPosition().x, arme.getPosition().y);
+		return (armePos.x + 25 >= m.getSprite().getPosition().x - 25 &&
+				armePos.x + 25 <= m.getSprite().getPosition().x + 25 &&
+				armePos.y + 25 >= m.getSprite().getPosition().y - 25 &&
+				armePos.y + 25 <= m.getSprite().getPosition().y + 25);				
 	}
+	
+//	public HashSet<Monstre> getMonstresProches(Sprite s){
+//		HashSet<Monstre> monstres = new HashSet<Monstre>();
+//		Vector2i pos = new Vector2i((int)s.getPosition().x / Niveau.SIZE, 
+//									(int)s.getPosition().y / Niveau.SIZE);
+//		// On stocke les monstres proche de l'arme dans un hashset que l'on retourne
+//		for (int i=-1; i < 2; i++){
+//			for (int j=-1; j < 2; j++){
+//				if (Partie.getMonstres().containsKey(new Vector2i(pos.x+i,pos.y+j))){
+//					monstres.add(Partie.getMonstres().get(new Vector2i(pos.x+i,pos.y+j)));
+//				}
+//			}
+//		}
+//		
+//		return monstres;
+//	}
 	
 	/**
 	 * Méthode de vérification de collision des armes
 	 */
 	public void verifierCollisionArmes(){
-		Iterator<Entry<Vector2i, Monstre>> i = Partie.getMonstres().entrySet().iterator();
-		for (Sprite s : this.spriteArme){
-			while (i.hasNext()){
-				Monstre m = i.next().getValue();
+		Iterator<Sprite> iArmes = this.spriteArme.iterator();
+		Iterator<Entry<Vector2i, Monstre>> iMonstres = Partie.getMonstres().entrySet().iterator();
+//		HashSet<Monstre> monstresProches = new HashSet<Monstre>();
+		int compteur = 0;		
+		boolean pasDeCollision;
+		
+		while (iArmes.hasNext()){
+			Sprite s = iArmes.next();
+//			monstresProches = getMonstresProches(s);
+//			System.out.println(monstresProches);
+//			Iterator<Monstre> iMonstres = monstresProches.iterator();			
+			pasDeCollision = true;
+			
+			while (iMonstres.hasNext()&&(pasDeCollision)){
+				Monstre m = iMonstres.next().getValue();
 				if (collisionMonstre(m,s)){
 					m.setPdv(m.getPdv()-1);
+					// Si le monstre n'a plus de PV
 					if (m.getPdv() == 0){
-						i.remove();
+						iMonstres.remove();
+						Generateur.nbMonstres--;
 					}
+					// On supprime l'arme
+					iArmes.remove();
+					this.directionArme.remove(compteur);
+					pasDeCollision = false;
 				}
-			}			
+			}	
+			compteur++;
 		}
 	}
 	
