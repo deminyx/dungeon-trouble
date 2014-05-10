@@ -1,7 +1,6 @@
 package fr.dungeontrouble.partie.entite;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
@@ -78,13 +77,14 @@ public class Personnage extends Entite {
 	 */
 	@Override
 	public void faireAction() { 
-		// TODO Auto-generated method stub
+		// Si on ne regarde pas de porte, alors on peut lancer une arme
 		if(!regardeUnePorte()) //Methode qui verifie la presence de porte 
 		{			
 			spriteArme.add(new Sprite(textureArme,new IntRect(perso.ordinal()*50,0,50,50)));
 			spriteArme.get(spriteArme.size()-1).setPosition(this.sprite.getPosition().x + 25, this.sprite.getPosition().y + 25);
 			directionArme.add(direction);
 			
+			// On modifie l'origine de l'arme pour effectuer une rotation sur elle-même
 			spriteArme.get(spriteArme.size()-1).setOrigin(new Vector2f(25,25));
 			switch(direction){//lancement de l'arme en fonction de la direction
 			case bas:
@@ -161,10 +161,10 @@ public class Personnage extends Entite {
 	 */
 	public boolean collisionMonstre(Monstre m, Sprite arme){
 		Vector2f armePos = new Vector2f(arme.getPosition().x, arme.getPosition().y);
-		return (armePos.x + 25 >= m.getSprite().getPosition().x - 25 &&
-				armePos.x + 25 <= m.getSprite().getPosition().x + 25 &&
-				armePos.y + 25 >= m.getSprite().getPosition().y - 25 &&
-				armePos.y + 25 <= m.getSprite().getPosition().y + 25);				
+		return (armePos.x >= m.getSprite().getPosition().x &&
+				armePos.x <= m.getSprite().getPosition().x + 50 &&
+				armePos.y >= m.getSprite().getPosition().y &&
+				armePos.y <= m.getSprite().getPosition().y + 50);
 	}
 	
 //	public HashSet<Monstre> getMonstresProches(Sprite s){
@@ -200,21 +200,32 @@ public class Personnage extends Entite {
 //			Iterator<Monstre> iMonstres = monstresProches.iterator();			
 			pasDeCollision = true;
 			
-			while (iMonstres.hasNext()&&(pasDeCollision)){
-				Monstre m = iMonstres.next().getValue();
-				if (collisionMonstre(m,s)){
-					m.setPdv(m.getPdv()-1);
-					// Si le monstre n'a plus de PV
-					if (m.getPdv() == 0){
-						iMonstres.remove();
-						Generateur.nbMonstres--;
-					}
-					// On supprime l'arme
-					iArmes.remove();
-					this.directionArme.remove(compteur);
-					pasDeCollision = false;
-				}
-			}	
+			// On vérifie s'il y a collision avec un mur
+			if (Niveau.getNiveau()
+					[(int)s.getPosition().y / Niveau.SIZE]
+					[(int)s.getPosition().x / Niveau.SIZE] > 0){
+				iArmes.remove();
+				this.directionArme.remove(compteur);
+			}
+			else{ // On vérifie les collisions avec les monstres
+				while (iMonstres.hasNext()&&(pasDeCollision)){
+					Monstre m = iMonstres.next().getValue();
+					if (collisionMonstre(m,s)){
+						m.setPdv(m.getPdv()-1);
+						// Si le monstre n'a plus de PV
+						if (m.getPdv() <= 0){
+							iMonstres.remove();
+							Generateur.nbMonstres--;
+						}
+						// On supprime l'arme
+						iArmes.remove();
+						this.directionArme.remove(compteur);
+						pasDeCollision = false;
+					}				
+				}	
+			}
+			
+			
 			compteur++;
 		}
 	}

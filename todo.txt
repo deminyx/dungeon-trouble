@@ -1,0 +1,19 @@
+- Son BIP quand un perso attaque et quand perso/monstre est touché
+OK - [Valentin] Collisions entre armes et monstres à terminer
+- Génération des mobs seulement dans la vue
+- [Valentin] Meilleur gestion de collisions entre armes et monstres (à l'aide du HashMap)
+- [Valentin] Collisions armes/murs à finaliser
+- Collisions entre le joueur et la sortie à faire
+- Main à faire (avec début de jeu, affichage des meilleurs scores, puis après avoir appuyé sur Entrée,
+soit le choix d'un personnage en mode 1J, soit début du jeu à 4J
+- Collisions entre les monstres à faire
+- Collisisons entre les personnages à faire
+- Scores en fin de jeu à gérer
+- Collisions entre les monstres et les persos et perte de vie pour les persos
+- Perte de vie toutes les secondes
+- [Valentin] Modifier l'affichage des scores en blanc, et en rouge quand mort
+- [Valentin] Faire en sorte que les personnages ne puissent pas sortir de l'écran 4J
+- Les personnages bloquent les tirs d'autres personnages
+- Vérifier que les gobelins meurent au bout de deux coups et 1 coup pour les fantômes
+- [Valentin] Corriger la porte qui s'ouvre pas quand on la colle
+- [Valentin] Destruction des points de spawn avec armes
