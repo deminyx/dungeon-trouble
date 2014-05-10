@@ -59,22 +59,7 @@ public class AffichageScore extends Affichage {
 			String characterName = Partie.getP1().getPerso().name();
 			scoresText.put(characterName, new Text("1000",scoresFont,22));
 			scoresText.get(characterName).setPosition(new Vector2f(190,300));
-			switch(Partie.getP1().getPerso()){
-				case elfe:
-					scoresText.get(characterName).setColor(Color.GREEN);
-					break;
-				case guerrier:
-					scoresText.get(characterName).setColor(Color.RED);
-					break;
-				case magicien:
-					scoresText.get(characterName).setColor(Color.YELLOW);
-					break;
-				case valkyrie:
-					scoresText.get(characterName).setColor(Color.CYAN);
-					break;
-				default:
-					break;
-			}
+			scoresText.get(characterName).setColor(Color.WHITE);			
 		} else {
 			// On fait la même chose pour 4 joueurs
 			scoresText.put("guerrier", new Text("1000",scoresFont,22));
@@ -84,16 +69,16 @@ public class AffichageScore extends Affichage {
 			
 			// On applique à chaque score une position et une couleur
 			scoresText.get("guerrier").setPosition(new Vector2f(190,300));
-			scoresText.get("guerrier").setColor(Color.RED);
+			scoresText.get("guerrier").setColor(Color.WHITE);
 			
 			scoresText.get("magicien").setPosition(new Vector2f(190,341));
-			scoresText.get("magicien").setColor(Color.YELLOW);
+			scoresText.get("magicien").setColor(Color.WHITE);
 			
 			scoresText.get("valkyrie").setPosition(new Vector2f(190,382));
-			scoresText.get("valkyrie").setColor(Color.CYAN);
+			scoresText.get("valkyrie").setColor(Color.WHITE);
 			
 			scoresText.get("elfe").setPosition(new Vector2f(190,423));
-			scoresText.get("elfe").setColor(Color.GREEN);
+			scoresText.get("elfe").setColor(Color.WHITE);
 		}
 			
 		

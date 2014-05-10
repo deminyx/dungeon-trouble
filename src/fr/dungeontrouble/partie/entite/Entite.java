@@ -11,6 +11,7 @@ import org.jsfml.system.Time;
 import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 
+import fr.dungeontrouble.partie.Partie;
 import fr.dungeontrouble.partie.niveau.Niveau;
 import fr.dungeontrouble.partie.niveau.Porte;
 
@@ -151,6 +152,12 @@ public abstract class Entite implements Drawable {
 					returnValue = true;
 					break;
 			}
+		} else if (Partie.getMonstres().containsKey(new Vector2i(nextCoord.y, nextCoord.x))&&
+				(Partie.getMonstres().get(new Vector2i(nextCoord.y, nextCoord.x)) != (Monstre)this)){
+			System.out.println((Monstre)this);
+			System.out.println(Partie.getMonstres().get(new Vector2i(nextCoord.y, nextCoord.x)));
+			System.out.println("");
+			returnValue = true;
 		}
 	
 		return returnValue;
@@ -165,7 +172,7 @@ public abstract class Entite implements Drawable {
 	public void seDeplacer(Direction direction, Time tempsEcoule){ 
 		this.direction = direction;
 		if (!collision(tempsEcoule)) // S'il y a collision, alors on ne fait pas le déplacement
-		{			
+		{
 			float tpsEcoule = tempsEcoule.asSeconds(); //temps ecoulé pour chargement d'image
 			float distance= tpsEcoule * vitesse;
 			float x = 0;

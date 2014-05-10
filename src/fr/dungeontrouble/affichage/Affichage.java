@@ -123,19 +123,19 @@ public abstract class Affichage implements Drawable {
 					
 					MoveEvent.getMove1J(timeElapsed);
 					
-//					if (timeElapsed.asSeconds() < 1){
-//						for (Monstre m : Partie.getMonstres().values()){					
-//							m.seDeplacerVersCible(timeElapsed);
-//						}
-//					}
+					if (timeElapsed.asSeconds() < 1){
+						for (Monstre m : Partie.getMonstres().values()){					
+							m.seDeplacerVersCible(timeElapsed);
+						}
+					}
 					
 					if (Generateur.nbMonstres < 100){
 						for (Objet o : Niveau.getObjets().values()){
 							if ((o instanceof Generateur)&&(Generateur.nbMonstres < 100)){
-								((Generateur)o).genererMonstres();
+								((Generateur)o).genererMonstres(((AffichageJeu)affJeu).getCenter());
 							}
 						}
-					}	
+					}
 					
 					// Mise à jour de la vue en conséquence
 					for (Personnage p : Partie.getPersonnages().values()){
