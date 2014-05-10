@@ -123,11 +123,11 @@ public abstract class Affichage implements Drawable {
 					
 					MoveEvent.getMove1J(timeElapsed);
 					
-					if (timeElapsed.asSeconds() < 1){
-						for (Monstre m : Partie.getMonstres().values()){					
-							m.seDeplacerVersCible(timeElapsed);
-						}
-					}
+//					if (timeElapsed.asSeconds() < 1){
+//						for (Monstre m : Partie.getMonstres().values()){					
+//							m.seDeplacerVersCible(timeElapsed);
+//						}
+//					}
 					
 					if (Generateur.nbMonstres < 100){
 						for (Objet o : Niveau.getObjets().values()){
@@ -140,7 +140,7 @@ public abstract class Affichage implements Drawable {
 					// Mise à jour de la vue en conséquence
 					for (Personnage p : Partie.getPersonnages().values()){
 						p.bougerArmes(timeElapsed, ((AffichageJeu)affJeu).getCenter());
-						p.verifierCollisionArmes();
+						p.verifierCollisionArmes(timeElapsed);
 					}
 					((AffichageJeu) affJeu).updateView();
 					

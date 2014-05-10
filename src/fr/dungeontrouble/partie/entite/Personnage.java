@@ -19,12 +19,13 @@ import fr.dungeontrouble.partie.niveau.Generateur;
 import fr.dungeontrouble.partie.niveau.Niveau;
 import fr.dungeontrouble.partie.niveau.Objet;
 import fr.dungeontrouble.partie.niveau.Porte;
-/**
- * 
- * @author Awa CAMARA
- * permet de gerer les personnages (position, score,deplacement..)
- */
 
+/**
+ * Classe qui permet de gerer les personnages (position, score,deplacement..)
+ * ainsi que les armes de ces personnages
+ * @author Awa CAMARA
+ * @author Valentin PORCHET
+ */
 public class Personnage extends Entite {
 	
 	//enumeration des differents personnages
@@ -61,16 +62,13 @@ public class Personnage extends Entite {
 		this.spriteArme = new ArrayList<Sprite>();
 		this.directionArme = new ArrayList<Direction>();
 		this.sprite.setPosition(this.position.x*50,this.position.y*50);//initialise la position
-		updateSprite(this.direction, this.etat);
-		
-		
+		updateSprite(this.direction, this.etat);		
 	}
 	
 	//une fonction dinitialisation
 	public static void init(){
 		textureArme = Affichage.loadTexture("sprite_armes.png");
 	}
-	
 	
 	/**
 	 * permet de lancer une arme lorsqu'il n'y a pas de porte
@@ -118,115 +116,132 @@ public class Personnage extends Entite {
 		}
 		else{
 			if (this.nbCles > 0){ 	// On ouvre la porte si on a au moins une clef
-				switch(this.direction){
-				case bas:
-					detruirePorte(this.position.x, this.position.y+1);
-					break;
-				case bas_droit:
-					detruirePorte(this.position.x+1, this.position.y+1);
-					break;
-				case bas_gauche:
-					detruirePorte(this.position.x-1, this.position.y+1);
-					break;
-				case droit:
-					detruirePorte(this.position.x+1, this.position.y);
-					break;
-				case gauche:
-					detruirePorte(this.position.x-1, this.position.y);
-					break;
-				case haut:
-					detruirePorte(this.position.x, this.position.y-1);
-					break;
-				case haut_droit:
-					detruirePorte(this.position.x+1, this.position.y-1);
-					break;
-				case haut_gauche:
-					detruirePorte(this.position.x-1, this.position.y-1);
-					break;
-				default:
-					break;
-				
+				// Si la porte est sur la case
+				if (Niveau.getObjets().containsKey(this.position)&&
+						Niveau.getObjets().get(this.position) instanceof Porte){
+					detruirePorte(this.position.x, this.position.y);
+				} // Sinon on regarde où elle est
+				else{
+					switch(this.direction){
+					case bas:
+						detruirePorte(this.position.x, this.position.y+1);
+						break;
+					case bas_droit:
+						detruirePorte(this.position.x+1, this.position.y+1);
+						break;
+					case bas_gauche:
+						detruirePorte(this.position.x-1, this.position.y+1);
+						break;
+					case droit:
+						detruirePorte(this.position.x+1, this.position.y);
+						break;
+					case gauche:
+						detruirePorte(this.position.x-1, this.position.y);
+						break;
+					case haut:
+						detruirePorte(this.position.x, this.position.y-1);
+						break;
+					case haut_droit:
+						detruirePorte(this.position.x+1, this.position.y-1);
+						break;
+					case haut_gauche:
+						detruirePorte(this.position.x-1, this.position.y-1);
+						break;
+					default:
+						break;
+					
+					}
 				}
 				this.nbCles--;
 			}
 		}
 	}
 	
-
-	/**
-	 * Methode de verification de collision entre une arme et un monstre
-	 * @param m Monstre avec lequel vérifier la collision
-	 * @param arme Arme avec laquelle vérifier la collision
-	 * @return true s'il y a collision, false sinon
-	 */
-	public boolean collisionMonstre(Monstre m, Sprite arme){
-		Vector2f armePos = new Vector2f(arme.getPosition().x, arme.getPosition().y);
-		return (armePos.x >= m.getSprite().getPosition().x &&
-				armePos.x <= m.getSprite().getPosition().x + 50 &&
-				armePos.y >= m.getSprite().getPosition().y &&
-				armePos.y <= m.getSprite().getPosition().y + 50);
-	}
-	
-//	public HashSet<Monstre> getMonstresProches(Sprite s){
-//		HashSet<Monstre> monstres = new HashSet<Monstre>();
-//		Vector2i pos = new Vector2i((int)s.getPosition().x / Niveau.SIZE, 
-//									(int)s.getPosition().y / Niveau.SIZE);
-//		// On stocke les monstres proche de l'arme dans un hashset que l'on retourne
-//		for (int i=-1; i < 2; i++){
-//			for (int j=-1; j < 2; j++){
-//				if (Partie.getMonstres().containsKey(new Vector2i(pos.x+i,pos.y+j))){
-//					monstres.add(Partie.getMonstres().get(new Vector2i(pos.x+i,pos.y+j)));
-//				}
-//			}
-//		}
-//		
-//		return monstres;
-//	}
-	
 	/**
 	 * Méthode de vérification de collision des armes
 	 */
-	public void verifierCollisionArmes(){
-		Iterator<Sprite> iArmes = this.spriteArme.iterator();
-		Iterator<Entry<Vector2i, Monstre>> iMonstres = Partie.getMonstres().entrySet().iterator();
-//		HashSet<Monstre> monstresProches = new HashSet<Monstre>();
-		int compteur = 0;		
-		boolean pasDeCollision;
+	public void verifierCollisionArmes(Time timeElapsed){
+		// Itérateur pour parcourir les armes
+		Iterator<Sprite> iArmes = this.spriteArme.iterator(); 
+		int compteur = 0; // Compteur pour pouvoir supprimer les directions des armes
+		Vector2i key = null; // Vecteur qui contiendra la position de l'arme courante dans la matrice
+		Vector2f pos = null; // Vecteur qui contiendra la position de l'arme courante sur le terrain
+		float move = timeElapsed.asSeconds()*this.vitesse*2; // Le mouvement effectué
 		
+		// Tant qu'on a des armes
 		while (iArmes.hasNext()){
-			Sprite s = iArmes.next();
-//			monstresProches = getMonstresProches(s);
-//			System.out.println(monstresProches);
-//			Iterator<Monstre> iMonstres = monstresProches.iterator();			
-			pasDeCollision = true;
+			Sprite s = iArmes.next(); // On récupère l'arme
+			pos = new Vector2f(s.getPosition().x,s.getPosition().y); // On récupère sa position
 			
+			// On récupère la future position de l'arme dans la matrice
+			switch (this.directionArme.get(compteur)){
+			case bas:
+				key = new Vector2i((int)pos.x / Niveau.SIZE,(int)(pos.y+move) / Niveau.SIZE);
+				break;
+			case bas_droit:
+				key = new Vector2i((int)(pos.x+move) / Niveau.SIZE,(int)(pos.y+move) / Niveau.SIZE);
+				break;
+			case bas_gauche:
+				key = new Vector2i((int)(pos.x-move) / Niveau.SIZE,(int)(pos.y+move) / Niveau.SIZE);
+				break;
+			case droit:
+				key = new Vector2i((int)(pos.x+move) / Niveau.SIZE,(int)pos.y / Niveau.SIZE);
+				break;
+			case gauche:
+				key = new Vector2i((int)(pos.x-move) / Niveau.SIZE,(int)pos.y / Niveau.SIZE);
+				break;
+			case haut:
+				key = new Vector2i((int)pos.x / Niveau.SIZE,(int)(pos.y-move) / Niveau.SIZE);
+				break;
+			case haut_droit:
+				key = new Vector2i((int)(pos.x+move) / Niveau.SIZE,(int)(pos.y-move) / Niveau.SIZE);
+				break;
+			case haut_gauche:
+				key = new Vector2i((int)(pos.x-move) / Niveau.SIZE,(int)(pos.y-move) / Niveau.SIZE);
+				break;
+			default:
+				break;
+			}
+						
 			// On vérifie s'il y a collision avec un mur
-			if (Niveau.getNiveau()
-					[(int)s.getPosition().y / Niveau.SIZE]
-					[(int)s.getPosition().x / Niveau.SIZE] > 0){
+			if (Niveau.getNiveau()[key.y][key.x] > 0){
+				System.out.println("Collision MUR");
 				iArmes.remove();
 				this.directionArme.remove(compteur);
+				compteur--;
+			} // Sinon s'il y a un objet, on vérifie lequel c'est
+			else if (Niveau.getObjets().containsKey(key)){
+				Objet o = Niveau.getObjets().get(key);
+				if (o instanceof Porte){
+					System.out.println("Collision PORTE");
+					iArmes.remove();
+					this.directionArme.remove(compteur);
+					compteur--;
+				}
+				else if (o instanceof Generateur){
+					System.out.println("Collision GENERATEUR");
+					Niveau.getObjets().remove(key); // On supprime le générateur
+					iArmes.remove(); // On supprime également l'arme
+					this.directionArme.remove(compteur);
+					compteur--;
+				}
+				// Sinon, que ce soit un trésor ou une clef, pas de collision
+			} // On vérifie les collisions avec les monstres
+			else if (Partie.getMonstres().containsKey(new Vector2i(key.y,key.x))){ 
+				System.out.println("Collision MONSTRE");
+				Monstre m = Partie.getMonstres().get(new Vector2i(key.y,key.x));
+				m.setPdv(m.getPdv()-1);
+				// Si le monstre n'a plus de PV
+				if (m.getPdv() <= 0){
+					Partie.getMonstres().remove(new Vector2i(key.y,key.x));
+					Generateur.nbMonstres--;
+				}
+				// On supprime l'arme
+				iArmes.remove();
+				this.directionArme.remove(compteur);
+				compteur--;
 			}
-			else{ // On vérifie les collisions avec les monstres
-				while (iMonstres.hasNext()&&(pasDeCollision)){
-					Monstre m = iMonstres.next().getValue();
-					if (collisionMonstre(m,s)){
-						m.setPdv(m.getPdv()-1);
-						// Si le monstre n'a plus de PV
-						if (m.getPdv() <= 0){
-							iMonstres.remove();
-							Generateur.nbMonstres--;
-						}
-						// On supprime l'arme
-						iArmes.remove();
-						this.directionArme.remove(compteur);
-						pasDeCollision = false;
-					}				
-				}	
-			}
-			
-			
-			compteur++;
+			compteur++;			
 		}
 	}
 	
@@ -242,7 +257,7 @@ public class Personnage extends Entite {
 				Iterator<Entry<Vector2i, Objet>> i = Niveau.getObjets().entrySet().iterator();
 				while (i.hasNext()){
 					Objet o = i.next().getValue();
-					if (o.toString().equals("Porte")){
+					if (o instanceof Porte){
 						if(((Porte)o).getIdPorteCourante() == idASupprimer){
 							i.remove();
 						}								
@@ -286,7 +301,7 @@ public class Personnage extends Entite {
 	 * @param centre Coordonnées du centre de la vue de jeu
 	 */
 	public void bougerArmes(Time t, Vector2f centre){
-		float distance = this.vitesse*3*t.asSeconds();
+		float distance = this.vitesse*2*t.asSeconds();
 		
 		for (int i=0; i < spriteArme.size(); i++){
 			if (!armeDansVue(spriteArme.get(i), centre)){

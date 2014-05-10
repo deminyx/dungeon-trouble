@@ -288,6 +288,14 @@ public abstract class Entite implements Drawable {
                 default:
                         break;         
         }
+        
+        // Si on n'a pas trouvé de porte, on vérifie également qu'on n'est pas
+        // Sur la même case qu'une porte
+        
+        if (!value){
+        	value = (Niveau.getObjets().containsKey(pos)&&
+                    (Niveau.getObjets().get(pos) instanceof Porte));
+        }
        
         return value;
 }
