@@ -152,17 +152,43 @@ public abstract class Entite implements Drawable {
 					returnValue = true;
 					break;
 			}
-		} else if (Partie.getMonstres().containsKey(new Vector2i(nextCoord.y, nextCoord.x))&&
-				(Partie.getMonstres().get(new Vector2i(nextCoord.y, nextCoord.x)) != (Monstre)this)){
-			System.out.println((Monstre)this);
-			System.out.println(Partie.getMonstres().get(new Vector2i(nextCoord.y, nextCoord.x)));
-			System.out.println("");
-			returnValue = true;
+		}
+		
+		// Si on a toujours rien trouvé, on vérifie s'il y a une autre entité
+		if (!returnValue){
+			for (Monstre m : Partie.getMonstres().values()){
+				if ((m != this) && (collisionEntite(this,m))){
+					returnValue = true;
+					if (this instanceof Personnage){
+						((Personnage)this).setScore(((Personnage)this).getScore()-1);
+					}
+				}
+			}
+			
+			if (!returnValue){
+				for (Personnage p : Partie.getPersonnages().values()){
+					if ((p != this) && (collisionEntite(this,p))){
+						returnValue = true;
+					}
+				}
+			}
 		}
 	
 		return returnValue;
 	}
 	
+
+	private boolean collisionEntite(Entite e, Entite e2) {
+//		Vector2f pos1 = e.getSprite().getPosition();
+//		Vector2f pos2 = e2.getSprite().getPosition();
+//		
+//		return (!((pos2.x >= pos1.x + 35)      
+//		|| (pos2.x + 35 <= pos1.x)
+//		|| (pos2.y >= pos1.y + 35)
+//		|| (pos2.y + 35 <= pos1.y)));
+		return e.getPosition().equals(e2.getPosition());
+	}
+
 
 	/**
 	 * Permet à l'entité de se déplacer en fonction de la direction et du temps ecoulé
@@ -381,4 +407,12 @@ public abstract class Entite implements Drawable {
 	public void draw(RenderTarget target, RenderStates states) {
 		target.draw(this.sprite);
 	}
+
+
+	@Override
+	public String toString() {
+		return this.getClass().getSimpleName()+" ("+this.position.x+","+this.position.y+")";
+	}
+	
+	
 }

@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import org.jsfml.graphics.IntRect;
 import org.jsfml.graphics.Sprite;
+import org.jsfml.system.Clock;
 import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 
@@ -22,6 +23,7 @@ public class Generateur extends Objet {
 	TypeMonstre t;	// Type de Générateur (fantôme)
 	HashMap<Vector2i, Boolean> casesGenerables; // HashMap des cases où l'on peut y creer des monstres
 	public static int nbMonstres=0;
+	private Clock clock;
 
 	/**
 	 * Constructeur de Generateur prenant en paramètre son type
@@ -31,6 +33,7 @@ public class Generateur extends Objet {
 	 */
 	public Generateur(TypeMonstre t, Vector2i pos) {
 		this.position = pos;								// Initialisation de la position
+		this.clock = new Clock();
 		
 		casesGenerables = new HashMap<Vector2i, Boolean>(); 
 		casesGenerables.put(new Vector2i(this.position.x - 1, this.position.y), // Ajout des 4 cases entourant le générateur
@@ -86,30 +89,31 @@ public class Generateur extends Objet {
 	 * @author Maxime BELLIER
 	 */
 	public void genererMonstres(Vector2f centreDeVue) {
-		
 		// Si le générateur est visible, alors on génère des monstres
-		if ((this.sprite.getPosition().x >= centreDeVue.x)&&
+		if ((this.sprite.getPosition().x >= centreDeVue.x - 275)&&
 			(this.sprite.getPosition().x <= centreDeVue.x + 275)&&
-			(this.sprite.getPosition().y >= centreDeVue.y)&&
-			(this.sprite.getPosition().y <= centreDeVue.y + 300))
+			(this.sprite.getPosition().y >= centreDeVue.y - 300)&&
+			(this.sprite.getPosition().y <= centreDeVue.y + 300)&&
+			clock.getElapsedTime().asSeconds() > 1)
 		{
-			nbMonstres++;					//Ajout d'un monstre
 			for (Vector2i v : casesGenerables.keySet()) { // Pour toutes cases générables ....
 				if ((Partie.getMonstres().containsKey(v))
-						|| (Partie.getPersonnages().containsKey(v))
-						|| (Niveau.getObjets().containsKey(v))) {
+					|| (Partie.getPersonnages().containsKey(v))
+					|| (Niveau.getObjets().containsKey(new Vector2i(v.y,v.x)))) {
 					casesGenerables.put(v, false);		// On vérifie que l'on a encore rien géneré dessus.
-				} else {
+				} else  {
 					casesGenerables.put(v, true);
 				}
 			}
 			for (Vector2i v : casesGenerables.keySet()) {
-				if (casesGenerables.get(v) == true) {
+				if ((casesGenerables.get(v) == true)){
 					Monstre m = new Monstre(t,v);
 					Partie.getMonstres().put(m.getPosition(), m); // ... puis on ajoute une nouvelle instanciation de monstres.
+					nbMonstres++;					//Ajout d'un monstre
 					casesGenerables.put(v, false);
 				}
 			}
-		}		
+			clock.restart();
+		}
 	}
 }

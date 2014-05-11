@@ -2,16 +2,19 @@
 - Collisions entre le joueur et la sortie à faire
 - Main à faire (avec début de jeu, affichage des meilleurs scores, puis après avoir appuyé sur Entrée,
 soit le choix d'un personnage en mode 1J, soit début du jeu à 4J
-- [Valentin] Collisions entre les monstres à faire ==> En cours..
-- Collisions entre les personnages à faire
 - Scores en fin de jeu à gérer
-- Collisions entre les monstres et les persos et perte de vie pour les persos
 - Perte de vie toutes les secondes
 - [Valentin] Modifier l'affichage des scores en blanc, et en rouge quand mort
 - [Valentin] Faire en sorte que les personnages ne puissent pas sortir de l'écran 4J
-- Les personnages bloquent les tirs d'autres personnages
 - Gestion de la mort des personnages
 
+- [Valentin] Collisions entre entités (perso, monstres) ==> Gérées mais buggée
+  Je corrigerai les points suivants : 
+  - monstre écrasé par un nouveau à la génération,
+  - et monstres qui peuvent aller sur la même case que le personnage
+
+OK à tester - Les personnages bloquent les tirs d'autres personnages
+OK - [Valentin] Collisions entre les monstres et les persos et perte de vie pour les persos
 OK - [Valentin] Génération des mobs seulement dans la vue
 OK - [Valentin] Corriger la porte qui s'ouvre pas quand on la colle
 OK - [Valentin] Collisions armes/murs à finaliser

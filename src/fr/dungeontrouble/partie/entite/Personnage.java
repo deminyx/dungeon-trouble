@@ -227,13 +227,13 @@ public class Personnage extends Entite {
 				}
 				// Sinon, que ce soit un trésor ou une clef, pas de collision
 			} // On vérifie les collisions avec les monstres
-			else if (Partie.getMonstres().containsKey(new Vector2i(key.y,key.x))){ 
+			else if (Partie.getMonstres().containsKey(key)){ 
 				System.out.println("Collision MONSTRE");
-				Monstre m = Partie.getMonstres().get(new Vector2i(key.y,key.x));
+				Monstre m = Partie.getMonstres().get(key);
 				m.setPdv(m.getPdv()-1);
 				// Si le monstre n'a plus de PV
 				if (m.getPdv() <= 0){
-					Partie.getMonstres().remove(new Vector2i(key.y,key.x));
+					Partie.getMonstres().remove(key);
 					Generateur.nbMonstres--;
 				}
 				// On supprime l'arme
@@ -241,7 +241,14 @@ public class Personnage extends Entite {
 				this.directionArme.remove(compteur);
 				compteur--;
 			}
-			compteur++;			
+			else if (Partie.getPersonnages().containsKey(key)){
+				System.out.println("Collision PERSONNAGE");
+				// On supprime l'arme
+				iArmes.remove();
+				this.directionArme.remove(compteur);
+				compteur--;
+			}
+			compteur++;
 		}
 	}
 	

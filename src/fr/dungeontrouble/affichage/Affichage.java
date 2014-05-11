@@ -129,13 +129,18 @@ public abstract class Affichage implements Drawable {
 						}
 					}
 					
-					if (Generateur.nbMonstres < 100){
+					System.out.println(Partie.getMonstres().keySet().size());
+					
+					if (Partie.getMonstres().keySet().size() < 50){
 						for (Objet o : Niveau.getObjets().values()){
-							if ((o instanceof Generateur)&&(Generateur.nbMonstres < 100)){
+							if ((o instanceof Generateur)&&(Partie.getMonstres().keySet().size() < 50)){
 								((Generateur)o).genererMonstres(((AffichageJeu)affJeu).getCenter());
 							}
 						}
 					}
+					
+					// Mise à jour des positions des monstres dans le hashmap
+					Monstre.majPos();  
 					
 					// Mise à jour de la vue en conséquence
 					for (Personnage p : Partie.getPersonnages().values()){

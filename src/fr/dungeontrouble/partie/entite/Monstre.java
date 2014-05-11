@@ -1,5 +1,7 @@
 package fr.dungeontrouble.partie.entite;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Random;
 
 import org.jsfml.graphics.Sprite;
@@ -15,7 +17,7 @@ import fr.dungeontrouble.partie.Partie;
  * permet de gerer les monstres (position, points de vie, attaque, deplacement)
  */
 
-public class Monstre extends Entite {
+public class Monstre extends Entite implements Cloneable{
 	
 	//enumeration des differents monstres
 	public enum TypeMonstre{
@@ -86,16 +88,14 @@ public class Monstre extends Entite {
 	 */
 	public void seDeplacerVersCible(Time tempsEcoule){
 		
-		 
 		int diffAbs=this.getPosition().x-cible.getPosition().x;//difference entre les abscisses du monstre et celui du personnage
 		int diffOrd=this.getPosition().y-cible.getPosition().y;//difference entre les ordonnées du monstre et celui du personnage
-		
 		
 		if(diffAbs==0){//en fonction de cette difference le monstre se déplacera vers sa cible 
 			if(diffOrd<0){ //va vers le haut ou le bas
 				this.seDeplacer(Direction.bas, tempsEcoule);
 			}
-			else {
+			else if (diffOrd>0){
 				this.seDeplacer(Direction.haut, tempsEcoule);
 			}
 		}
@@ -118,10 +118,26 @@ public class Monstre extends Entite {
 			else if(diffOrd<0){
 				this.seDeplacer(Direction.bas_gauche, tempsEcoule);
 			}
-			else
-				this.seDeplacer(Direction.gauche, tempsEcoule);
+			else{
+				this.seDeplacer(Direction.gauche, tempsEcoule);					
+			}				
+		}			
+	}
+
+	public static void majPos(){
+		ArrayList<Monstre> actualMonstres = new ArrayList<Monstre>();
+		for (Monstre m : Partie.getMonstres().values()){
+			try {
+				actualMonstres.add((Monstre) m.clone());
+			} catch (CloneNotSupportedException e) {
+				e.printStackTrace();
+			}
 		}
-			
+		
+		Partie.getMonstres().clear();
+		for (Monstre m : actualMonstres){
+			Partie.getMonstres().put(m.getPosition(),m);			
+		}
 	}
 	
 	
