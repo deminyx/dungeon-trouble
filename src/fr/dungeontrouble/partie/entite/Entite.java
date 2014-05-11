@@ -124,7 +124,7 @@ public abstract class Entite implements Drawable {
 		Vector2i nextCoordWall = new Vector2i((int)nextPosWall.x/Niveau.SIZE, (int)nextPosWall.y/Niveau.SIZE);
 		
 		// Calcul de future position dans la matrice
-		nextCoord = new Vector2i((int)nextPos.x/Niveau.SIZE, (int)nextPos.y/Niveau.SIZE);
+		nextCoord = new Vector2i((int)(nextPos.x+25)/Niveau.SIZE, (int)(nextPos.y+25)/Niveau.SIZE);
 		
 		boolean returnValue = Niveau.getNiveau()[nextCoordWall.y][nextCoordWall.x] > 0;
 		
@@ -134,7 +134,7 @@ public abstract class Entite implements Drawable {
 				case "Tresor":
 					if (this instanceof Personnage){
 						((Personnage)(this)).setScore(((Personnage)(this)).getScore()+100);
-						Niveau.getObjets().remove(nextCoordWall);						
+						Niveau.getObjets().remove(nextCoordWall);		
 						returnValue = false;
 					}
 					
@@ -161,19 +161,29 @@ public abstract class Entite implements Drawable {
 		
 		// Si on a toujours rien trouvé, on vérifie s'il y a une autre entité
 		if (!returnValue){
-			for (Monstre m : Partie.getMonstres().values()){
+			if (Partie.getMonstres().containsKey(nextCoord)){
+				Monstre m = Partie.getMonstres().get(nextCoord);
 				if ((m != this) && (collisionEntite(nextPos,m.getSprite().getPosition()))){
 					returnValue = true;
 				}
 			}
+//			for (Monstre m : Partie.getMonstres().values()){
+//				if ((m != this) && (collisionEntite(nextPos,m.getSprite().getPosition()))){
+//					returnValue = true;
+//				}
+//			}
 			
 			// Si on a encore rien trouvé, on regarde s'il y a un personnage
 			if (!returnValue){
-				for (Personnage p : Partie.getPersonnages().values()){
+				// Si il y a un personnage sur la case cible
+				if (Partie.getPersonnages().containsKey(nextCoord)){
+					Personnage p = Partie.getPersonnages().get(nextCoord);
+					// Si le personnage trouvé n'est pas lui-même et qu'il y a collision
 					if ((p != this) && (collisionEntite(nextPos,p.getSprite().getPosition()))){
 						returnValue = true;
+						// Si c'est un monstre qui a touché le personnage, il perd de la vie
 						if (this instanceof Monstre){
-							((Personnage)p).setScore(((Personnage)p).getScore()-1);
+							p.setScore(p.getScore()-1);
 						}
 					}
 				}
@@ -188,11 +198,13 @@ public abstract class Entite implements Drawable {
 		Vector2i coord1 = new Vector2i((int)(pos1.x+25) / Niveau.SIZE, (int)(pos1.y+25) / Niveau.SIZE);
 		Vector2i coord2 = new Vector2i((int)(pos2.x+25) / Niveau.SIZE, (int)(pos2.y+25) / Niveau.SIZE);
 		
-		return ((coord1.equals(coord2))&&
-				(!((pos1.x + 50 <= pos2.x)||
-				   (pos1.x >= pos2.x + 50)||
-				   (pos1.y >= pos2.y + 50)||
-				   (pos1.y + 50 <= pos2.y))));
+		return (coord1.equals(coord2));
+		// A effacer si plus besoin après
+//		return ((coord1.equals(coord2))&&
+//				(!((pos1.x + 50 <= pos2.x)||
+//				   (pos1.x >= pos2.x + 50)||
+//				   (pos1.y >= pos2.y + 50)||
+//				   (pos1.y + 50 <= pos2.y))));
 	}
 
 

@@ -95,7 +95,7 @@ public class Generateur extends Objet {
 			(this.sprite.getPosition().x <= centreDeVue.x + 275)&&
 			(this.sprite.getPosition().y >= centreDeVue.y - 300)&&
 			(this.sprite.getPosition().y <= centreDeVue.y + 300)&&
-			clock.getElapsedTime().asSeconds() > 1)
+			clock.getElapsedTime().asSeconds() > 1.5)
 		{
 			for (Vector2i v : casesGenerables.keySet()) { // Pour toutes cases générables ....
 				if ((Partie.getMonstres().containsKey(new Vector2i(v.y,v.x)))
@@ -103,13 +103,7 @@ public class Generateur extends Objet {
 					|| (Niveau.getObjets().containsKey(new Vector2i(v.y,v.x)))) {
 					casesGenerables.put(v, false);		// On vérifie que l'on a encore rien géneré dessus.
 				} else  {
-					boolean collision = false;
-					for (Monstre m : Partie.getMonstres().values()){
-						if (Entite.collisionEntite(new Vector2f(v.x*50,v.y*50),this.getSprite().getPosition())){
-							collision = true;
-						}
-					}
-					casesGenerables.put(v, !collision);
+					casesGenerables.put(v, true);
 				}
 			}
 			for (Vector2i v : casesGenerables.keySet()) {

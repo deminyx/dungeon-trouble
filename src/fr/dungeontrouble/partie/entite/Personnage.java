@@ -241,7 +241,7 @@ public class Personnage extends Entite{
 				this.directionArme.remove(compteur);
 				compteur--;
 			}
-			else if (Partie.getPersonnages().containsKey(key)){
+			else if (Partie.getPersonnages().containsKey(key) && this != Partie.getPersonnages().get(key)){
 				System.out.println("Collision PERSONNAGE");
 				// On supprime l'arme
 				iArmes.remove();
