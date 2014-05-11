@@ -17,7 +17,7 @@ import fr.dungeontrouble.partie.Partie;
  * permet de gerer les monstres (position, points de vie, attaque, deplacement)
  */
 
-public class Monstre extends Entite implements Cloneable{
+public class Monstre extends Entite{
 	
 	//enumeration des differents monstres
 	public enum TypeMonstre{
@@ -91,47 +91,66 @@ public class Monstre extends Entite implements Cloneable{
 		int diffAbs=this.getPosition().x-cible.getPosition().x;//difference entre les abscisses du monstre et celui du personnage
 		int diffOrd=this.getPosition().y-cible.getPosition().y;//difference entre les ordonnées du monstre et celui du personnage
 		
+		// Si on a pas réussi à se déplacer, on essaie toutes les autres directions
+		this.seDeplacer(diffAbs,diffOrd,tempsEcoule);
+		
+		// A effacer si on résout les pbs de collision 
+//			boolean deplacementEffectue = false;
+//			for (int i = -1; i < 2 && (!deplacementEffectue); i++){
+//				for (int j = -1; j < 2 && (!deplacementEffectue); j++){
+//					if (i != diffAbs && j != diffOrd){
+//						deplacementEffectue = this.seDeplacer(i,j,tempsEcoule);
+//					}
+//				}
+//			}
+//		}
+		
+		// On met à jour le sprite
+		updateSprite(this.direction, this.etat);
+					
+	}
+
+	public boolean seDeplacer(int diffAbs, int diffOrd, Time tempsEcoule){
+		boolean deplacementOK = false;
+		
 		if(diffAbs==0){//en fonction de cette difference le monstre se déplacera vers sa cible 
 			if(diffOrd<0){ //va vers le haut ou le bas
-				this.seDeplacer(Direction.bas, tempsEcoule);
+				deplacementOK = this.seDeplacer(Direction.bas, tempsEcoule);
 			}
 			else if (diffOrd>0){
-				this.seDeplacer(Direction.haut, tempsEcoule);
+				deplacementOK = this.seDeplacer(Direction.haut, tempsEcoule);
 			}
 		}
 		
 		else if (diffAbs<0){ //va a droite
 			if(diffOrd>0){
-				this.seDeplacer(Direction.haut_droit,tempsEcoule);
+				deplacementOK = this.seDeplacer(Direction.haut_droit,tempsEcoule);
 			}
 			else if(diffOrd<0){
-				this.seDeplacer(Direction.bas_droit, tempsEcoule);
+				deplacementOK = this.seDeplacer(Direction.bas_droit, tempsEcoule);
 			}
 			else 
-				this.seDeplacer(Direction.droit, tempsEcoule);
+				deplacementOK = this.seDeplacer(Direction.droit, tempsEcoule);
 		}
 		
 		else { //va a gauche
 			if(diffOrd>0){ 
-				this.seDeplacer(Direction.haut_gauche, tempsEcoule);
+				deplacementOK = this.seDeplacer(Direction.haut_gauche, tempsEcoule);
 			}
 			else if(diffOrd<0){
-				this.seDeplacer(Direction.bas_gauche, tempsEcoule);
+				deplacementOK = this.seDeplacer(Direction.bas_gauche, tempsEcoule);
 			}
 			else{
-				this.seDeplacer(Direction.gauche, tempsEcoule);					
+				deplacementOK = this.seDeplacer(Direction.gauche, tempsEcoule);					
 			}				
-		}			
+		}
+		
+		return deplacementOK;
 	}
-
 	public static void majPos(){
 		ArrayList<Monstre> actualMonstres = new ArrayList<Monstre>();
 		for (Monstre m : Partie.getMonstres().values()){
-			try {
-				actualMonstres.add((Monstre) m.clone());
-			} catch (CloneNotSupportedException e) {
-				e.printStackTrace();
-			}
+			actualMonstres.add((Monstre) m);
 		}
 		
 		Partie.getMonstres().clear();

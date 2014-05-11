@@ -9,6 +9,7 @@ import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 
 import fr.dungeontrouble.partie.Partie;
+import fr.dungeontrouble.partie.entite.Entite;
 import fr.dungeontrouble.partie.entite.Monstre;
 import fr.dungeontrouble.partie.entite.Monstre.TypeMonstre;
 
@@ -97,12 +98,18 @@ public class Generateur extends Objet {
 			clock.getElapsedTime().asSeconds() > 1)
 		{
 			for (Vector2i v : casesGenerables.keySet()) { // Pour toutes cases générables ....
-				if ((Partie.getMonstres().containsKey(v))
+				if ((Partie.getMonstres().containsKey(new Vector2i(v.y,v.x)))
 					|| (Partie.getPersonnages().containsKey(v))
 					|| (Niveau.getObjets().containsKey(new Vector2i(v.y,v.x)))) {
 					casesGenerables.put(v, false);		// On vérifie que l'on a encore rien géneré dessus.
 				} else  {
-					casesGenerables.put(v, true);
+					boolean collision = false;
+					for (Monstre m : Partie.getMonstres().values()){
+						if (Entite.collisionEntite(new Vector2f(v.x*50,v.y*50),this.getSprite().getPosition())){
+							collision = true;
+						}
+					}
+					casesGenerables.put(v, !collision);
 				}
 			}
 			for (Vector2i v : casesGenerables.keySet()) {

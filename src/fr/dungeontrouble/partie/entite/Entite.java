@@ -18,7 +18,7 @@ import fr.dungeontrouble.partie.niveau.Porte;
 /**
  * Classe Entite dont hérite Monstre et Personnage
  * @author Awa CAMARA
- *
+ * @author Valentin PORCHET
  */
 public abstract class Entite implements Drawable {
 
@@ -118,18 +118,23 @@ public abstract class Entite implements Drawable {
 				break;
 		}
 		
-		nextPos = new Vector2f(nextPos.x + 20, nextPos.y + 35);
+		// Calcul des positions sur le terrain et dans la matrice pour vérifier de collisions avec le mur
+		// Comprend un ajustement dans la position
+		Vector2f nextPosWall = new Vector2f(nextPos.x + 20, nextPos.y + 35);
+		Vector2i nextCoordWall = new Vector2i((int)nextPosWall.x/Niveau.SIZE, (int)nextPosWall.y/Niveau.SIZE);
+		
+		// Calcul de future position dans la matrice
 		nextCoord = new Vector2i((int)nextPos.x/Niveau.SIZE, (int)nextPos.y/Niveau.SIZE);
-	
-		boolean returnValue = Niveau.getNiveau()[nextCoord.y][nextCoord.x] > 0;
+		
+		boolean returnValue = Niveau.getNiveau()[nextCoordWall.y][nextCoordWall.x] > 0;
 		
 		// Vérification si un objet est sur la case cible
-		if (Niveau.getObjets().containsKey(nextCoord)){
-			switch (Niveau.getObjets().get(nextCoord).getClass().getSimpleName()){
+		if (Niveau.getObjets().containsKey(nextCoordWall)){
+			switch (Niveau.getObjets().get(nextCoordWall).getClass().getSimpleName()){
 				case "Tresor":
 					if (this instanceof Personnage){
 						((Personnage)(this)).setScore(((Personnage)(this)).getScore()+100);
-						Niveau.getObjets().remove(nextCoord);
+						Niveau.getObjets().remove(nextCoordWall);						
 						returnValue = false;
 					}
 					
@@ -138,7 +143,7 @@ public abstract class Entite implements Drawable {
 				case "Cle":
 					if (this instanceof Personnage){
 						((Personnage)(this)).setNbCles(((Personnage)(this)).getNbCles()+1);
-						Niveau.getObjets().remove(nextCoord);
+						Niveau.getObjets().remove(nextCoordWall);
 						returnValue = false;
 					}
 					
@@ -157,36 +162,37 @@ public abstract class Entite implements Drawable {
 		// Si on a toujours rien trouvé, on vérifie s'il y a une autre entité
 		if (!returnValue){
 			for (Monstre m : Partie.getMonstres().values()){
-				if ((m != this) && (collisionEntite(this,m))){
+				if ((m != this) && (collisionEntite(nextPos,m.getSprite().getPosition()))){
 					returnValue = true;
-					if (this instanceof Personnage){
-						((Personnage)this).setScore(((Personnage)this).getScore()-1);
-					}
 				}
 			}
 			
+			// Si on a encore rien trouvé, on regarde s'il y a un personnage
 			if (!returnValue){
 				for (Personnage p : Partie.getPersonnages().values()){
-					if ((p != this) && (collisionEntite(this,p))){
+					if ((p != this) && (collisionEntite(nextPos,p.getSprite().getPosition()))){
 						returnValue = true;
+						if (this instanceof Monstre){
+							((Personnage)p).setScore(((Personnage)p).getScore()-1);
+						}
 					}
 				}
 			}
 		}
-	
+		
 		return returnValue;
 	}
 	
 
-	private boolean collisionEntite(Entite e, Entite e2) {
-//		Vector2f pos1 = e.getSprite().getPosition();
-//		Vector2f pos2 = e2.getSprite().getPosition();
-//		
-//		return (!((pos2.x >= pos1.x + 35)      
-//		|| (pos2.x + 35 <= pos1.x)
-//		|| (pos2.y >= pos1.y + 35)
-//		|| (pos2.y + 35 <= pos1.y)));
-		return e.getPosition().equals(e2.getPosition());
+	public static boolean collisionEntite(Vector2f pos1, Vector2f pos2) {
+		Vector2i coord1 = new Vector2i((int)(pos1.x+25) / Niveau.SIZE, (int)(pos1.y+25) / Niveau.SIZE);
+		Vector2i coord2 = new Vector2i((int)(pos2.x+25) / Niveau.SIZE, (int)(pos2.y+25) / Niveau.SIZE);
+		
+		return ((coord1.equals(coord2))&&
+				(!((pos1.x + 50 <= pos2.x)||
+				   (pos1.x >= pos2.x + 50)||
+				   (pos1.y >= pos2.y + 50)||
+				   (pos1.y + 50 <= pos2.y))));
 	}
 
 
@@ -194,10 +200,13 @@ public abstract class Entite implements Drawable {
 	 * Permet à l'entité de se déplacer en fonction de la direction et du temps ecoulé
 	 * @param direction Direction vers laquelle se déplacer
 	 * @param tempsEcoule Temps écoulé lors du dernier passage dans la boucle principale
+	 * @return booléen indiquant si le déplacement a été effectué ou non
 	 */
-	public void seDeplacer(Direction direction, Time tempsEcoule){ 
+	public boolean seDeplacer(Direction direction, Time tempsEcoule){ 
 		this.direction = direction;
-		if (!collision(tempsEcoule)) // S'il y a collision, alors on ne fait pas le déplacement
+		boolean deplacementEffectue = !(collision(tempsEcoule));
+		
+		if (deplacementEffectue) // S'il y a collision, alors on ne fait pas le déplacement
 		{
 			float tpsEcoule = tempsEcoule.asSeconds(); //temps ecoulé pour chargement d'image
 			float distance= tpsEcoule * vitesse;
@@ -256,9 +265,10 @@ public abstract class Entite implements Drawable {
 				//updatePosition (met à jour la variable de position)
 				this.position=new Vector2i(((int)this.sprite.getPosition().x+25)/Niveau.SIZE,
 						((int)this.sprite.getPosition().y+25)/Niveau.SIZE);
-				
+								
 				if(direction !=this.direction){ //test pour voir si la direction choisie est différente de la diection actuelle
-					updateSprite(direction, Etat.mouvement1);
+					this.direction = direction;
+					this.etat = Etat.mouvement1;
 					chrono.restart();
 				}
 				
@@ -269,12 +279,16 @@ public abstract class Entite implements Drawable {
 						this.etat = Etat.mouvement2;
 					else
 						this.etat = Etat.mouvement1;
-					
-					updateSprite(this.direction, this.etat);
-				}			
+				}
 		}
-		updateSprite(this.direction, this.etat);
 		
+		// Si ce n'est pas un monstre, on met à jour le sprite
+		// La mise à jour des sprites du monstre n'est effectuée qu'à la fin
+		if (!(this instanceof Monstre)){
+			updateSprite(this.direction, this.etat);
+		}
+		
+		return deplacementEffectue;
 	}
 	
 	/**

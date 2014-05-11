@@ -1,3 +1,8 @@
+TODO avant mercredi 21
+
+Si vous voulez vous occuper de qqch, mettez votre nom devant, pour éviter
+que plusieurs personnes fassent la même chose ! ;)
+
 - Son BIP quand un perso attaque et quand perso/monstre est touché
 - Collisions entre le joueur et la sortie à faire
 - Main à faire (avec début de jeu, affichage des meilleurs scores, puis après avoir appuyé sur Entrée,
@@ -10,10 +15,9 @@ soit le choix d'un personnage en mode 1J, soit début du jeu à 4J
 
 - [Valentin] Collisions entre entités (perso, monstres) ==> Gérées mais buggée
   Je corrigerai les points suivants : 
-  - monstre écrasé par un nouveau à la génération,
-  - et monstres qui peuvent aller sur la même case que le personnage
+  - et monstres qui peuvent aller sur la même case que le personnage ou autres monstres
 
-OK à tester - Les personnages bloquent les tirs d'autres personnages
+OK à tester - [Valentin] Les personnages bloquent les tirs d'autres personnages
 OK - [Valentin] Collisions entre les monstres et les persos et perte de vie pour les persos
 OK - [Valentin] Génération des mobs seulement dans la vue
 OK - [Valentin] Corriger la porte qui s'ouvre pas quand on la colle

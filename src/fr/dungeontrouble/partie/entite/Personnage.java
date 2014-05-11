@@ -26,7 +26,7 @@ import fr.dungeontrouble.partie.niveau.Porte;
  * @author Awa CAMARA
  * @author Valentin PORCHET
  */
-public class Personnage extends Entite {
+public class Personnage extends Entite{
 	
 	//enumeration des differents personnages
 		public enum TypePersonnage
@@ -349,6 +349,18 @@ public class Personnage extends Entite {
 		}
 	}
 	
+	public static void majPos(){
+		ArrayList<Personnage> actualPersonnages = new ArrayList<Personnage>();
+		for (Personnage p : Partie.getPersonnages().values()){
+			actualPersonnages.add((Personnage) p);
+		}
+		
+		Partie.getPersonnages().clear();
+		for (Personnage p : actualPersonnages){
+			Partie.getPersonnages().put(p.getPosition(),p);			
+		}
+	}
+	
 	/**methode d'affichage du personnage
 	 *
 	 */
@@ -360,6 +372,7 @@ public class Personnage extends Entite {
 		}		
 	}
 
+	// Méthodes get() et set()
 	public static Texture getTextureArme() {
 		return textureArme;
 	}

@@ -121,17 +121,13 @@ public abstract class Affichage implements Drawable {
 						}
 					}
 					
+					// Gestion des événements de mouvement
 					MoveEvent.getMove1J(timeElapsed);
+										
+					System.out.println(Partie.getMonstres().size());
 					
-					if (timeElapsed.asSeconds() < 1){
-						for (Monstre m : Partie.getMonstres().values()){					
-							m.seDeplacerVersCible(timeElapsed);
-						}
-					}
-					
-					System.out.println(Partie.getMonstres().keySet().size());
-					
-					if (Partie.getMonstres().keySet().size() < 50){
+					// Génération de nouveaux monstres
+					if (Partie.getMonstres().size() < 50){
 						for (Objet o : Niveau.getObjets().values()){
 							if ((o instanceof Generateur)&&(Partie.getMonstres().keySet().size() < 50)){
 								((Generateur)o).genererMonstres(((AffichageJeu)affJeu).getCenter());
@@ -139,8 +135,21 @@ public abstract class Affichage implements Drawable {
 						}
 					}
 					
-					// Mise à jour des positions des monstres dans le hashmap
-					Monstre.majPos();  
+					// Déplacement des monstres
+					if (timeElapsed.asSeconds() < 1){
+						for (Monstre m : Partie.getMonstres().values()){					
+							m.seDeplacerVersCible(timeElapsed);
+						}
+					}
+					
+					// Détection de collisions entre Personnages et Monstres
+					
+					
+					
+					// Mise à jour des positions des monstres et des personnages 
+					// dans les hashmaps
+					Monstre.majPos();
+					//Personnage.majPos();
 					
 					// Mise à jour de la vue en conséquence
 					for (Personnage p : Partie.getPersonnages().values()){
