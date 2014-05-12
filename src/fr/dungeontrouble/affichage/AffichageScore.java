@@ -143,5 +143,23 @@ public class AffichageScore extends Affichage {
 		    target.draw(entry.getValue());
 		}
 	}
+
+	public HashMap<String, Text> getScoresText() {
+		return scoresText;
+	}
+
+	public void setScoresText(HashMap<String, Text> scoresText) {
+		this.scoresText = scoresText;
+	}
+
+	public HashMap<String, Sprite> getClefJoueur() {
+		return clefJoueur;
+	}
+
+	public void setClefJoueur(HashMap<String, Sprite> clefJoueur) {
+		this.clefJoueur = clefJoueur;
+	}
+	
+	
 }
 

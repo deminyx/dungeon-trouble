@@ -2,8 +2,10 @@ package fr.dungeontrouble.partie.entite;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Random;
 import java.util.Map.Entry;
 
+import org.jsfml.graphics.Color;
 import org.jsfml.graphics.IntRect;
 import org.jsfml.graphics.RenderStates;
 import org.jsfml.graphics.RenderTarget;
@@ -14,6 +16,7 @@ import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 
 import fr.dungeontrouble.affichage.Affichage;
+import fr.dungeontrouble.affichage.AffichageScore;
 import fr.dungeontrouble.partie.Partie;
 import fr.dungeontrouble.partie.niveau.Generateur;
 import fr.dungeontrouble.partie.niveau.Niveau;
@@ -41,8 +44,7 @@ public class Personnage extends Entite{
 	private ArrayList<Sprite> spriteArme;
 	private int nbCles;
 	private int score;
-	
-	TypePersonnage perso;
+	private TypePersonnage perso;
 	
 	private ArrayList<Direction> directionArme; //Tableau contenant les indices correspondant à chaque lancée d'armes
 	
@@ -62,7 +64,7 @@ public class Personnage extends Entite{
 		this.spriteArme = new ArrayList<Sprite>();
 		this.directionArme = new ArrayList<Direction>();
 		this.sprite.setPosition(this.position.x*50,this.position.y*50);//initialise la position
-		updateSprite(this.direction, this.etat);		
+		updateSprite(this.direction, this.etat);
 	}
 	
 	//une fonction dinitialisation
@@ -361,6 +363,38 @@ public class Personnage extends Entite{
 		}
 	}
 	
+	public static void verifierSiVivant(AffichageScore affScore){
+		Iterator<Personnage> i = Partie.getPersonnages().values().iterator();
+		
+		while (i.hasNext()){
+			Personnage p = i.next();
+			// Si le personnage vient de mourir
+			if (p.getScore() <= 0){
+				
+				// On supprime le personnage du HashMap
+				i.remove();
+				
+				// S'il reste au moins un personnage, on cherche les monstres qui ont 
+				// pour cible le personnage, qui meurt et on change leur cible
+				if (!Partie.getPersonnages().isEmpty()){
+					for (Monstre m : Partie.getMonstres().values()){
+						if (m.getCible() == p){
+							m.setCible((Personnage)Partie.getPersonnages().values().toArray()
+									[(new Random().nextInt(Partie.getPersonnages().size()))]);
+						}
+					}		
+				}
+			
+				// On enlève les clefs de l'affichage
+				affScore.getClefJoueur().get(p.getPerso().name()).setTextureRect(new IntRect(0,0,0,0));
+				// On met le score affiché à 0 et en rouge
+				affScore.getScoresText().get(p.getPerso().name()).setString("0");
+				affScore.getScoresText().get(p.getPerso().name()).setColor(Color.RED);
+				
+			}
+		}		
+	}
+	
 	/**methode d'affichage du personnage
 	 *
 	 */
@@ -427,7 +461,5 @@ public class Personnage extends Entite{
 
 	public void setDirectionArme(ArrayList<Direction> directionArme) {
 		this.directionArme = directionArme;
-	}
-	
-	
+	}	
 }

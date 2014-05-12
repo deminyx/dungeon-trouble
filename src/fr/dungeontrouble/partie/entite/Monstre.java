@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Random;
 
 import org.jsfml.graphics.Sprite;
+import org.jsfml.system.Clock;
 import org.jsfml.system.Time;
 import org.jsfml.system.Vector2i;
 
@@ -12,9 +13,9 @@ import fr.dungeontrouble.affichage.Affichage;
 import fr.dungeontrouble.partie.Partie;
 
 /**
- * 
- * @author Awa CAMARA
  * permet de gerer les monstres (position, points de vie, attaque, deplacement)
+ * @author Awa CAMARA
+ * @author Valentin PORCHET
  */
 
 public class Monstre extends Entite{
@@ -29,10 +30,12 @@ public class Monstre extends Entite{
 	private TypeMonstre type;
 	protected int pdv; //points de vie
 	private Personnage cible;
+	private Clock hitClock; // Horloge qui fera en sorte que les monstres tapent toutes les secondes
 		
 	public Monstre(TypeMonstre monstre,Vector2i position){
 		super(position);
 		type=monstre;
+		hitClock = new Clock();
 		//en fonction du type de personnage les points de vie varient
 		switch(type){
 		case Fantome:
@@ -51,8 +54,8 @@ public class Monstre extends Entite{
 		this.sprite.setPosition(this.position.y*50,this.position.x*50);//initialise la position
 		updateSprite(this.direction, this.etat);
 		
-		Random rand = new Random();
-		cible = Partie.getP1();
+		cible = (Personnage)Partie.getPersonnages().values().toArray()
+				[(new Random().nextInt(Partie.getPersonnages().size()))];
 		//cible = (Personnage) Partie.getPersonnages().values().toArray()[rand.nextInt(0)]; //permet de prendre un personnage aleatoirement
 			
 	}
@@ -157,6 +160,30 @@ public class Monstre extends Entite{
 		for (Monstre m : actualMonstres){
 			Partie.getMonstres().put(m.getPosition(),m);			
 		}
+	}
+
+	public TypeMonstre getType() {
+		return type;
+	}
+
+	public void setType(TypeMonstre type) {
+		this.type = type;
+	}
+
+	public Clock getHitClock() {
+		return hitClock;
+	}
+
+	public void setHitClock(Clock hitClock) {
+		this.hitClock = hitClock;
+	}
+
+	public Personnage getCible() {
+		return cible;
+	}
+
+	public void setCible(Personnage cible) {
+		this.cible = cible;
 	}
 	
 	

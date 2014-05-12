@@ -12,6 +12,7 @@ import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 
 import fr.dungeontrouble.partie.Partie;
+import fr.dungeontrouble.partie.entite.Monstre.TypeMonstre;
 import fr.dungeontrouble.partie.niveau.Niveau;
 import fr.dungeontrouble.partie.niveau.Porte;
 
@@ -183,7 +184,17 @@ public abstract class Entite implements Drawable {
 						returnValue = true;
 						// Si c'est un monstre qui a touché le personnage, il perd de la vie
 						if (this instanceof Monstre){
-							p.setScore(p.getScore()-1);
+							// On vérifie qu'il n'a tapé personne depuis plus d'une seconde
+							if (((Monstre)this).getHitClock().getElapsedTime().asSeconds() > 1){
+								// Si c'est un fantôme, le personnage perd 10 pdv
+								if (((Monstre)this).getType() == TypeMonstre.Fantome){
+									p.setScore(p.getScore()-10);
+								} else { // Sinon il en perd 20
+									p.setScore(p.getScore()-20);
+								}
+								// On restart le chrono pour que le monstre puisse taper
+								((Monstre)this).getHitClock().restart();
+							}
 						}
 					}
 				}

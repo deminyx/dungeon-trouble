@@ -112,12 +112,7 @@ public abstract class Affichage implements Drawable {
 									break;		
 								
 								case KEY_PRESSED:
-									ActionEvent.getAction1J();
-//									if (Keyboard.isKeyPressed(Key.B))
-//										Partie.getP1().setNbCles(Partie.getP1().getNbCles()+1);
-//									if (Keyboard.isKeyPressed(Key.A))
-//										Partie.getP1().setScore(Partie.getP1().getScore()-1);
-									
+									ActionEvent.getAction1J();									
 									break;
 								
 								default:break;
@@ -126,7 +121,7 @@ public abstract class Affichage implements Drawable {
 						
 						// Gestion des événements de mouvement
 						MoveEvent.getMove1J(timeElapsed);
-																	
+						
 						// Génération de nouveaux monstres
 						if (Partie.getMonstres().size() < 50){
 							for (Objet o : Niveau.getObjets().values()){
@@ -149,7 +144,13 @@ public abstract class Affichage implements Drawable {
 							gameClock.restart();
 						}
 						
-												
+						// On vérifie si les personnages sont tous en vie
+						Personnage.verifierSiVivant((AffichageScore)affScores);
+									
+						// On vérifie qu'il reste un personnage en vie
+						if (Partie.getPersonnages().isEmpty()){
+							window.close();
+						}
 						// Mise à jour des positions des monstres et des personnages 
 						// dans les hashmaps
 						Monstre.majPos();
