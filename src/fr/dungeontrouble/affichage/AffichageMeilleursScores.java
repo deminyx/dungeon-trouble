@@ -4,12 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 import java.util.Vector;
 
-import org.jsfml.graphics.Font;
-import org.jsfml.graphics.RenderStates;
-import org.jsfml.graphics.RenderTarget;
-import org.jsfml.graphics.Sprite;
-import org.jsfml.graphics.Text;
-import org.jsfml.graphics.Texture;
+import org.jsfml.graphics.*;
 import org.jsfml.system.Vector2f;
 
 import fr.dungeontrouble.etatmoteurjeu.GestionScore;

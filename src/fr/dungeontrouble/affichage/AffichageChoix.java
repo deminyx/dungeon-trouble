@@ -1,9 +1,6 @@
 package fr.dungeontrouble.affichage;
 
-import org.jsfml.graphics.RenderStates;
-import org.jsfml.graphics.RenderTarget;
-import org.jsfml.graphics.Sprite;
-import org.jsfml.graphics.Texture;
+import org.jsfml.graphics.*;
 
 /**
  * Classe d'affichage de choix d'un personnage en mode 1 joueur

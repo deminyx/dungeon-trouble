@@ -5,12 +5,7 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Random;
 
-import org.jsfml.graphics.Color;
-import org.jsfml.graphics.IntRect;
-import org.jsfml.graphics.RenderStates;
-import org.jsfml.graphics.RenderTarget;
-import org.jsfml.graphics.Sprite;
-import org.jsfml.graphics.Texture;
+import org.jsfml.graphics.*;
 import org.jsfml.system.Time;
 import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
@@ -207,7 +202,7 @@ public class Personnage extends Entite{
 						
 			// On vérifie s'il y a collision avec un mur
 			if (Niveau.getNiveau()[key.y][key.x] > 0){
-				System.out.println("Collision MUR");
+				//System.out.println("Collision MUR");
 				iArmes.remove();
 				this.directionArme.remove(compteur);
 				compteur--;
@@ -215,13 +210,13 @@ public class Personnage extends Entite{
 			else if (Niveau.getObjets().containsKey(key)){
 				Objet o = Niveau.getObjets().get(key);
 				if (o instanceof Porte){
-					System.out.println("Collision PORTE");
+					//System.out.println("Collision PORTE");
 					iArmes.remove();
 					this.directionArme.remove(compteur);
 					compteur--;
 				}
 				else if (o instanceof Generateur){
-					System.out.println("Collision GENERATEUR");
+					//System.out.println("Collision GENERATEUR");
 					Niveau.getObjets().remove(key); // On supprime le générateur
 					iArmes.remove(); // On supprime également l'arme
 					this.directionArme.remove(compteur);
@@ -230,7 +225,7 @@ public class Personnage extends Entite{
 				// Sinon, que ce soit un trésor ou une clef, pas de collision
 			} // On vérifie les collisions avec les monstres
 			else if (Partie.getMonstres().containsKey(key)){ 
-				System.out.println("Collision MONSTRE");
+				//System.out.println("Collision MONSTRE");
 				Monstre m = Partie.getMonstres().get(key);
 				m.setPdv(m.getPdv()-1);
 				// Si le monstre n'a plus de PV
@@ -244,7 +239,7 @@ public class Personnage extends Entite{
 				compteur--;
 			}
 			else if (Partie.getPersonnages().containsKey(key) && this != Partie.getPersonnages().get(key)){
-				System.out.println("Collision PERSONNAGE");
+				//System.out.println("Collision PERSONNAGE");
 				// On supprime l'arme
 				iArmes.remove();
 				this.directionArme.remove(compteur);

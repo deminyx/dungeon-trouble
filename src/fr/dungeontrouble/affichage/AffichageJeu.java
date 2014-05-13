@@ -1,13 +1,6 @@
 package fr.dungeontrouble.affichage;
 
-import org.jsfml.graphics.FloatRect;
-import org.jsfml.graphics.PrimitiveType;
-import org.jsfml.graphics.RenderStates;
-import org.jsfml.graphics.RenderTarget;
-import org.jsfml.graphics.Texture;
-import org.jsfml.graphics.Vertex;
-import org.jsfml.graphics.VertexArray;
-import org.jsfml.graphics.View;
+import org.jsfml.graphics.*;
 import org.jsfml.system.Vector2f;
 
 import fr.dungeontrouble.partie.Partie;

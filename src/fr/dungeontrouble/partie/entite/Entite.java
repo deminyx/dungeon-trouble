@@ -1,15 +1,7 @@
 package fr.dungeontrouble.partie.entite;
 
-import org.jsfml.graphics.Drawable;
-import org.jsfml.graphics.IntRect;
-import org.jsfml.graphics.RenderStates;
-import org.jsfml.graphics.RenderTarget;
-import org.jsfml.graphics.Sprite;
-import org.jsfml.graphics.Texture;
-import org.jsfml.system.Clock;
-import org.jsfml.system.Time;
-import org.jsfml.system.Vector2f;
-import org.jsfml.system.Vector2i;
+import org.jsfml.graphics.*;
+import org.jsfml.system.*;
 
 import fr.dungeontrouble.partie.Partie;
 import fr.dungeontrouble.partie.entite.Monstre.TypeMonstre;

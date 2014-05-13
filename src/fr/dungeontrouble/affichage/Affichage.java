@@ -3,12 +3,7 @@ package fr.dungeontrouble.affichage;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.jsfml.graphics.Drawable;
-import org.jsfml.graphics.Font;
-import org.jsfml.graphics.RenderStates;
-import org.jsfml.graphics.RenderTarget;
-import org.jsfml.graphics.Texture;
-import org.jsfml.graphics.View;
+import org.jsfml.graphics.*;
 
 /**
  * Classe principale d'affichage héritée par les différents affichages

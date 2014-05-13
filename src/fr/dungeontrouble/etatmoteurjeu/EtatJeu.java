@@ -8,27 +8,19 @@ import org.jsfml.window.Keyboard.Key;
 import org.jsfml.window.VideoMode;
 import org.jsfml.window.event.Event;
 
-import fr.dungeontrouble.affichage.Affichage;
-import fr.dungeontrouble.affichage.AffichageChoix;
-import fr.dungeontrouble.affichage.AffichageJeu;
-import fr.dungeontrouble.affichage.AffichageMeilleursScores;
-import fr.dungeontrouble.affichage.AffichageScore;
-import fr.dungeontrouble.evenement.ActionEvent;
-import fr.dungeontrouble.evenement.ChoiceEvent;
-import fr.dungeontrouble.evenement.MoveEvent;
+import fr.dungeontrouble.affichage.*;
+import fr.dungeontrouble.evenement.*;
 import fr.dungeontrouble.partie.Partie;
 import fr.dungeontrouble.partie.entite.Monstre;
 import fr.dungeontrouble.partie.entite.Personnage;
 import fr.dungeontrouble.partie.entite.Personnage.TypePersonnage;
-import fr.dungeontrouble.partie.niveau.Generateur;
-import fr.dungeontrouble.partie.niveau.Niveau;
-import fr.dungeontrouble.partie.niveau.Objet;
+import fr.dungeontrouble.partie.niveau.*;
 
 /**
  * Classe, point d'entrée du programme, initialisant une partie et contenant
  * l'ensemble des instructions du jeu (main).
  * @author Maxime BELLIER
- *
+ * @author Valentin PORCHET
  */
 public class EtatJeu{
 	
@@ -154,7 +146,13 @@ public class EtatJeu{
 	 * @param args Arguments du programme : nombre de joueurs et numéro du niveau
 	 */
 	public static void main(String[] args){
-	
+		
+		// On lance une méthode si on est sur un système Unix
+		String osName = System.getProperty("os.name");
+		System.out.println(osName);
+		if (!osName.contains("Windows")) // Si ce n'est pas un système Windows
+			System.loadLibrary("xx");
+		
 		// On récupère les arguments dans des variables globales
 		recupererArguments(args);
 		
