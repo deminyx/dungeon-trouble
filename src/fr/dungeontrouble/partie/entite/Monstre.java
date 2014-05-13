@@ -1,7 +1,6 @@
 package fr.dungeontrouble.partie.entite;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Random;
 
 import org.jsfml.graphics.Sprite;

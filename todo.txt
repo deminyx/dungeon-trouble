@@ -5,14 +5,13 @@ que plusieurs personnes fassent la même chose ! ;)
 
 - Son BIP quand un perso attaque et quand perso/monstre est touché
 - Collisions entre le joueur et la sortie à faire
-- Main à faire (avec début de jeu, affichage des meilleurs scores, puis après avoir appuyé sur Entrée,
-soit le choix d'un personnage en mode 1J, soit début du jeu à 4J
 - Scores en fin de jeu à gérer
-
+- Max, à faire : map3 à rajouter dans initialisationPartie
+- Bug : Monstres qui peuvent poper dans les murs 
 - [Valentin] Faire en sorte que les personnages ne puissent pas sortir de l'écran 4J
 - [Valentin] Collisions entre entités (perso, monstres) ==> Gérées mais buggée
   Je corrigerai les points suivants : 
-  - et monstres qui peuvent aller sur la même case que le personnage ou autres monstres
+  - monstres qui peuvent aller sur la même case que le personnage ou autres monstres
 
 OK à tester - [Valentin] Les personnages bloquent les tirs d'autres personnages
 OK - [Valentin] Collisions entre les monstres et les persos et perte de vie pour les persos
@@ -29,3 +28,5 @@ OK - Gestion de la mort des personnages
 OK - [Valentin] Modifier l'affichage des scores en blanc, et en rouge quand mort
 OK - Penser à modifier monstre pour cibler un personnage aléatoire et 
 cibler un nouveau personnage quand la cible est morte
+OK - Main à faire (avec début de jeu, affichage des meilleurs scores, puis après avoir appuyé sur Entrée,
+soit le choix d'un personnage en mode 1J, soit début du jeu à 4J

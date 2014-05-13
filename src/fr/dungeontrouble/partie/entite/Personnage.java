@@ -2,8 +2,8 @@ package fr.dungeontrouble.partie.entite;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Random;
 import java.util.Map.Entry;
+import java.util.Random;
 
 import org.jsfml.graphics.Color;
 import org.jsfml.graphics.IntRect;

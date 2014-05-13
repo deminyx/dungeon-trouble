@@ -9,7 +9,6 @@ import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 
 import fr.dungeontrouble.partie.Partie;
-import fr.dungeontrouble.partie.entite.Entite;
 import fr.dungeontrouble.partie.entite.Monstre;
 import fr.dungeontrouble.partie.entite.Monstre.TypeMonstre;
 
@@ -69,19 +68,18 @@ public class Generateur extends Objet {
 	 */
 	public void VerifCaseMursGenerateurs() {
 
-		if (Niveau.getNiveau()[position.x - 1][position.y] > 0) {
-			casesGenerables.remove(new Vector2i(position.x-1, position.y));
-		}
-		if (Niveau.getNiveau()[position.x][position.y-1] > 0) {
+		if (Niveau.getNiveau()[position.y - 1][position.x] > 0) {
 			casesGenerables.remove(new Vector2i(position.x, position.y-1));
 		}
-		if (Niveau.getNiveau()[position.x+1][position.y] > 0) {
-			casesGenerables.remove(new Vector2i(position.x+1, position.y));
+		if (Niveau.getNiveau()[position.y][position.x-1] > 0) {
+			casesGenerables.remove(new Vector2i(position.x-1, position.y));
 		}
-		if (Niveau.getNiveau()[position.x][position.y+1] > 0) {
+		if (Niveau.getNiveau()[position.y+1][position.x] > 0) {
 			casesGenerables.remove(new Vector2i(position.x, position.y+1));
 		}
-
+		if (Niveau.getNiveau()[position.y][position.x+1] > 0) {
+			casesGenerables.remove(new Vector2i(position.x+1, position.y));
+		}
 	}
 
 	/**
