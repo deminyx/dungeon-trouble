@@ -247,6 +247,7 @@ public class EtatJeu{
 				// Si tout le monde est mort, on ferme la fenêtre
 				if (Partie.getPersonnages().isEmpty()){
 					System.out.println("Game Over");
+					gameIsRunning = false;
 					window.close();
 				}
 				

@@ -36,7 +36,7 @@ public class GestionScore {
 			 */
 			
 			// Scanner extracteur de lignes
-			Scanner scannerLine = new Scanner(new File(path));
+			Scanner scannerLine = new Scanner(temp.getClass().getResourceAsStream("/"+path));
 			
 			// Scanner analyseur de lignes
 			Scanner scannerTemp = new Scanner(temp);
