@@ -64,6 +64,10 @@ public class EtatJeu{
 			System.out.println("Erreur : aucun argument fourni");
 			System.out.println("Lancement : java -jar dungeontrouble.jar nbJoueurs numNiveau");
 			System.exit(0);
+		} else if (args.length == 1){
+			System.out.println("Erreur : numéro du niveau manquant");
+			System.out.println("Lancement : java -jar dungeontrouble.jar nbJoueurs numNiveau");
+			System.exit(0);
 		}
 				
 		// Sinon, on stocke les donnes fournies
