@@ -54,6 +54,12 @@ public class Partie {
 			p1=personnages.get(new Vector2i(16, 5));
 			break;
 		case map3:
+			niveau = new Niveau("map2.txt");
+			// AJOUTER LE CHOIX DU PERSONNAGE
+			personnages = new HashMap<Vector2i, Personnage>();
+			personnages.put(new Vector2i(50, 48), new Personnage(p,new Vector2i(50, 48)));
+			setMonstres(new HashMap<Vector2i, Monstre>());
+			p1=personnages.get(new Vector2i(50, 48));
 			break;
 		}
 	}
@@ -96,6 +102,18 @@ public class Partie {
 			setMonstres(new HashMap<Vector2i, Monstre>());
 			break;
 		case map3:
+			niveau = new Niveau("map1.txt");
+			// AJOUTER LE CHOIX DU PERSONNAGE
+			personnages = new HashMap<Vector2i, Personnage>();
+			personnages.put(new Vector2i(50, 48), new Personnage(TypePersonnage.guerrier,new Vector2i(50, 48)));
+			p1=personnages.get(new Vector2i(50, 48));
+			personnages.put(new Vector2i(51, 48), new Personnage(TypePersonnage.elfe,new Vector2i(51, 48)));
+			p2=personnages.get(new Vector2i(51, 48));
+			personnages.put(new Vector2i(50, 49), new Personnage(TypePersonnage.magicien,new Vector2i(50, 49)));
+			p3=personnages.get(new Vector2i(50, 49));
+			personnages.put(new Vector2i(51, 49), new Personnage(TypePersonnage.valkyrie,new Vector2i(51, 49)));
+			p4=personnages.get(new Vector2i(51, 49));
+			setMonstres(new HashMap<Vector2i, Monstre>());
 			break;
 		}
 	}
