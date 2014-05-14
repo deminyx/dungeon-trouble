@@ -119,7 +119,9 @@ public abstract class Entite implements Drawable {
 		// Calcul de future position dans la matrice
 		nextCoord = new Vector2i((int)(nextPos.x+25)/Niveau.SIZE, (int)(nextPos.y+25)/Niveau.SIZE);
 		
-		boolean returnValue = Niveau.getNiveau()[nextCoordWall.y][nextCoordWall.x] > 0;
+		// 14 --> Fin du niveau
+		boolean returnValue = ((Niveau.getNiveau()[nextCoordWall.y][nextCoordWall.x] > 0)&&
+				(Niveau.getNiveau()[nextCoordWall.y][nextCoordWall.x] != 14));
 		
 		// Vérification si un objet est sur la case cible
 		if (Niveau.getObjets().containsKey(nextCoordWall)){
