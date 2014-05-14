@@ -188,6 +188,7 @@ public class EtatJeu{
 			Personnage.init();
 			
 			boolean gameIsRunning = true;
+			boolean gameWon = false;
 			
 			while (gameIsRunning){
 				Time timeElapsed = clock.restart();
@@ -254,6 +255,7 @@ public class EtatJeu{
 				// On vérifie si les personnages sont arrivés à la sortie
 				for (Personnage p : Partie.getPersonnages().values()){
 					if (p.verifierSortie()){
+						gameWon = true;
 						gameIsRunning = false;
 						window.close();
 					}
@@ -287,15 +289,18 @@ public class EtatJeu{
 				window.display();
 			}
 			
-			// On vérifie s'il reste des personnages vivants
-			if (!Partie.getPersonnages().isEmpty()){
-				System.out.println("Niveau terminé !");
-				
-				GestionScore g = new GestionScore();
-				g.declareScoresFinaux(Partie.getPersonnages());
-				g.changerMeilleursScores();
-				g.enregistrerScores();
-			}
+			// Si on a bien gagné
+			if (gameWon){
+				// On vérifie s'il reste des personnages vivants
+				if (!Partie.getPersonnages().isEmpty()){
+					System.out.println("Niveau terminé !");
+					
+					GestionScore g = new GestionScore();
+					g.declareScoresFinaux(Partie.getPersonnages());
+					g.changerMeilleursScores();
+					g.enregistrerScores();
+				}
+			}			
 			
 			// On ferme proprement
 			System.exit(0);			

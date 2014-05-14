@@ -29,15 +29,19 @@ public class GestionScore {
 
 	public LinkedHashMap<String, Score> meilleursScores;
 	public ArrayList<Score> scoresFinPartie;
-
+	boolean scoresExist;
 	/**
 	 * Constructeur de GestionScore
 	 * 
 	 * @param path
 	 *            String: chemin vers le fichier .txt contenant les scores.
 	 */
-	public GestionScore() {
-		this.meilleursScores = recupererScores("highscores.txt");
+	public GestionScore() {		
+		if (scoresExist = new File("highscores.txt").exists()){
+			this.meilleursScores = recupererScores("highscores.txt");
+		} else {
+			this.meilleursScores = new LinkedHashMap<String,Score>();
+		}
 		scoresFinPartie = new ArrayList<Score>();
 	}
 
@@ -83,32 +87,58 @@ public class GestionScore {
 	}
 
 	public void changerMeilleursScores() {
-		String nomScoreMin = (String) (meilleursScores.keySet().toArray()[meilleursScores
-				.size() - 1]);
-		// pour chaque personnge ayant joué
-		for (Score s : scoresFinPartie) {
-			if (meilleursScores.get(nomScoreMin).scoreFinal < s.scoreFinal) {
-				// Oui, il a un meilleur score, on récupère son nom
+		
+		if (scoresExist){
+			String nomScoreMin = (String) (meilleursScores.keySet().toArray()[meilleursScores
+			                                                  				.size() - 1]);
+			// pour chaque personnage ayant joué
+			for (Score s : scoresFinPartie) {
+				if (meilleursScores.get(nomScoreMin).scoreFinal < s.scoreFinal){
+					if (meilleursScores.size() == 10) {
+						// Oui, il a un meilleur score, on récupère son nom
+						System.out.println("Vous avez fait un nouveau meilleur score !");
+						System.out.println("Votre classe : " + s.t.name() + " et votre score : " + s.scoreFinal);
+						System.out.print("Rentrez votre pseudo : ");
+						Scanner scan = new Scanner(System.in);
+						String nomJoueur = scan.next();
+						scan.close();
+						// cas 1 : Il a déjà joué et son score doit être mis à jour
+						if ((meilleursScores.containsKey(nomJoueur))
+								&& (meilleursScores.get(nomJoueur).scoreFinal < s.scoreFinal)) {
+							meilleursScores.put(nomJoueur, s);
+						}
+						// cas 2 : Il n'est pas dans les meilleurs scores
+						else {
+							// Si les meilleurs scores sont déjà pleins
+							// On retire le moins bon
+							if (meilleursScores.size() == 10)
+								meilleursScores.remove(nomScoreMin);
+							meilleursScores.put(nomJoueur, s);
+						}	
+					}
+					else {
+						System.out.println("Vous avez fait un nouveau meilleur score !");
+						System.out.println("Votre classe : " + s.t.name() + " et votre score : " + s.scoreFinal);
+						System.out.print("Rentrez votre pseudo : ");
+						Scanner scan = new Scanner(System.in);
+						String nomJoueur = scan.next();
+						scan.close();
+						meilleursScores.put(nomJoueur, s);
+					}
+				}
+			} 
+		} else {
+			for (Score s : scoresFinPartie){
 				System.out.println("Vous avez fait un nouveau meilleur score !");
 				System.out.println("Votre classe : " + s.t.name() + " et votre score : " + s.scoreFinal);
 				System.out.print("Rentrez votre pseudo : ");
 				Scanner scan = new Scanner(System.in);
 				String nomJoueur = scan.next();
 				scan.close();
-				// cas 1 : Il a déjà joué et son score doit être mis à jour
-				if ((meilleursScores.containsKey(nomJoueur))
-						&& (meilleursScores.get(nomJoueur).scoreFinal < s.scoreFinal)) {
-					meilleursScores.put(nomJoueur, s);
-				}
-				// cas 2 : Il n'est pas dans les meilleurs scores
-				else {
-					meilleursScores.remove(nomScoreMin);
-					meilleursScores.put(nomJoueur, s);
-
-				}
-
+				meilleursScores.put(nomJoueur, s);
 			}
 		}
+		
 		//Tri de la map des Scores
 		List<Map.Entry<String, Score>> entries = new ArrayList<Map.Entry<String, Score>>(
 				meilleursScores.entrySet());
@@ -117,12 +147,13 @@ public class GestionScore {
 					Map.Entry<String, Score> b) {
 				Integer scoreA = new Integer(a.getValue().scoreFinal);
 				Integer scoreB = new Integer(b.getValue().scoreFinal);
-				return scoreA.compareTo(scoreB);
+				return scoreB.compareTo(scoreA);
 			}
 		});
-		Map<String, Score> sortedMap = new LinkedHashMap<String, Score>();
+		
+		meilleursScores.clear();
 		for (Map.Entry<String, Score> entry : entries) {
-			sortedMap.put(entry.getKey(), entry.getValue());
+			meilleursScores.put(entry.getKey(), entry.getValue());
 		}
 	}
 

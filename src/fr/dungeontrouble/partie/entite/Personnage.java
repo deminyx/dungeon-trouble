@@ -230,6 +230,7 @@ public class Personnage extends Entite{
 				//System.out.println("Collision MONSTRE");
 				Monstre m = Partie.getMonstres().get(key);
 				m.setPdv(m.getPdv()-1);
+				Partie.getBip().play(); // On joue le bip
 				// Si le monstre n'a plus de PV
 				if (m.getPdv() <= 0){
 					Partie.getMonstres().remove(key);

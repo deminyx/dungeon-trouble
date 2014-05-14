@@ -41,7 +41,7 @@ public class Partie {
 	 */
 	public static void InitPartie(Niveau.IDNiveau idmap, TypePersonnage p) {
 		bipBuff = new SoundBuffer();
-		InputStream inputStream = bipBuff.getClass().getResourceAsStream("/bip.mp3");
+		InputStream inputStream = bipBuff.getClass().getResourceAsStream("/bip.ogg");
 		try {
 			bipBuff.loadFromStream(inputStream);
 		} catch (Exception e) {

@@ -160,7 +160,6 @@ public abstract class Entite implements Drawable {
 				Monstre m = Partie.getMonstres().get(nextCoord);
 				if ((m != this) && (collisionEntite(nextPos,m.getSprite().getPosition()))){
 					returnValue = true;
-					Partie.getBip().play();
 				}
 			}
 //			for (Monstre m : Partie.getMonstres().values()){
@@ -187,6 +186,8 @@ public abstract class Entite implements Drawable {
 								} else { // Sinon il en perd 20
 									p.setScore(p.getScore()-20);
 								}
+								// On joue le bip
+								Partie.getBip().play();
 								// On restart le chrono pour que le monstre puisse taper
 								((Monstre)this).getHitClock().restart();
 							}

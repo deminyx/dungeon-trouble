@@ -1,5 +1,6 @@
 package fr.dungeontrouble.affichage;
 
+import java.io.File;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 import java.util.Vector;
@@ -19,7 +20,9 @@ public class AffichageMeilleursScores extends Affichage {
 	private Texture textureBackground; // Texture de background des meilleurs scores
 	private Sprite background; // Sprite sur lequel on applique la texture
 	private Font scoresFont; // Police pour les scores
-	private LinkedHashMap<String, Score> scores; // Hashmap des scores
+	private LinkedHashMap<String, Score> scores; // Hashmap des scores (si présent)
+	boolean scoreExists;
+	private Text pasDeScore; // Texte qui s'affichera s'il n'y a aucun meilleur score
 	private Vector<Text> scoreNames; // Vecteur des textes des noms des joueurs
 	private Vector<Text> scoreClass; // Vecteur des textes des classes des joueurs
 	private Vector<Text> scoreValues; // Vecteur des textes des scores des joueurs
@@ -49,12 +52,20 @@ public class AffichageMeilleursScores extends Affichage {
 	 * Constructeur de l'affichage des meilleurs scores
 	 */
 	public AffichageMeilleursScores(){
-		scores = GestionScore.recupererScores("highscores.txt"); // Cette méthode sera déplacée dans la gestion des scores
-		scoreNames = new Vector<Text>();
-		scoreValues = new Vector<Text>();
-		scoreClass = new Vector<Text>();
 		scoresFont = loadFont("Finalnew.ttf");
-		updateVisibleScores(); // Ajoute les scores chargés dans les listes de Text
+		
+		// Si le fichier des scores existe, on le charge
+		if (scoreExists = new File("highscores.txt").exists()){
+			// Cette méthode sera déplacée dans la gestion des scores
+			scores = GestionScore.recupererScores("highscores.txt");
+			scoreNames = new Vector<Text>();
+			scoreValues = new Vector<Text>();
+			scoreClass = new Vector<Text>();
+			updateVisibleScores(); // Ajoute les scores chargés dans les listes de Text
+		} else {
+			pasDeScore = new Text("Aucun meilleur score !", scoresFont, 50);
+			pasDeScore.setPosition(new Vector2f(150,300));
+		}
 		
 		textureBackground = loadTexture("scores.png");		
 		background = new Sprite(textureBackground);	
@@ -65,19 +76,24 @@ public class AffichageMeilleursScores extends Affichage {
 		target.setView(target.getDefaultView()); // On remet la vue par défaut
 		target.draw(this.background, states); // On affiche le background
 		
-		// Affichage des pseudonymes
-		for (Text t : scoreNames){
-			target.draw(t);
+		if (scoreExists){
+			// Affichage des pseudonymes
+			for (Text t : scoreNames){
+				target.draw(t);
+			}
+			
+			// Affichage des classes
+			for (Text t : scoreClass){
+				target.draw(t);
+			}
+			
+			// Affichage des scores		
+			for (Text t : scoreValues){
+				target.draw(t);
+			}
+		} else {
+			target.draw(pasDeScore);
 		}
 		
-		// Affichage des classes
-		for (Text t : scoreClass){
-			target.draw(t);
-		}
-		
-		// Affichage des scores		
-		for (Text t : scoreValues){
-			target.draw(t);
-		}
 	}
 }

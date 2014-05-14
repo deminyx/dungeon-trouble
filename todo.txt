@@ -4,8 +4,8 @@ Si vous voulez vous occuper de qqch, mettez votre nom devant, pour éviter
 que plusieurs personnes fassent la même chose ! ;)
 
 ----- A FAIRE -----
-- Son BIP quand un perso attaque et quand perso/monstre est touché ==> In progress
 - [Valentin] Faire en sorte que les personnages ne puissent pas sortir de l'écran 4J
+- Faire un gameOver qui dure 2 secondes
 
 ----- BUGS -----
 - [Valentin] Les monstres qui peuvent aller sur la même case que le personnage ou autres monstres
@@ -13,6 +13,7 @@ que plusieurs personnes fassent la même chose ! ;)
 - [Valentin] Monstres qui peuvent poper dans les murs
 
 ----- FAIT -----
+OK - [Maxime] Son BIP quand un perso attaque et quand perso/monstre est touché
 OK - [Valentin] Collisions entre le joueur et la sortie à faire
 OK - [Maxime] Scores en fin de jeu à gérer
 OK - [Maxime] map3 à rajouter dans initialisationPartie
