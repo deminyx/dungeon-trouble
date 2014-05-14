@@ -3,7 +3,16 @@ package fr.dungeontrouble.affichage;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import org.jsfml.graphics.*;
+import org.jsfml.graphics.Color;
+import org.jsfml.graphics.FloatRect;
+import org.jsfml.graphics.Font;
+import org.jsfml.graphics.IntRect;
+import org.jsfml.graphics.RenderStates;
+import org.jsfml.graphics.RenderTarget;
+import org.jsfml.graphics.Sprite;
+import org.jsfml.graphics.Text;
+import org.jsfml.graphics.Texture;
+import org.jsfml.graphics.View;
 import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 

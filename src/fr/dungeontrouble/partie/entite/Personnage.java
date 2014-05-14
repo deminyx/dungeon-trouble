@@ -5,7 +5,12 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Random;
 
-import org.jsfml.graphics.*;
+import org.jsfml.graphics.Color;
+import org.jsfml.graphics.IntRect;
+import org.jsfml.graphics.RenderStates;
+import org.jsfml.graphics.RenderTarget;
+import org.jsfml.graphics.Sprite;
+import org.jsfml.graphics.Texture;
 import org.jsfml.system.Time;
 import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
@@ -158,6 +163,7 @@ public class Personnage extends Entite{
 	
 	/**
 	 * Méthode de vérification de collision des armes
+	 * @param timeElapsed temps écoulé à prendre en compte
 	 */
 	public void verifierCollisionArmes(Time timeElapsed){
 		// Itérateur pour parcourir les armes

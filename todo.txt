@@ -6,9 +6,13 @@ que plusieurs personnes fassent la même chose ! ;)
 ----- A FAIRE -----
 - [Valentin] Faire en sorte que les personnages ne puissent pas sortir de l'écran 4J
 - Faire un gameOver qui dure 2 secondes
+- Ne pas oublier de remettre la map =1 comme avant à la fin
+- Ne pas oublier d'enlever tous les sysou
 
 ----- BUGS -----
 - [Valentin] Les monstres qui peuvent aller sur la même case que le personnage ou autres monstres
+==> Partiellement résolu, les monstres ne disparaissent plus pour le moment et les collisions
+sont mieux gérées
 - [Valentin] Prog qui reste en mémoire après extinction parfois
 - [Valentin] Monstres qui peuvent poper dans les murs
 

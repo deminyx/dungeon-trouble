@@ -1,6 +1,5 @@
 package fr.dungeontrouble.partie.entite;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import org.jsfml.graphics.Sprite;
@@ -87,31 +86,29 @@ public class Monstre extends Entite{
 	/**
 	 * permet au monstre de se déplacer vers une cible précise(un personnage)
 	 * @param tempsEcoule Temps écoulé depuis le dernier passage dans la boucle principale
+	 * @return Booléen indiquant si le déplacement s'est effectué ou non
 	 */
-	public void seDeplacerVersCible(Time tempsEcoule){
+	public boolean seDeplacerVersCible(Time tempsEcoule){
 		
 		int diffAbs=this.getPosition().x-cible.getPosition().x;//difference entre les abscisses du monstre et celui du personnage
 		int diffOrd=this.getPosition().y-cible.getPosition().y;//difference entre les ordonnées du monstre et celui du personnage
 		
 		// Si on a pas réussi à se déplacer, on essaie toutes les autres directions
-		this.seDeplacer(diffAbs,diffOrd,tempsEcoule);
-		
-		// A effacer si on résout les pbs de collision 
-//			boolean deplacementEffectue = false;
-//			for (int i = -1; i < 2 && (!deplacementEffectue); i++){
-//				for (int j = -1; j < 2 && (!deplacementEffectue); j++){
-//					if (i != diffAbs && j != diffOrd){
-//						deplacementEffectue = this.seDeplacer(i,j,tempsEcoule);
-//					}
-//				}
-//			}
-//		}
+		boolean ok = this.seDeplacer(diffAbs,diffOrd,tempsEcoule);
 		
 		// On met à jour le sprite
 		updateSprite(this.direction, this.etat);
-					
+		
+		return ok;
 	}
 
+	/**
+	 * Méthode de déplacement du monstre en fontion de sa position et celle de sa cible
+	 * @param diffAbs Différence des abscisses des positions du monstre et de sa cible
+	 * @param diffOrd Différence des ordonnées des positions du monstre et de sa cible
+	 * @param tempsEcoule Temps écoulé à prendre en compte pour le déplacement
+	 * @return Booléen qui indique si le déplacement a été effectué
+	 */
 	public boolean seDeplacer(int diffAbs, int diffOrd, Time tempsEcoule){
 		boolean deplacementOK = false;
 		
@@ -148,17 +145,6 @@ public class Monstre extends Entite{
 		}
 		
 		return deplacementOK;
-	}
-	public static void majPos(){
-		ArrayList<Monstre> actualMonstres = new ArrayList<Monstre>();
-		for (Monstre m : Partie.getMonstres().values()){
-			actualMonstres.add((Monstre) m);
-		}
-		
-		Partie.getMonstres().clear();
-		for (Monstre m : actualMonstres){
-			Partie.getMonstres().put(m.getPosition(),m);			
-		}
 	}
 
 	public TypeMonstre getType() {

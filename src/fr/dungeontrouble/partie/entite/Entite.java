@@ -1,7 +1,15 @@
 package fr.dungeontrouble.partie.entite;
 
-import org.jsfml.graphics.*;
-import org.jsfml.system.*;
+import org.jsfml.graphics.Drawable;
+import org.jsfml.graphics.IntRect;
+import org.jsfml.graphics.RenderStates;
+import org.jsfml.graphics.RenderTarget;
+import org.jsfml.graphics.Sprite;
+import org.jsfml.graphics.Texture;
+import org.jsfml.system.Clock;
+import org.jsfml.system.Time;
+import org.jsfml.system.Vector2f;
+import org.jsfml.system.Vector2i;
 
 import fr.dungeontrouble.partie.Partie;
 import fr.dungeontrouble.partie.entite.Monstre.TypeMonstre;
@@ -158,15 +166,10 @@ public abstract class Entite implements Drawable {
 		if (!returnValue){
 			if (Partie.getMonstres().containsKey(nextCoord)){
 				Monstre m = Partie.getMonstres().get(nextCoord);
-				if ((m != this) && (collisionEntite(nextPos,m.getSprite().getPosition()))){
+				if (m != this){
 					returnValue = true;
 				}
 			}
-//			for (Monstre m : Partie.getMonstres().values()){
-//				if ((m != this) && (collisionEntite(nextPos,m.getSprite().getPosition()))){
-//					returnValue = true;
-//				}
-//			}
 			
 			// Si on a encore rien trouvé, on regarde s'il y a un personnage
 			if (!returnValue){
@@ -174,7 +177,7 @@ public abstract class Entite implements Drawable {
 				if (Partie.getPersonnages().containsKey(nextCoord)){
 					Personnage p = Partie.getPersonnages().get(nextCoord);
 					// Si le personnage trouvé n'est pas lui-même et qu'il y a collision
-					if ((p != this) && (collisionEntite(nextPos,p.getSprite().getPosition()))){
+					if (p != this){
 						returnValue = true;
 						// Si c'est un monstre qui a touché le personnage, il perd de la vie
 						if (this instanceof Monstre){
@@ -200,21 +203,6 @@ public abstract class Entite implements Drawable {
 		return returnValue;
 	}
 	
-
-	public static boolean collisionEntite(Vector2f pos1, Vector2f pos2) {
-		Vector2i coord1 = new Vector2i((int)(pos1.x+25) / Niveau.SIZE, (int)(pos1.y+25) / Niveau.SIZE);
-		Vector2i coord2 = new Vector2i((int)(pos2.x+25) / Niveau.SIZE, (int)(pos2.y+25) / Niveau.SIZE);
-		
-		return (coord1.equals(coord2));
-		// A effacer si plus besoin après
-//		return ((coord1.equals(coord2))&&
-//				(!((pos1.x + 50 <= pos2.x)||
-//				   (pos1.x >= pos2.x + 50)||
-//				   (pos1.y >= pos2.y + 50)||
-//				   (pos1.y + 50 <= pos2.y))));
-	}
-
-
 	/**
 	 * Permet à l'entité de se déplacer en fonction de la direction et du temps ecoulé
 	 * @param direction Direction vers laquelle se déplacer
@@ -282,7 +270,9 @@ public abstract class Entite implements Drawable {
 				sprite.move(x,y); //mise à jour position du sprite
 				
 				//updatePosition (met à jour la variable de position)
-				this.position=new Vector2i(((int)this.sprite.getPosition().x+25)/Niveau.SIZE,
+				
+				this.position = new Vector2i(
+						((int)this.sprite.getPosition().x+25)/Niveau.SIZE,
 						((int)this.sprite.getPosition().y+25)/Niveau.SIZE);
 								
 				if(direction !=this.direction){ //test pour voir si la direction choisie est différente de la diection actuelle
@@ -398,8 +388,6 @@ public abstract class Entite implements Drawable {
 		this.texture = texture;
 	}
 	
-	
-
 	public int getVitesse() {
 		return vitesse;
 	}
@@ -444,8 +432,6 @@ public abstract class Entite implements Drawable {
 
 	@Override
 	public String toString() {
-		return this.getClass().getSimpleName()+" ("+this.position.x+","+this.position.y+")";
+		return this.getClass().getSimpleName()+"\n";
 	}
-	
-	
 }

@@ -86,6 +86,7 @@ public class Generateur extends Objet {
 	 * Fonction générant les monstres si cases générables libres
 	 * 
 	 * @author Maxime BELLIER
+	 * @param centreDeVue Coordonnées du centre de la vue actuellement
 	 */
 	public void genererMonstres(Vector2f centreDeVue) {
 		// Si le générateur est visible, alors on génère des monstres

@@ -12,12 +12,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.Set;
 
 import org.jsfml.system.Vector2i;
 
 import fr.dungeontrouble.partie.entite.Personnage;
-import fr.dungeontrouble.partie.entite.Personnage.TypePersonnage;
 
 /**
  * Classe gérant le palmarès des scores en fin de partie
@@ -32,9 +30,6 @@ public class GestionScore {
 	boolean scoresExist;
 	/**
 	 * Constructeur de GestionScore
-	 * 
-	 * @param path
-	 *            String: chemin vers le fichier .txt contenant les scores.
 	 */
 	public GestionScore() {		
 		if (scoresExist = new File("highscores.txt").exists()){
@@ -50,7 +45,7 @@ public class GestionScore {
 	 * 
 	 * @param path
 	 *            Chemin vers le fichier contenant les meilleurs scores
-	 * @return HashMap de la forme Joueur -> Score
+	 * @return HashMap de la forme nomDuJoueur,Score
 	 */
 	public static LinkedHashMap<String, Score> recupererScores(String path){
 		LinkedHashMap<String,Score> highscores = new LinkedHashMap<String,Score>();

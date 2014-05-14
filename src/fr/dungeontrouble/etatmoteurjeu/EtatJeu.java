@@ -3,18 +3,27 @@ package fr.dungeontrouble.etatmoteurjeu;
 import org.jsfml.graphics.RenderWindow;
 import org.jsfml.system.Clock;
 import org.jsfml.system.Time;
+import org.jsfml.system.Vector2i;
 import org.jsfml.window.Keyboard;
 import org.jsfml.window.Keyboard.Key;
 import org.jsfml.window.VideoMode;
 import org.jsfml.window.event.Event;
 
-import fr.dungeontrouble.affichage.*;
-import fr.dungeontrouble.evenement.*;
+import fr.dungeontrouble.affichage.Affichage;
+import fr.dungeontrouble.affichage.AffichageChoix;
+import fr.dungeontrouble.affichage.AffichageJeu;
+import fr.dungeontrouble.affichage.AffichageMeilleursScores;
+import fr.dungeontrouble.affichage.AffichageScore;
+import fr.dungeontrouble.evenement.ActionEvent;
+import fr.dungeontrouble.evenement.ChoiceEvent;
+import fr.dungeontrouble.evenement.MoveEvent;
 import fr.dungeontrouble.partie.Partie;
 import fr.dungeontrouble.partie.entite.Monstre;
 import fr.dungeontrouble.partie.entite.Personnage;
 import fr.dungeontrouble.partie.entite.Personnage.TypePersonnage;
-import fr.dungeontrouble.partie.niveau.*;
+import fr.dungeontrouble.partie.niveau.Generateur;
+import fr.dungeontrouble.partie.niveau.Niveau;
+import fr.dungeontrouble.partie.niveau.Objet;
 
 /**
  * Classe, point d'entrée du programme, initialisant une partie et contenant
@@ -29,7 +38,8 @@ public class EtatJeu{
 	
 	/**
 	 * Constructeur à l'origine de la création de toutes classes du programme
-	 * @param nbJoueurs Nombre de joueurs jouant la partie (1 ou 4)
+	 * @param p Type du personnage (guerrier, elfe, magicien ou valkyrie)
+	 * @param numNiveau numéro du niveau voulu (1 à 3)
 	 */
 	 public EtatJeu(TypePersonnage p, int numNiveau) {
 		 // On récupère l'id du niveau
@@ -217,6 +227,9 @@ public class EtatJeu{
 					MoveEvent.getMove1J(timeElapsed);
 				else
 					MoveEvent.getMove4J(timeElapsed);
+								
+				// Mise à jour des positions des personnages dans le hashmap
+				Personnage.majPos();
 				
 				// Génération de nouveaux monstres
 				// Limite de génération : 50
@@ -226,13 +239,25 @@ public class EtatJeu{
 							((Generateur)o).genererMonstres(((AffichageJeu)affJeu).getCenter());
 						}
 					}
-				}						
+				}
+				
 				// Déplacement des monstres
 				if (timeElapsed.asSeconds() < 1){
-					for (Monstre m : Partie.getMonstres().values()){	
-						m.seDeplacerVersCible(timeElapsed);
+					Vector2i oldPosition = null;
+					
+					for (int i=0; i < Partie.getMonstres().size(); i++){
+						Monstre m = (Monstre)(Partie.getMonstres().values().toArray()[i]);
+						oldPosition = m.getPosition();
+						
+						// Si le déplacement s'est effectué, on met à jour la position dans la map
+						if (m.seDeplacerVersCible(timeElapsed)){
+							// On met bien à jour dans le hashmap
+							Partie.getMonstres().remove(oldPosition);
+							Partie.getMonstres().put(m.getPosition(), m);
+						}
 					}
 				}
+				
 				// Pertes de points de vies
 				if (gameClock.getElapsedTime().asSeconds() > 1){
 					for (Personnage p : Partie.getPersonnages().values()){
@@ -260,13 +285,7 @@ public class EtatJeu{
 						window.close();
 					}
 				}
-				
-				// Mise à jour des positions des monstres et des personnages 
-				// dans les hashmaps
-				Monstre.majPos();
-				Personnage.majPos();
-				
-				
+							
 				// Mise à jour des positions des armes et vérification des collisions
 				for (Personnage p : Partie.getPersonnages().values()){
 					p.bougerArmes(timeElapsed, ((AffichageJeu)affJeu).getCenter());
@@ -300,7 +319,7 @@ public class EtatJeu{
 					g.changerMeilleursScores();
 					g.enregistrerScores();
 				}
-			}			
+			}
 			
 			// On ferme proprement
 			System.exit(0);			
