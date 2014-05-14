@@ -1,10 +1,10 @@
-Deminyx 1300
-TeKrop 1242
-AuronMustang 4200
-Bidule 1300
-Machin 1242
-Xalor 0000
-Lisanthius 1200
-Trololo 1242
-Yoloswag 4200
-Hahaha 1300
+Deminyx elfe 1300
+TeKrop magicien 1242
+AuronMustang guerrier 4200
+Bidule magicien 1300
+Machin valkyrie 1242
+Xalor guerrier 0000
+Lisanthius elfe 1200
+Trololo valkyrie 1242
+Yoloswag elfe 4200
+Hahaha magicien 1300
