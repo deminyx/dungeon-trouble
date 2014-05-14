@@ -251,10 +251,19 @@ public class EtatJeu{
 					window.close();
 				}
 				
+				// On vérifie si les personnages sont arrivés à la sortie
+				for (Personnage p : Partie.getPersonnages().values()){
+					if (p.verifierSortie()){
+						gameIsRunning = false;
+						window.close();
+					}
+				}
+				
 				// Mise à jour des positions des monstres et des personnages 
 				// dans les hashmaps
 				Monstre.majPos();
 				Personnage.majPos();
+				
 				
 				// Mise à jour des positions des armes et vérification des collisions
 				for (Personnage p : Partie.getPersonnages().values()){
@@ -276,7 +285,20 @@ public class EtatJeu{
 				
 				// On affiche
 				window.display();
-			}			
-		}
+			}
+			
+			// On vérifie s'il reste des personnages vivants
+			if (!Partie.getPersonnages().isEmpty()){
+				System.out.println("Niveau terminé !");
+				
+				GestionScore g = new GestionScore();
+				g.declareScoresFinaux(Partie.getPersonnages());
+				g.changerMeilleursScores();
+				g.enregistrerScores();
+			}
+			
+			// On ferme proprement
+			System.exit(0);			
+		}		
 	}
 }

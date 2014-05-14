@@ -48,39 +48,37 @@ public class GestionScore {
 	 *            Chemin vers le fichier contenant les meilleurs scores
 	 * @return HashMap de la forme Joueur -> Score
 	 */
-	public static LinkedHashMap<String, Score> recupererScores(String path) {
-		LinkedHashMap<String, Integer> highscores = new LinkedHashMap<String, Integer>();
-		String temp = new String(); // Chaine temporaire qui contiendra chaque
-									// ligne
-
-		try {
-			/*
-			 * On utilise deux Scanner : un pour extraire chaque ligne et un
-			 * autre pour les analyser
+	public static LinkedHashMap<String, Score> recupererScores(String path){
+		LinkedHashMap<String,Score> highscores = new LinkedHashMap<String,Score>();
+		String temp = new String(); // Chaine temporaire qui contiendra chaque ligne
+		
+		try{			
+			/* On utilise deux Scanner : un pour extraire chaque ligne
+			 * et un autre pour les analyser  
 			 */
-
+			
 			// Scanner extracteur de lignes
-			Scanner scannerLine = new Scanner(temp.getClass()
-					.getResourceAsStream("/" + path));
-
+			Scanner scannerLine = new Scanner(temp.getClass().getResourceAsStream("/"+path));
+			
 			// Scanner analyseur de lignes
 			Scanner scannerTemp = new Scanner(temp);
-
-			while (scannerLine.hasNextLine()) {
-				temp = scannerLine.nextLine(); // Récupération de la ligne
+			
+			while (scannerLine.hasNextLine()){
+				temp = scannerLine.nextLine();	// Récupération de la ligne	
 				scannerTemp = new Scanner(temp); // Assignation au scanner
-				highscores.put(scannerTemp.next(), scannerTemp.nextInt()); // Rajout
-																			// des
-																			// scores
+				highscores.put(scannerTemp.next(), new Score(scannerTemp.next(),scannerTemp.nextInt())); // Rajout des scores
 			}
-
+			
 			// On ferme les Scanner
 			scannerLine.close();
 			scannerTemp.close();
-		} catch (Exception e) {
+			
+			System.out.println(highscores);
+		}
+		catch (Exception e){
 			e.printStackTrace(); // On catch l'exception en cas de probléme
 		}
-
+		
 		return highscores;
 	}
 
