@@ -1,6 +1,8 @@
 package fr.dungeontrouble.etatmoteurjeu;
 
 import org.jsfml.graphics.RenderWindow;
+import org.jsfml.graphics.Sprite;
+import org.jsfml.graphics.Texture;
 import org.jsfml.system.Clock;
 import org.jsfml.system.Time;
 import org.jsfml.system.Vector2i;
@@ -126,6 +128,30 @@ public class EtatJeu{
 					default:break;
 				}
 			}
+		}
+	}
+	
+	public static void drawFinJeu(RenderWindow window, boolean gameIsRunning){
+		
+		Texture textPartieTerminee = Affichage.loadTexture("partie_terminee.png");
+		Sprite partieTerminee = new Sprite(textPartieTerminee);
+		
+		window.setView(window.getDefaultView());	
+		window.draw(partieTerminee);
+		window.display();
+		
+		Clock c = new Clock();
+		while (c.getElapsedTime().asSeconds() < 2) {
+			for (Event event : window.pollEvents()) {
+				switch (event.type) {
+					case CLOSED:
+						gameIsRunning = false;
+						window.close();
+					break;
+					
+					default:break;
+		       }
+		    }
 		}
 	}
 	
@@ -272,6 +298,7 @@ public class EtatJeu{
 				// On vérifie qu'il reste un personnage en vie
 				// Si tout le monde est mort, on ferme la fenêtre
 				if (Partie.getPersonnages().isEmpty()){
+					drawFinJeu(window, gameIsRunning);
 					System.out.println("Game Over");
 					gameIsRunning = false;
 					window.close();
