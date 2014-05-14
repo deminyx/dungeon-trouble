@@ -58,7 +58,7 @@ public class GestionScore {
 			 */
 			
 			// Scanner extracteur de lignes
-			Scanner scannerLine = new Scanner(temp.getClass().getResourceAsStream("/"+path));
+			Scanner scannerLine = new Scanner(new File("highscores.txt"));
 			
 			// Scanner analyseur de lignes
 			Scanner scannerTemp = new Scanner(temp);
@@ -89,6 +89,9 @@ public class GestionScore {
 		for (Score s : scoresFinPartie) {
 			if (meilleursScores.get(nomScoreMin).scoreFinal < s.scoreFinal) {
 				// Oui, il a un meilleur score, on récupère son nom
+				System.out.println("Vous avez fait un nouveau meilleur score !");
+				System.out.println("Votre classe : " + s.t.name() + " et votre score : " + s.scoreFinal);
+				System.out.print("Rentrez votre pseudo : ");
 				Scanner scan = new Scanner(System.in);
 				String nomJoueur = scan.next();
 				scan.close();
@@ -128,7 +131,7 @@ public class GestionScore {
 									// ligne
 		// on va chercher le chemin et le nom du fichier et on me tout ca dans
 		// un String
-		String adresseDuFichier = "/highscores.txt";
+		String adresseDuFichier = "highscores.txt";
 
 		// on met try si jamais il y a une exception
 		try {
@@ -147,6 +150,7 @@ public class GestionScore {
 						+ String.valueOf(meilleursScores.get(s).scoreFinal)
 						+ "\n";
 				output.write(temp);
+				System.out.print(temp);
 			}
 			// on marque dans le fichier ou plutot dans le BufferedWriter qui
 			// sert comme un tampon(stream)
