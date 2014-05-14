@@ -4,9 +4,7 @@ Si vous voulez vous occuper de qqch, mettez votre nom devant, pour éviter
 que plusieurs personnes fassent la même chose ! ;)
 
 ----- A FAIRE -----
-- Son BIP quand un perso attaque et quand perso/monstre est touché
-- Collisions entre le joueur et la sortie à faire
-- Scores en fin de jeu à gérer
+- Son BIP quand un perso attaque et quand perso/monstre est touché ==> In progress
 - [Valentin] Faire en sorte que les personnages ne puissent pas sortir de l'écran 4J
 
 ----- BUGS -----
@@ -15,6 +13,8 @@ que plusieurs personnes fassent la même chose ! ;)
 - [Valentin] Monstres qui peuvent poper dans les murs
 
 ----- FAIT -----
+OK - [Valentin] Collisions entre le joueur et la sortie à faire
+OK - [Maxime] Scores en fin de jeu à gérer
 OK - [Maxime] map3 à rajouter dans initialisationPartie
 OK - [Valentin] Collisions entre entités (perso, monstres) ==> Gérées mais buggée
 OK - [Valentin] Les personnages bloquent les tirs d'autres personnages
