@@ -1,6 +1,9 @@
 package fr.dungeontrouble.etatmoteurjeu;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -118,6 +121,40 @@ public class GestionScore {
 	}
 
 	public void enregistrerScores() {
-	}
+		String temp = new String(); // Chaine temporaire qui contiendra chaque ligne
+		//on va chercher le chemin et le nom du fichier et on me tout ca dans un String
+		String adresseDuFichier ="/highscores.txt";
+	
+		//on met try si jamais il y a une exception
+		try
+		{
+			/*
+			 * BufferedWriter a besoin d un FileWriter, 
+			 * les 2 vont ensemble, on donne comme argument le nom du fichier
+			 */
+			FileWriter fw = new FileWriter(adresseDuFichier, false);
+			
+			// le BufferedWriter output auquel on donne comme argument le FileWriter fw cree juste au dessus
+			BufferedWriter output = new BufferedWriter(fw);
+			
+			for(String s : meilleursScores.keySet()){
+				temp =""+s+" "+meilleursScores.get(s).t.toString()+" "+String.valueOf(meilleursScores.get(s).scoreFinal)+"\n";
+				output.write(temp);
+			}
+			//on marque dans le fichier ou plutot dans le BufferedWriter qui sert comme un tampon(stream)
+			
+			//on peut utiliser plusieurs fois methode write
+			
+			output.flush();
+			//ensuite flush envoie dans le fichier, ne pas oublier cette methode pour le BufferedWriter
+			
+			output.close();
+			//et on le ferme
+		}
+		catch(IOException ioe){
+			System.out.print("Erreur : ");
+			ioe.printStackTrace();
+			}
 
+	}
 }
