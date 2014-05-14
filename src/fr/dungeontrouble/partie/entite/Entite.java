@@ -158,6 +158,7 @@ public abstract class Entite implements Drawable {
 				Monstre m = Partie.getMonstres().get(nextCoord);
 				if ((m != this) && (collisionEntite(nextPos,m.getSprite().getPosition()))){
 					returnValue = true;
+					Partie.getBip().play();
 				}
 			}
 //			for (Monstre m : Partie.getMonstres().values()){

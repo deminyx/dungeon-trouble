@@ -7,7 +7,6 @@ que plusieurs personnes fassent la même chose ! ;)
 - Son BIP quand un perso attaque et quand perso/monstre est touché
 - Collisions entre le joueur et la sortie à faire
 - Scores en fin de jeu à gérer
-- [Maxime] map3 à rajouter dans initialisationPartie
 - [Valentin] Faire en sorte que les personnages ne puissent pas sortir de l'écran 4J
 
 ----- BUGS -----
@@ -16,7 +15,7 @@ que plusieurs personnes fassent la même chose ! ;)
 - [Valentin] Monstres qui peuvent poper dans les murs
 
 ----- FAIT -----
-
+OK - [Maxime] map3 à rajouter dans initialisationPartie
 OK - [Valentin] Collisions entre entités (perso, monstres) ==> Gérées mais buggée
 OK - [Valentin] Les personnages bloquent les tirs d'autres personnages
 OK - [Valentin] Collisions entre les monstres et les persos et perte de vie pour les persos

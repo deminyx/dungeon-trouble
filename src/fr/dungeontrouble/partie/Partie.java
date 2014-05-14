@@ -1,7 +1,11 @@
 package fr.dungeontrouble.partie;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 
+import org.jsfml.audio.Sound;
+import org.jsfml.audio.SoundBuffer;
 import org.jsfml.system.Vector2i;
 
 import fr.dungeontrouble.partie.entite.Monstre;
@@ -26,6 +30,8 @@ public class Partie {
 	private static Personnage p3;
 	private static Personnage p4;
 	private static HashMap<Vector2i, Monstre> monstres; // Hashmap des monstres avec comme clé leur position
+	private static SoundBuffer bipBuff;
+	private static Sound bip;
 
 	/**
 	 * Constructeur pour partie 1 joueur
@@ -34,7 +40,17 @@ public class Partie {
 	 * @param p	personnage souhaité par J1
 	 */
 	public static void InitPartie(Niveau.IDNiveau idmap, TypePersonnage p) {
-
+		bipBuff = new SoundBuffer();
+		InputStream inputStream = bipBuff.getClass().getResourceAsStream("/bip.mp3");
+		try {
+			bipBuff.loadFromStream(inputStream);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		bip = new Sound();
+		bip.setBuffer(bipBuff);
+		
 		switch (idmap) {
 
 		case map1:
@@ -170,6 +186,14 @@ public class Partie {
 
 	public static void setNiveau(Niveau niveau) {
 		Partie.niveau = niveau;
+	}
+
+	public static Sound getBip() {
+		return bip;
+	}
+
+	public static void setBip(Sound bip) {
+		Partie.bip = bip;
 	}
 
 

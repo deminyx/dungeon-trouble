@@ -73,8 +73,10 @@ public class Personnage extends Entite{
 	@Override
 	public void faireAction() { 
 		// Si on ne regarde pas de porte, alors on peut lancer une arme
+		
 		if(!regardeUnePorte()) //Methode qui verifie la presence de porte 
 		{			
+			Partie.getBip().play();
 			spriteArme.add(new Sprite(textureArme,new IntRect(perso.ordinal()*50,0,50,50)));
 			spriteArme.get(spriteArme.size()-1).setPosition(this.sprite.getPosition().x + 25, this.sprite.getPosition().y + 25);
 			directionArme.add(direction);
