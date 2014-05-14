@@ -7,12 +7,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
+import org.jsfml.system.Vector2i;
+
+import fr.dungeontrouble.partie.entite.Personnage;
 import fr.dungeontrouble.partie.entite.Personnage.TypePersonnage;
 
 /**
@@ -24,7 +28,7 @@ import fr.dungeontrouble.partie.entite.Personnage.TypePersonnage;
 public class GestionScore {
 
 	public LinkedHashMap<String, Score> meilleursScores;
-	public LinkedHashMap<String, Score> scoresFinPartie;
+	public ArrayList<Score> scoresFinPartie;
 
 	/**
 	 * Constructeur de GestionScore
@@ -32,9 +36,9 @@ public class GestionScore {
 	 * @param path
 	 *            String: chemin vers le fichier .txt contenant les scores.
 	 */
-	public GestionScore(String path) {
+	public GestionScore() {
 		this.meilleursScores = recupererScores("highscores.txt");
-		scoresFinPartie = new LinkedHashMap<>();
+		scoresFinPartie = new ArrayList<Score>();
 	}
 
 	/**
@@ -84,7 +88,7 @@ public class GestionScore {
 		String nomScoreMin = (String) (meilleursScores.keySet().toArray()[meilleursScores
 				.size() - 1]);
 		// pour chaque personnge ayant joué
-		for (Score s : scoresFinPartie.values()) {
+		for (Score s : scoresFinPartie) {
 			if (meilleursScores.get(nomScoreMin).scoreFinal < s.scoreFinal) {
 				// Oui, il a un meilleur score, on récupère son nom
 				Scanner scan = new Scanner(System.in);
@@ -92,7 +96,7 @@ public class GestionScore {
 				scan.close();
 				// cas 1 : Il a déjà joué et son score doit être mis à jour
 				if ((meilleursScores.containsKey(nomJoueur))
-						&& (meilleursScores.get(nomJoueur).scoreFinal<s.scoreFinal)) {
+						&& (meilleursScores.get(nomJoueur).scoreFinal < s.scoreFinal)) {
 					meilleursScores.put(nomJoueur, s);
 				}
 				// cas 2 : Il n'est pas dans les meilleurs scores
@@ -101,60 +105,72 @@ public class GestionScore {
 					meilleursScores.put(nomJoueur, s);
 
 				}
-				
-				// de la map des Scores
-				List<Map.Entry<String, Score>> entries =
-						  new ArrayList<Map.Entry<String, Score>>(meilleursScores.entrySet());
-						Collections.sort(entries, new Comparator<Map.Entry<String, Score>>() {
-						  public int compare(Map.Entry<String, Score> a, Map.Entry<String, Score> b){
-							  Integer scoreA = new Integer(a.getValue().scoreFinal);
-							  Integer scoreB = new Integer(b.getValue().scoreFinal);
-						    return scoreA.compareTo(scoreB);
-						  }
-						});
-						Map<String, Score> sortedMap = new LinkedHashMap<String, Score>();
-						for (Map.Entry<String, Score> entry : entries) {
-						  sortedMap.put(entry.getKey(), entry.getValue());
-						}
+
 			}
+		}
+		//Tri de la map des Scores
+		List<Map.Entry<String, Score>> entries = new ArrayList<Map.Entry<String, Score>>(
+				meilleursScores.entrySet());
+		Collections.sort(entries, new Comparator<Map.Entry<String, Score>>() {
+			public int compare(Map.Entry<String, Score> a,
+					Map.Entry<String, Score> b) {
+				Integer scoreA = new Integer(a.getValue().scoreFinal);
+				Integer scoreB = new Integer(b.getValue().scoreFinal);
+				return scoreA.compareTo(scoreB);
+			}
+		});
+		Map<String, Score> sortedMap = new LinkedHashMap<String, Score>();
+		for (Map.Entry<String, Score> entry : entries) {
+			sortedMap.put(entry.getKey(), entry.getValue());
 		}
 	}
 
 	public void enregistrerScores() {
-		String temp = new String(); // Chaine temporaire qui contiendra chaque ligne
-		//on va chercher le chemin et le nom du fichier et on me tout ca dans un String
-		String adresseDuFichier ="/highscores.txt";
-	
-		//on met try si jamais il y a une exception
-		try
-		{
+		String temp = new String(); // Chaine temporaire qui contiendra chaque
+									// ligne
+		// on va chercher le chemin et le nom du fichier et on me tout ca dans
+		// un String
+		String adresseDuFichier = "/highscores.txt";
+
+		// on met try si jamais il y a une exception
+		try {
 			/*
-			 * BufferedWriter a besoin d un FileWriter, 
-			 * les 2 vont ensemble, on donne comme argument le nom du fichier
+			 * BufferedWriter a besoin d un FileWriter, les 2 vont ensemble, on
+			 * donne comme argument le nom du fichier
 			 */
 			FileWriter fw = new FileWriter(adresseDuFichier, false);
-			
-			// le BufferedWriter output auquel on donne comme argument le FileWriter fw cree juste au dessus
+
+			// le BufferedWriter output auquel on donne comme argument le
+			// FileWriter fw cree juste au dessus
 			BufferedWriter output = new BufferedWriter(fw);
-			
-			for(String s : meilleursScores.keySet()){
-				temp =""+s+" "+meilleursScores.get(s).t.toString()+" "+String.valueOf(meilleursScores.get(s).scoreFinal)+"\n";
+
+			for (String s : meilleursScores.keySet()) {
+				temp = "" + s + " " + meilleursScores.get(s).t.toString() + " "
+						+ String.valueOf(meilleursScores.get(s).scoreFinal)
+						+ "\n";
 				output.write(temp);
 			}
-			//on marque dans le fichier ou plutot dans le BufferedWriter qui sert comme un tampon(stream)
-			
-			//on peut utiliser plusieurs fois methode write
-			
+			// on marque dans le fichier ou plutot dans le BufferedWriter qui
+			// sert comme un tampon(stream)
+
+			// on peut utiliser plusieurs fois methode write
+
 			output.flush();
-			//ensuite flush envoie dans le fichier, ne pas oublier cette methode pour le BufferedWriter
-			
+			// ensuite flush envoie dans le fichier, ne pas oublier cette
+			// methode pour le BufferedWriter
+
 			output.close();
-			//et on le ferme
-		}
-		catch(IOException ioe){
+			// et on le ferme
+		} catch (IOException ioe) {
 			System.out.print("Erreur : ");
 			ioe.printStackTrace();
-			}
-
+		}
+	
 	}
+	public void declareScoresFinaux(HashMap<Vector2i,Personnage> personnages){
+		for(Personnage p : personnages.values()){
+			scoresFinPartie.add(new Score(p.getPerso().name(),p.getScore()));
+		}
+	}
+	
 }
