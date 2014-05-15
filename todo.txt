@@ -4,7 +4,6 @@ Si vous voulez vous occuper de qqch, mettez votre nom devant, pour éviter
 que plusieurs personnes fassent la même chose ! ;)
 
 ----- A FAIRE -----
-- Ne pas oublier de remettre la map =1 comme avant à la fin
 - Ne pas oublier d'enlever tous les sysou
 
 ----- BUGS -----
