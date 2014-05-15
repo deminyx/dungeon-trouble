@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import org.jsfml.audio.Sound;
 import org.jsfml.audio.SoundBuffer;
+import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 
 import fr.dungeontrouble.partie.entite.Monstre;
@@ -31,6 +32,7 @@ public class Partie {
 	private static HashMap<Vector2i, Monstre> monstres; // Hashmap des monstres avec comme clé leur position
 	private static SoundBuffer bipBuff;
 	private static Sound bip;
+	private static Vector2f centreVue;
 
 	/**
 	 * Constructeur pour partie 1 joueur
@@ -85,7 +87,18 @@ public class Partie {
 	 * @param idmap	id du niveau joué
 	 */
 	public static void InitPartie(Niveau.IDNiveau idmap) {
-
+		
+		bipBuff = new SoundBuffer();
+		InputStream inputStream = bipBuff.getClass().getResourceAsStream("/bip.ogg");
+		try {
+			bipBuff.loadFromStream(inputStream);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		bip = new Sound();
+		bip.setBuffer(bipBuff);
+		
 		switch (idmap) {
 
 		case map1:
@@ -195,5 +208,11 @@ public class Partie {
 		Partie.bip = bip;
 	}
 
+	public static Vector2f getCentreVue() {
+		return centreVue;
+	}
 
+	public static void setCentreVue(Vector2f centreVue) {
+		Partie.centreVue = centreVue;
+	}
 }

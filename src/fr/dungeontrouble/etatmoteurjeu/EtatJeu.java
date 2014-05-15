@@ -189,7 +189,6 @@ public class EtatJeu{
 		
 		// On lance une méthode si on est sur un système Unix
 		String osName = System.getProperty("os.name");
-		System.out.println(osName);
 		if (!osName.contains("Windows")) // Si ce n'est pas un système Windows
 			System.loadLibrary("xx");
 		
@@ -216,6 +215,7 @@ public class EtatJeu{
 			// Initialisation des affichages en jeu
 			Affichage affJeu = new AffichageJeu();
 			Affichage affScores = new AffichageScore(nbJoueurs);
+			Partie.setCentreVue(((AffichageJeu)affJeu).getCenter());
 			
 			// Initialisation des chronomètres de mesure de temps
 			// et des personnages
@@ -321,6 +321,9 @@ public class EtatJeu{
 				
 				// Mise à jour de la vue
 				((AffichageJeu) affJeu).updateView();
+				
+				// On met à jour le centre de vue dans la partie
+				Partie.setCentreVue(((AffichageJeu)affJeu).getCenter());
 				
 				// Mise à jour des clefs et des scores
 				((AffichageScore) affScores).updateScores();		

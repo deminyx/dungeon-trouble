@@ -127,9 +127,8 @@ public abstract class Entite implements Drawable {
 		// Calcul de future position dans la matrice
 		nextCoord = new Vector2i((int)(nextPos.x+25)/Niveau.SIZE, (int)(nextPos.y+25)/Niveau.SIZE);
 		
-		// 14 --> Fin du niveau
-		boolean returnValue = ((Niveau.getNiveau()[nextCoordWall.y][nextCoordWall.x] > 0)&&
-				(Niveau.getNiveau()[nextCoordWall.y][nextCoordWall.x] != 14));
+		// Booléen qui sera retourné
+		boolean returnValue = false;
 		
 		// Vérification si un objet est sur la case cible
 		if (Niveau.getObjets().containsKey(nextCoordWall)){
@@ -137,8 +136,7 @@ public abstract class Entite implements Drawable {
 				case "Tresor":
 					if (this instanceof Personnage){
 						((Personnage)(this)).setScore(((Personnage)(this)).getScore()+100);
-						Niveau.getObjets().remove(nextCoordWall);		
-						returnValue = false;
+						Niveau.getObjets().remove(nextCoordWall);
 					}
 					
 					break;
@@ -147,7 +145,6 @@ public abstract class Entite implements Drawable {
 					if (this instanceof Personnage){
 						((Personnage)(this)).setNbCles(((Personnage)(this)).getNbCles()+1);
 						Niveau.getObjets().remove(nextCoordWall);
-						returnValue = false;
 					}
 					
 					break;
@@ -200,6 +197,35 @@ public abstract class Entite implements Drawable {
 			}
 		}
 		
+		// 14 --> Fin du niveau
+		if (!returnValue){
+			returnValue = ((Niveau.getNiveau()[nextCoordWall.y][nextCoordWall.x] > 0)&&
+					(Niveau.getNiveau()[nextCoordWall.y][nextCoordWall.x] != 14));
+		}
+		
+		// On vérifie que, si on est un personnage, on est pas sur les bords
+		if (!returnValue){
+			if (this instanceof Personnage){
+				Vector2f c = Partie.getCentreVue();
+				System.out.println(c);
+				for (Personnage p : Partie.getPersonnages().values()){
+					if (!returnValue){
+						// Si c'est le personnage à déplacer, on contrôle la nextPos
+						if (this == p){
+							returnValue = ((c.x + 275 < nextPos.x+50)||(c.x - 275 > nextPos.x)||
+								   	   (c.y + 300 < nextPos.y+50)||(c.y - 300 > nextPos.y));
+						} // Sinon, on contrôle la position des autres
+						else {
+							returnValue = ((c.x + 275 < p.getSprite().getPosition().x+50)||
+										   (c.x - 275 > p.getSprite().getPosition().x)||
+										   (c.y + 300 < p.getSprite().getPosition().y+50)||
+										   (c.y - 300 > p.getSprite().getPosition().y));
+						}
+					}
+				}
+			}
+		}		
+				
 		return returnValue;
 	}
 	
