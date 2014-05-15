@@ -13,6 +13,7 @@ que plusieurs personnes fassent la même chose ! ;)
 sont mieux gérées
 - [Valentin] Prog qui reste en mémoire après extinction parfois
 - [Valentin] Monstres qui peuvent poper dans les murs
+- [Valentin] Collisions invisibles qui arrivent parfois
 
 ----- FAIT -----
 OK - [Valentin] Faire en sorte que les personnages ne puissent pas sortir de l'écran 4J
