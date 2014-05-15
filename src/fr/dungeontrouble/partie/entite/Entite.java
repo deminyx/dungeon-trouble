@@ -209,23 +209,61 @@ public abstract class Entite implements Drawable {
 				Vector2f c = Partie.getCentreVue();
 				System.out.println(c);
 				for (Personnage p : Partie.getPersonnages().values()){
-					if (!returnValue){
+					if (!returnValue){						
 						// Si c'est le personnage à déplacer, on contrôle la nextPos
 						if (this == p){
-							returnValue = ((c.x + 275 < nextPos.x+50)||(c.x - 275 > nextPos.x)||
-								   	   (c.y + 300 < nextPos.y+50)||(c.y - 300 > nextPos.y));
-						} // Sinon, on contrôle la position des autres
+							returnValue = ((c.x + 275 <= nextPos.x+50)||(c.x - 275 >= nextPos.x)||
+									   	   (c.y + 300 <= nextPos.y+50)||(c.y - 300 >= nextPos.y));
+						}
+						// Sinon, on contrôle la position des autres dans la future position
+						// de la vue
 						else {
-							returnValue = ((c.x + 275 < p.getSprite().getPosition().x+50)||
-										   (c.x - 275 > p.getSprite().getPosition().x)||
-										   (c.y + 300 < p.getSprite().getPosition().y+50)||
-										   (c.y - 300 > p.getSprite().getPosition().y));
+							float futurPositionX = c.x;
+							float futurPositionY = c.y;
+							
+							switch (direction){
+							case bas:
+								futurPositionY += move;
+								break;
+							case bas_droit:
+								futurPositionY += move;
+								futurPositionX += move;
+								break;
+							case bas_gauche:
+								futurPositionY += move;
+								futurPositionX -= move;
+								break;
+							case droit:
+								futurPositionX += move;
+								break;
+							case gauche:
+								futurPositionX -= move;
+								break;
+							case haut:
+								futurPositionY -= move;
+								break;
+							case haut_droit:
+								futurPositionY -= move;
+								futurPositionX += move;
+								break;
+							case haut_gauche:
+								futurPositionY -= move;
+								futurPositionX -= move;
+								break;
+							default:
+								break;
+							
+							}
+							returnValue = ((futurPositionX + 275 <= p.getSprite().getPosition().x+50)||
+										   (futurPositionX - 275 >= p.getSprite().getPosition().x)||
+										   (futurPositionY + 300 <= p.getSprite().getPosition().y+50)||
+										   (futurPositionY - 300 >= p.getSprite().getPosition().y));
 						}
 					}
 				}
 			}
-		}		
-				
+		}
+					
 		return returnValue;
 	}
 	
