@@ -1,6 +1,7 @@
 package fr.dungeontrouble.partie.niveau;
 
 import java.util.HashMap;
+import java.util.Random;
 
 import org.jsfml.graphics.IntRect;
 import org.jsfml.graphics.Sprite;
@@ -23,6 +24,7 @@ public class Generateur extends Objet {
 	TypeMonstre t;	// Type de Générateur (fantôme)
 	HashMap<Vector2i, Boolean> casesGenerables; // HashMap des cases où l'on peut y creer des monstres
 	public static int nbMonstres=0;
+	private float timeLimit;
 	private Clock clock;
 
 	/**
@@ -48,6 +50,8 @@ public class Generateur extends Objet {
 									// éventuelle de certaines cases générables
 
 		this.t = t;
+		this.timeLimit = (float)((new Random()).nextDouble()+3);
+		System.out.println(this.timeLimit);
 		
 		switch (t) {		// Ajout du sprite selon le type de générateur
 		case Fantome:
@@ -94,11 +98,11 @@ public class Generateur extends Objet {
 			(this.sprite.getPosition().x <= centreDeVue.x + 275)&&
 			(this.sprite.getPosition().y >= centreDeVue.y - 300)&&
 			(this.sprite.getPosition().y <= centreDeVue.y + 300)&&
-			clock.getElapsedTime().asSeconds() > 1.5)
+			clock.getElapsedTime().asSeconds() > this.timeLimit)
 		{
 			for (Vector2i v : casesGenerables.keySet()) { // Pour toutes cases générables ....
 				if ((Partie.getMonstres().containsKey(new Vector2i(v.y,v.x)))
-					|| (Partie.getPersonnages().containsKey(v))
+					|| (Partie.getPersonnages().containsKey(new Vector2i(v.y,v.x)))
 					|| (Niveau.getObjets().containsKey(new Vector2i(v.y,v.x)))) {
 					casesGenerables.put(v, false);		// On vérifie que l'on a encore rien géneré dessus.
 				} else  {
