@@ -102,10 +102,14 @@ public class EtatJeu{
 	/**
 	 * Méthode d'affichage des meilleurs scores à l'initialisation du jeu
 	 * @param window Fenêtre de rendu
+	 * @return booléen qui pour quitter le programme ou non
 	 */
-	public static void drawMeilleursScores(RenderWindow window){
+	public static boolean drawMeilleursScores(RenderWindow window){
+		
+		boolean gameIsRunning = true;
+		
 		// On affiche les meilleurs scores
-		Affichage affBestScores = new AffichageMeilleursScores();
+		Affichage affBestScores = new AffichageMeilleursScores("highscores_"+numNiveau+".txt");
 		window.clear();
 		window.draw(affBestScores);
 		window.display();
@@ -118,6 +122,7 @@ public class EtatJeu{
 				{
 					case CLOSED:
 						affichageMeilleursScores = false;
+						gameIsRunning = false;
 						window.close();
 						break;		
 								
@@ -129,8 +134,17 @@ public class EtatJeu{
 				}
 			}
 		}
+		
+		return gameIsRunning;
 	}
 	
+	/**
+	 * Méthode d'affichage de fin du jeu
+	 * @param window Fenêtre de rendu
+	 * @param gameIsRunning booléen indiquant si le jeu tourne encore
+	 * @param affJeu Affichage du terrain de jeu
+	 * @param affScores Affichage des scores en jeu
+	 */
 	public static void drawFinJeu(RenderWindow window, boolean gameIsRunning, AffichageJeu affJeu, AffichageScore affScores){
 		
 		Texture textPartieTerminee = Affichage.loadTexture("partie_terminee.png");
@@ -204,11 +218,18 @@ public class EtatJeu{
 		window.setKeyRepeatEnabled(false); // Désactivation de la répétition des touches
 		
 		while (window.isOpen()){
+			// Booléens
+			boolean gameIsRunning = true;
+			boolean gameWon = false;
 			
 			// On affiche les meilleurs scores
-			drawMeilleursScores(window);
+			gameIsRunning = drawMeilleursScores(window);
 			
 			// On récupère le choix du joueur
+			if (!gameIsRunning){
+				System.exit(0);
+			}
+			
 			TypePersonnage choixDuJoueur = drawChoice(window);
 			
 			// Initialisation de l'etat du jeu et de la partie
@@ -225,9 +246,6 @@ public class EtatJeu{
 			Clock gameClock = new Clock();
 			Clock clock = new Clock();
 			Personnage.init();
-			
-			boolean gameIsRunning = true;
-			boolean gameWon = false;
 			
 			while (gameIsRunning){
 				Time timeElapsed = clock.restart();
@@ -347,7 +365,7 @@ public class EtatJeu{
 				if (!Partie.getPersonnages().isEmpty()){
 					System.out.println("Niveau terminé !");
 					
-					GestionScore g = new GestionScore();
+					GestionScore g = new GestionScore("highscores_"+numNiveau+".txt");
 					g.declareScoresFinaux(Partie.getPersonnages());
 					g.changerMeilleursScores();
 					g.enregistrerScores();

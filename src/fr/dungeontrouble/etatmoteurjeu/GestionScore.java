@@ -28,12 +28,15 @@ public class GestionScore {
 	public LinkedHashMap<String, Score> meilleursScores;
 	public ArrayList<Score> scoresFinPartie;
 	boolean scoresExist;
+	String filename; // Nom du fichier contenant les meilleurs scores
+	
 	/**
 	 * Constructeur de GestionScore
 	 */
-	public GestionScore() {		
-		if (scoresExist = new File("highscores.txt").exists()){
-			this.meilleursScores = recupererScores("highscores.txt");
+	public GestionScore(String filename) {
+		this.filename = filename;
+		if (scoresExist = new File(filename).exists()){
+			this.meilleursScores = recupererScores(filename);
 		} else {
 			this.meilleursScores = new LinkedHashMap<String,Score>();
 		}
@@ -42,9 +45,7 @@ public class GestionScore {
 
 	/**
 	 * Méthode de chargement des meilleurs scores à partir d'un fichier
-	 * 
-	 * @param path
-	 *            Chemin vers le fichier contenant les meilleurs scores
+	 * @param path Chemin vers le fichier contenant les meilleurs scores
 	 * @return HashMap de la forme nomDuJoueur,Score
 	 */
 	public static LinkedHashMap<String, Score> recupererScores(String path){
@@ -57,7 +58,7 @@ public class GestionScore {
 			 */
 			
 			// Scanner extracteur de lignes
-			Scanner scannerLine = new Scanner(new File("highscores.txt"));
+			Scanner scannerLine = new Scanner(new File(path));
 			
 			// Scanner analyseur de lignes
 			Scanner scannerTemp = new Scanner(temp);
@@ -71,8 +72,6 @@ public class GestionScore {
 			// On ferme les Scanner
 			scannerLine.close();
 			scannerTemp.close();
-			
-			System.out.println(highscores);
 		}
 		catch (Exception e){
 			e.printStackTrace(); // On catch l'exception en cas de probléme
@@ -157,7 +156,7 @@ public class GestionScore {
 									// ligne
 		// on va chercher le chemin et le nom du fichier et on me tout ca dans
 		// un String
-		String adresseDuFichier = "highscores.txt";
+		String adresseDuFichier = this.filename;
 
 		// on met try si jamais il y a une exception
 		try {
@@ -176,7 +175,6 @@ public class GestionScore {
 						+ String.valueOf(meilleursScores.get(s).scoreFinal)
 						+ "\n";
 				output.write(temp);
-				System.out.print(temp);
 			}
 			// on marque dans le fichier ou plutot dans le BufferedWriter qui
 			// sert comme un tampon(stream)

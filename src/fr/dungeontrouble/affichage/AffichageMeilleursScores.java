@@ -56,13 +56,13 @@ public class AffichageMeilleursScores extends Affichage {
 	/**
 	 * Constructeur de l'affichage des meilleurs scores
 	 */
-	public AffichageMeilleursScores(){
+	public AffichageMeilleursScores(String filename){
 		scoresFont = loadFont("Finalnew.ttf");
 		
 		// Si le fichier des scores existe, on le charge
-		if (scoreExists = new File("highscores.txt").exists()){
+		if (scoreExists = new File(filename).exists()){
 			// Cette méthode sera déplacée dans la gestion des scores
-			scores = GestionScore.recupererScores("highscores.txt");
+			scores = GestionScore.recupererScores(filename);
 			scoreNames = new Vector<Text>();
 			scoreValues = new Vector<Text>();
 			scoreClass = new Vector<Text>();

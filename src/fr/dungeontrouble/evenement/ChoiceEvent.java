@@ -20,6 +20,11 @@ public class ChoiceEvent extends Evenement {
 	public static TypePersonnage getChoice(RenderWindow window) {
 		for(Event e : window.pollEvents()) {
 		    switch(e.type) {
+		    	case CLOSED:		    		
+		    		window.close();
+		    		System.exit(0);
+		    	break;		
+		    	
 		        case MOUSE_BUTTON_PRESSED : 								// Si on clique...
 		            
 		        	Vector2i positionClic = e.asMouseEvent().position;
