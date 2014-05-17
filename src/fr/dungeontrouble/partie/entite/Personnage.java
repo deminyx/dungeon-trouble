@@ -2,7 +2,6 @@ package fr.dungeontrouble.partie.entite;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Map.Entry;
 import java.util.Random;
 
 import org.jsfml.graphics.Color;
@@ -118,47 +117,6 @@ public class Personnage extends Entite{
 			
 			}
 		}
-		else{
-			if (this.nbCles > 0){ 	// On ouvre la porte si on a au moins une clef
-				// Si la porte est sur la case
-				if (Niveau.getObjets().containsKey(this.position)&&
-						Niveau.getObjets().get(this.position) instanceof Porte){
-					detruirePorte(this.position.x, this.position.y);
-				} // Sinon on regarde où elle est
-				else{
-					switch(this.direction){
-					case bas:
-						detruirePorte(this.position.x, this.position.y+1);
-						break;
-					case bas_droit:
-						detruirePorte(this.position.x+1, this.position.y+1);
-						break;
-					case bas_gauche:
-						detruirePorte(this.position.x-1, this.position.y+1);
-						break;
-					case droit:
-						detruirePorte(this.position.x+1, this.position.y);
-						break;
-					case gauche:
-						detruirePorte(this.position.x-1, this.position.y);
-						break;
-					case haut:
-						detruirePorte(this.position.x, this.position.y-1);
-						break;
-					case haut_droit:
-						detruirePorte(this.position.x+1, this.position.y-1);
-						break;
-					case haut_gauche:
-						detruirePorte(this.position.x-1, this.position.y-1);
-						break;
-					default:
-						break;
-					
-					}
-				}
-				this.nbCles--;
-			}
-		}
 	}
 	
 	/**
@@ -255,28 +213,6 @@ public class Personnage extends Entite{
 				compteur--;
 			}
 			compteur++;
-		}
-	}
-	
-	/**
-	 * Méthode de destruction d'une porte sur la case ciblée
-	 * @param posX Position en X de la porte dans la matrice du niveau
-	 * @param posY Position en Y de la porte dans la matrice du niveau
-	 */
-	void detruirePorte(int posX, int posY){
-		if (Niveau.getObjets().containsKey(new Vector2i(posX, posY))){
-			if ((Niveau.getObjets().get(new Vector2i(posX,posY))) instanceof Porte){
-				int idASupprimer = ((Porte)(Niveau.getObjets().get(new Vector2i(posX, posY)))).getIdPorteCourante();
-				Iterator<Entry<Vector2i, Objet>> i = Niveau.getObjets().entrySet().iterator();
-				while (i.hasNext()){
-					Objet o = i.next().getValue();
-					if (o instanceof Porte){
-						if(((Porte)o).getIdPorteCourante() == idASupprimer){
-							i.remove();
-						}								
-					}
-				}
-			}
 		}
 	}
 	

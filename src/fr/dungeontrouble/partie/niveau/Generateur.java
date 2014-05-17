@@ -50,7 +50,7 @@ public class Generateur extends Objet {
 									// éventuelle de certaines cases générables
 
 		this.t = t;
-		this.timeLimit = (float)((new Random()).nextDouble()+3);
+		this.timeLimit = (float)((new Random()).nextDouble()+1.5);
 		System.out.println(this.timeLimit);
 		
 		switch (t) {		// Ajout du sprite selon le type de générateur

@@ -1,5 +1,8 @@
 package fr.dungeontrouble.partie.entite;
 
+import java.util.Iterator;
+import java.util.Map.Entry;
+
 import org.jsfml.graphics.Drawable;
 import org.jsfml.graphics.IntRect;
 import org.jsfml.graphics.RenderStates;
@@ -14,6 +17,7 @@ import org.jsfml.system.Vector2i;
 import fr.dungeontrouble.partie.Partie;
 import fr.dungeontrouble.partie.entite.Monstre.TypeMonstre;
 import fr.dungeontrouble.partie.niveau.Niveau;
+import fr.dungeontrouble.partie.niveau.Objet;
 import fr.dungeontrouble.partie.niveau.Porte;
 
 /**
@@ -154,7 +158,54 @@ public abstract class Entite implements Drawable {
 					break;
 				
 				case "Porte":
-					returnValue = true;
+					if (this instanceof Personnage){
+						if (((Personnage)this).getNbCles() > 0){ 	// On ouvre la porte si on a au moins une clef
+							returnValue = false;
+							// Si la porte est sur la case
+							if (Niveau.getObjets().containsKey(this.position)&&
+									Niveau.getObjets().get(this.position) instanceof Porte){
+								detruirePorte(this.position.x, this.position.y);
+							} // Sinon on regarde où elle est
+							else{
+								switch(this.direction){
+								case bas:
+									detruirePorte(this.position.x, this.position.y+1);
+									break;
+								case bas_droit:
+									detruirePorte(this.position.x+1, this.position.y+1);
+									break;
+								case bas_gauche:
+									detruirePorte(this.position.x-1, this.position.y+1);
+									break;
+								case droit:
+									detruirePorte(this.position.x+1, this.position.y);
+									break;
+								case gauche:
+									detruirePorte(this.position.x-1, this.position.y);
+									break;
+								case haut:
+									detruirePorte(this.position.x, this.position.y-1);
+									break;
+								case haut_droit:
+									detruirePorte(this.position.x+1, this.position.y-1);
+									break;
+								case haut_gauche:
+									detruirePorte(this.position.x-1, this.position.y-1);
+									break;
+								default:
+									break;
+								
+								}
+							}
+							((Personnage)this).setNbCles(((Personnage)this).getNbCles()-1);
+						} else {
+							returnValue = true;
+						}
+					}
+					else {
+						returnValue = true;
+					}					
+					
 					break;
 			}
 		}
@@ -207,7 +258,6 @@ public abstract class Entite implements Drawable {
 		if (!returnValue){
 			if (this instanceof Personnage){
 				Vector2f c = Partie.getCentreVue();
-				System.out.println(c);
 				for (Personnage p : Partie.getPersonnages().values()){
 					if (!returnValue){						
 						// Si c'est le personnage à déplacer, on contrôle la nextPos
@@ -265,6 +315,28 @@ public abstract class Entite implements Drawable {
 		}
 					
 		return returnValue;
+	}
+	
+	/**
+	 * Méthode de destruction d'une porte sur la case ciblée
+	 * @param posX Position en X de la porte dans la matrice du niveau
+	 * @param posY Position en Y de la porte dans la matrice du niveau
+	 */
+	public void detruirePorte(int posX, int posY){
+		if (Niveau.getObjets().containsKey(new Vector2i(posX, posY))){
+			if ((Niveau.getObjets().get(new Vector2i(posX,posY))) instanceof Porte){
+				int idASupprimer = ((Porte)(Niveau.getObjets().get(new Vector2i(posX, posY)))).getIdPorteCourante();
+				Iterator<Entry<Vector2i, Objet>> i = Niveau.getObjets().entrySet().iterator();
+				while (i.hasNext()){
+					Objet o = i.next().getValue();
+					if (o instanceof Porte){
+						if(((Porte)o).getIdPorteCourante() == idASupprimer){
+							i.remove();
+						}								
+					}
+				}
+			}
+		}
 	}
 	
 	/**
