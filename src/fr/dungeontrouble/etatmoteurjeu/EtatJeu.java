@@ -131,12 +131,15 @@ public class EtatJeu{
 		}
 	}
 	
-	public static void drawFinJeu(RenderWindow window, boolean gameIsRunning){
+	public static void drawFinJeu(RenderWindow window, boolean gameIsRunning, AffichageJeu affJeu, AffichageScore affScores){
 		
 		Texture textPartieTerminee = Affichage.loadTexture("partie_terminee.png");
 		Sprite partieTerminee = new Sprite(textPartieTerminee);
 		
-		window.setView(window.getDefaultView());	
+		window.clear();
+		window.draw(affJeu); // Dessin de la map
+		window.draw(affScores); // Dessin des scores
+		window.setView(window.getDefaultView());
 		window.draw(partieTerminee);
 		window.display();
 		
@@ -298,7 +301,7 @@ public class EtatJeu{
 				// On vérifie qu'il reste un personnage en vie
 				// Si tout le monde est mort, on ferme la fenêtre
 				if (Partie.getPersonnages().isEmpty()){
-					drawFinJeu(window, gameIsRunning);
+					drawFinJeu(window, gameIsRunning, (AffichageJeu)affJeu, (AffichageScore)affScores);
 					System.out.println("Game Over");
 					gameIsRunning = false;
 					window.close();
