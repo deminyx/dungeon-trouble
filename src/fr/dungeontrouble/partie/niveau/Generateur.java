@@ -17,7 +17,7 @@ import fr.dungeontrouble.partie.entite.Monstre.TypeMonstre;
  * Classe associée aux générateurs de monstres du jeu.
  * 
  * @author Maxime BELLIER
- * 
+ * @author Valentin PORCHET
  */
 public class Generateur extends Objet {
 
@@ -51,7 +51,6 @@ public class Generateur extends Objet {
 
 		this.t = t;
 		this.timeLimit = (float)((new Random()).nextDouble()+1.5);
-		System.out.println(this.timeLimit);
 		
 		switch (t) {		// Ajout du sprite selon le type de générateur
 		case Fantome:

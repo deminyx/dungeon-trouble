@@ -5,6 +5,7 @@ import org.jsfml.graphics.Sprite;
 import org.jsfml.graphics.Texture;
 import org.jsfml.system.Clock;
 import org.jsfml.system.Time;
+import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 import org.jsfml.window.Keyboard;
 import org.jsfml.window.Keyboard.Key;
@@ -274,7 +275,9 @@ public class EtatJeu{
 					MoveEvent.getMove1J(timeElapsed);
 				else
 					MoveEvent.getMove4J(timeElapsed);
-								
+							
+				//---- Mises à jours (déplacements, génération de monstres) ----//
+				
 				// Mise à jour des positions des personnages dans le hashmap
 				Personnage.majPos();
 				
@@ -305,6 +308,11 @@ public class EtatJeu{
 					}
 				}
 				
+				// Elimination des monstres trop loins des joueurs //
+				eliminerMonstresTropLoin(Partie.getCentreVue());
+				
+				//---- Mise à jour des scores et fin de jeu ----//
+				
 				// Pertes de points de vies
 				if (gameClock.getElapsedTime().asSeconds() > 1){
 					for (Personnage p : Partie.getPersonnages().values()){
@@ -333,12 +341,18 @@ public class EtatJeu{
 						window.close();
 					}
 				}
-							
+				
+				//---- Mise à jour des armes ----//
+				
 				// Mise à jour des positions des armes et vérification des collisions
 				for (Personnage p : Partie.getPersonnages().values()){
 					p.bougerArmes(timeElapsed, ((AffichageJeu)affJeu).getCenter());
 					p.verifierCollisionArmes(timeElapsed);
 				}
+				
+				//---- Mise à jour de l'affichage ----//
+				
+				System.out.println(Generateur.nbMonstres);
 				
 				// Mise à jour de la vue
 				((AffichageJeu) affJeu).updateView();
@@ -375,5 +389,29 @@ public class EtatJeu{
 			// On ferme proprement
 			System.exit(0);			
 		}		
+	}
+
+	/**
+	 * Méthode qui permet d'éliminer les monstres trop loins des joueurs
+	 * @param centreVue centre de la vue actuelle
+	 */
+	private static void eliminerMonstresTropLoin(Vector2f centreVue) {
+		Vector2f firstLimitPos = new Vector2f(centreVue.x - 500, centreVue.y - 500);
+		Vector2f secondLimitPos = new Vector2f(centreVue.x + 500, centreVue.y + 500);
+		Vector2f pos = null;
+		
+		for (int i=0; i < Partie.getMonstres().size(); i++){
+			Monstre m = (Monstre)(Partie.getMonstres().values().toArray()[i]);
+			pos = m.getSprite().getPosition();
+			
+			// Si le monstre est en dehors des limites, on l'efface
+			if ((pos.x < firstLimitPos.x)||
+				(pos.x > secondLimitPos.x)||
+				(pos.y < firstLimitPos.y)||
+				(pos.y > secondLimitPos.y)){
+				Partie.getMonstres().remove(m.getPosition());
+				Generateur.nbMonstres--;
+			}
+		}
 	}
 }
