@@ -352,7 +352,7 @@ public class EtatJeu{
 				
 				//---- Mise à jour de l'affichage ----//
 				
-				System.out.println(Generateur.nbMonstres);
+				//System.out.println(Generateur.nbMonstres);
 				
 				// Mise à jour de la vue
 				((AffichageJeu) affJeu).updateView();

@@ -45,12 +45,10 @@ public class Generateur extends Objet {
 		casesGenerables.put(new Vector2i(this.position.x, this.position.y - 1),
 				false);
 		casesGenerables.put(new Vector2i(this.position.x, this.position.y + 1),
-				false);
-		VerifCaseMursGenerateurs(); // Appel à la méthodes pour la supression 
-									// éventuelle de certaines cases générables
+				false);		
 
 		this.t = t;
-		this.timeLimit = (float)((new Random()).nextDouble()+1.5);
+		this.timeLimit = (float)((new Random()).nextDouble()+1.9);
 		
 		switch (t) {		// Ajout du sprite selon le type de générateur
 		case Fantome:
@@ -69,18 +67,17 @@ public class Generateur extends Objet {
 	 * @author Maxime BELLIER
 	 * 
 	 */
-	public void VerifCaseMursGenerateurs() {
-
-		if (Niveau.getNiveau()[position.y - 1][position.x] > 0) {
+	public void VerifCaseMursGenerateurs() {		
+		if (Niveau.getNiveau()[position.x][position.y-1] > 0) {
 			casesGenerables.remove(new Vector2i(position.x, position.y-1));
 		}
-		if (Niveau.getNiveau()[position.y][position.x-1] > 0) {
+		if (Niveau.getNiveau()[position.x-1][position.y] > 0) {
 			casesGenerables.remove(new Vector2i(position.x-1, position.y));
 		}
-		if (Niveau.getNiveau()[position.y+1][position.x] > 0) {
+		if (Niveau.getNiveau()[position.x][position.y+1] > 0) {
 			casesGenerables.remove(new Vector2i(position.x, position.y+1));
 		}
-		if (Niveau.getNiveau()[position.y][position.x+1] > 0) {
+		if (Niveau.getNiveau()[position.x+1][position.y] > 0) {
 			casesGenerables.remove(new Vector2i(position.x+1, position.y));
 		}
 	}

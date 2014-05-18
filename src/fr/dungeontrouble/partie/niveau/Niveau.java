@@ -119,7 +119,7 @@ public class Niveau {
 						
 						obj.setPosition(new Vector2i(compteur / NBCOLONNES, compteur % NBCOLONNES));
 						obj.getSprite().setPosition(new Vector2f(
-								(float)((compteur % NBCOLONNES)*50), 
+								(float)((compteur % NBCOLONNES)*50),
 								(float)((compteur / NBCOLONNES)*50)));
 						objets.put(new Vector2i(obj.getPosition().y, obj.getPosition().x),obj);
 						
@@ -141,6 +141,15 @@ public class Niveau {
 			// On ferme les Scanner
 			scannerLine.close();
 			scannerTemp.close();
+			
+			// Pour tous les générateurs, on vérifie les cases générables
+			for (Objet o : Niveau.getObjets().values()){
+				if(o instanceof Generateur){
+					((Generateur)o).VerifCaseMursGenerateurs(); // Appel à la méthodes pour la supression 
+					// éventuelle de certaines cases générables
+				}
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace(); // On catch l'exception en cas de problème
 		}
