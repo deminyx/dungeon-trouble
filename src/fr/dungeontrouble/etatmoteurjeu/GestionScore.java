@@ -41,6 +41,7 @@ public class GestionScore {
 			this.meilleursScores = new LinkedHashMap<String,Score>();
 		}
 		scoresFinPartie = new ArrayList<Score>();
+		System.out.println("YOLO");
 	}
 
 	/**
@@ -81,44 +82,45 @@ public class GestionScore {
 	}
 
 	public void changerMeilleursScores() {
-		
+		System.out.println(scoresExist);
 		if (scoresExist){
+			
 			String nomScoreMin = (String) (meilleursScores.keySet().toArray()[meilleursScores
 			                                                  				.size() - 1]);
+			String nomJoueur = null;
 			// pour chaque personnage ayant joué
 			for (Score s : scoresFinPartie) {
-				if (meilleursScores.get(nomScoreMin).scoreFinal < s.scoreFinal){
-					if (meilleursScores.size() == 10) {
-						// Oui, il a un meilleur score, on récupère son nom
-						System.out.println("Vous avez fait un nouveau meilleur score !");
-						System.out.println("Votre classe : " + s.t.name() + " et votre score : " + s.scoreFinal);
-						System.out.print("Rentrez votre pseudo : ");
-						Scanner scan = new Scanner(System.in);
-						String nomJoueur = scan.next();
-						scan.close();
-						// cas 1 : Il a déjà joué et son score doit être mis à jour
-						if ((meilleursScores.containsKey(nomJoueur))
-								&& (meilleursScores.get(nomJoueur).scoreFinal < s.scoreFinal)) {
-							meilleursScores.put(nomJoueur, s);
-						}
-						// cas 2 : Il n'est pas dans les meilleurs scores
-						else {
-							// Si les meilleurs scores sont déjà pleins
-							// On retire le moins bon
-							if (meilleursScores.size() == 10)
-								meilleursScores.remove(nomScoreMin);
-							meilleursScores.put(nomJoueur, s);
-						}	
-					}
-					else {
-						System.out.println("Vous avez fait un nouveau meilleur score !");
-						System.out.println("Votre classe : " + s.t.name() + " et votre score : " + s.scoreFinal);
-						System.out.print("Rentrez votre pseudo : ");
-						Scanner scan = new Scanner(System.in);
-						String nomJoueur = scan.next();
-						scan.close();
-						meilleursScores.put(nomJoueur, s);
-					}
+				if ((meilleursScores.get(nomScoreMin).scoreFinal < s.scoreFinal)&&(meilleursScores.size() == 10)){
+					// Oui, il a un meilleur score, on récupère son nom
+					System.out.println("Vous avez fait un nouveau meilleur score !");
+					System.out.println("Votre classe : " + s.t.name() + " et votre score : " + s.scoreFinal);
+					System.out.print("Rentrez votre pseudo : ");
+					Scanner scan = new Scanner(System.in);
+					nomJoueur = scan.next();
+					scan.close();
+		
+				}
+				else {
+					System.out.println("Vous avez fait un nouveau meilleur score !");
+					System.out.println("Votre classe : " + s.t.name() + " et votre score : " + s.scoreFinal);
+					System.out.print("Rentrez votre pseudo : ");
+					Scanner scan = new Scanner(System.in);
+					nomJoueur = scan.next();
+					scan.close();
+				}
+
+				// cas 1 : Il a déjà joué et son score doit être mis à jour
+				if ((meilleursScores.containsKey(nomJoueur))
+						&& (meilleursScores.get(nomJoueur).scoreFinal < s.scoreFinal)) {
+					meilleursScores.put(nomJoueur, s);
+				}
+				// cas 2 : Il n'est pas dans les meilleurs scores
+				else if (!(meilleursScores.containsKey(nomJoueur))) {
+					// Si les meilleurs scores sont déjà pleins
+					// On retire le moins bon
+					if (meilleursScores.size() == 10)
+						meilleursScores.remove(nomScoreMin);
+					meilleursScores.put(nomJoueur, s);
 				}
 			} 
 		} else {
