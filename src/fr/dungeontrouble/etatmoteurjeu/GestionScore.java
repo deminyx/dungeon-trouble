@@ -42,7 +42,6 @@ public class GestionScore {
 			this.meilleursScores = new LinkedHashMap<String,Score>();
 		}
 		scoresFinPartie = new ArrayList<Score>();
-		System.out.println("YOLO");
 	}
 
 	/**
