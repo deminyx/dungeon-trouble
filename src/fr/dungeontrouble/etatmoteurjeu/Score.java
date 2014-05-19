@@ -2,6 +2,11 @@ package fr.dungeontrouble.etatmoteurjeu;
 
 import fr.dungeontrouble.partie.entite.Personnage.TypePersonnage;
 
+/**
+ * Classe implémentant un score
+ * @author Maxime BELLIER
+ *
+ */
 public class Score {
 	public TypePersonnage t;
 	public int scoreFinal;

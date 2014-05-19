@@ -139,7 +139,6 @@ public abstract class Entite implements Drawable {
 			switch (Niveau.getObjets().get(nextCoordWall).getClass().getSimpleName()){
 				case "Tresor":	
 					if (this instanceof Personnage){
-						System.out.println("COLLISION TRESOR");
 						((Personnage)(this)).setScore(((Personnage)(this)).getScore()+100);
 						Niveau.getObjets().remove(nextCoordWall);
 					}
@@ -148,7 +147,6 @@ public abstract class Entite implements Drawable {
 				
 				case "Cle":
 					if (this instanceof Personnage){
-						System.out.println("COLLISION PERSONNAGE");
 						((Personnage)(this)).setNbCles(((Personnage)(this)).getNbCles()+1);
 						Niveau.getObjets().remove(nextCoordWall);
 					}
@@ -156,15 +154,11 @@ public abstract class Entite implements Drawable {
 					break;
 				
 				case "Generateur":
-					if (this instanceof Personnage){
-						System.out.println("COLLISION GENERATEUR");
-					}
 					returnValue = true;
 					break;
 				
 				case "Porte":
 					if (this instanceof Personnage){
-						System.out.println("COLLISION PORTE");
 						if (((Personnage)this).getNbCles() > 0){ 	// On ouvre la porte si on a au moins une clef
 							returnValue = false;
 							// Si la porte est sur la case
@@ -221,9 +215,6 @@ public abstract class Entite implements Drawable {
 			if (Partie.getMonstres().containsKey(nextCoord)){
 				Monstre m = Partie.getMonstres().get(nextCoord);
 				if (m != this){
-					if (this instanceof Personnage){
-						System.out.println("COLLISION MONSTRE");
-					}
 					returnValue = true;
 				}
 			}
@@ -235,9 +226,6 @@ public abstract class Entite implements Drawable {
 					Personnage p = Partie.getPersonnages().get(nextCoord);
 					// Si le personnage trouvé n'est pas lui-même et qu'il y a collision
 					if (p != this){
-						if (this instanceof Personnage){
-							System.out.println("COLLISION PERSONNAGE");
-						}
 						returnValue = true;
 						// Si c'est un monstre qui a touché le personnage, il perd de la vie
 						if (this instanceof Monstre){

@@ -55,6 +55,7 @@ public class AffichageMeilleursScores extends Affichage {
 	
 	/**
 	 * Constructeur de l'affichage des meilleurs scores
+	 * @param filename Nom du fichier contenant les meilleurs scores
 	 */
 	public AffichageMeilleursScores(String filename){
 		scoresFont = loadFont("Finalnew.ttf");

@@ -167,8 +167,8 @@ public class Personnage extends Entite{
 			}
 						
 			// On vérifie s'il y a collision avec un mur
-			if (Niveau.getNiveau()[key.y][key.x] > 0){
-				//System.out.println("Collision MUR");
+			if ((Niveau.getNiveau()[key.y][key.x] > 0)&&
+				(Niveau.getNiveau()[key.y][key.x] != 14)){
 				iArmes.remove();
 				this.directionArme.remove(compteur);
 				compteur--;
@@ -176,13 +176,11 @@ public class Personnage extends Entite{
 			else if (Niveau.getObjets().containsKey(key)){
 				Objet o = Niveau.getObjets().get(key);
 				if (o instanceof Porte){
-					//System.out.println("Collision PORTE");
 					iArmes.remove();
 					this.directionArme.remove(compteur);
 					compteur--;
 				}
 				else if (o instanceof Generateur){
-					//System.out.println("Collision GENERATEUR");
 					Niveau.getObjets().remove(key); // On supprime le générateur
 					iArmes.remove(); // On supprime également l'arme
 					this.directionArme.remove(compteur);
@@ -191,7 +189,6 @@ public class Personnage extends Entite{
 				// Sinon, que ce soit un trésor ou une clef, pas de collision
 			} // On vérifie les collisions avec les monstres
 			else if (Partie.getMonstres().containsKey(key)){ 
-				//System.out.println("Collision MONSTRE");
 				Monstre m = Partie.getMonstres().get(key);
 				m.setPdv(m.getPdv()-1);
 				Partie.getBip().play(); // On joue le bip
@@ -206,7 +203,6 @@ public class Personnage extends Entite{
 				compteur--;
 			}
 			else if (Partie.getPersonnages().containsKey(key) && this != Partie.getPersonnages().get(key)){
-				//System.out.println("Collision PERSONNAGE");
 				// On supprime l'arme
 				iArmes.remove();
 				this.directionArme.remove(compteur);

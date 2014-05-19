@@ -32,6 +32,7 @@ public class GestionScore {
 	
 	/**
 	 * Constructeur de GestionScore
+	 * @param filename Nom du fichier contenant les meilleurs scores
 	 */
 	public GestionScore(String filename) {
 		this.filename = filename;
